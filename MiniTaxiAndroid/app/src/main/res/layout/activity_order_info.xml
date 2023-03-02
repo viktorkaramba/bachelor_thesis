@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".activities.OrderInfoActivity">
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:textAlignment="center">
+		<TextView
+				android:text="Order Info"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoText"
+				android:textAlignment="center" android:textSize="34sp"/>
+		<TextView
+				android:text="Date"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoDateText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoDateEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Customer Name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoCustomerNameText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoCustomerNameEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Address Customer"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoAddressCustomerText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoAddressCustomerEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Delivery Address"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoAddressDeliveryText" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoAddressDeliveryEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Telephone Customer"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoTelephoneCustomerText" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoTelephoneCustomerEditText"
+				android:textSize="24sp"/>
+		<TextView
+			android:text="Price"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/orderInfoPriceText" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoPriceEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Rating"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoRatingText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoRatingEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Number Of Kilometers"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoNumberOfKilometersText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoNumberOfKilometersEditText"
+				android:textSize="24sp"/>
+		<Button
+				android:text="back"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/orderInfoBackButton"/>
+	</LinearLayout>
+</RelativeLayout>

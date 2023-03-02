@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".activities.DriverProfile">
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:textAlignment="center">
+		<TextView
+				android:text="Profile"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileText"
+				android:textAlignment="center" android:textSize="34sp"/>
+		<TextView
+				android:text="Fullname"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileNameText" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/driverProfileNameEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Car"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileCarNameText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileCarNameEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Experience"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileExperienceText"
+				android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileExperienceEditText"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Salary"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileSalaryText" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileSalaryEditText"
+				android:textSize="24sp"/>
+		<Button
+				android:text="back"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverProfileBackButton"/>
+	</LinearLayout>
+</RelativeLayout>

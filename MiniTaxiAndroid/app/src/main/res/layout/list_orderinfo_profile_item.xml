@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:paddingBottom="20dp"
+		android:layout_height="wrap_content"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/orderInfoProfileRecycleView">
+
+	<TextView
+			android:id="@+id/orderInfoProfileDateText"
+			android:text="Date"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="20dp"
+			android:textSize="16sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"/>
+	<TextView
+			android:id="@+id/orderInfoProfileRatingText"
+			android:text="Rating"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:textSize="16sp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/orderInfoProfileDateText"
+	/>
+	<TextView
+			android:id="@+id/orderInfoProfilePriceText"
+			android:text="Price"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="20dp"
+			android:textSize="16sp"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+	/>
+	<TextView
+			android:id="@+id/orderInfoProfileNOfKText"
+			android:text="Number of kilometers"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:textSize="16sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/orderInfoProfilePriceText"
+
+	/>
+</androidx.constraintlayout.widget.ConstraintLayout>

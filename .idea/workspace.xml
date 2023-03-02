@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <device id="Nexus 6P" />
+        <device id="Nexus 7" />
+        <device id="pixel" />
+        <device id="2.7in QVGA" />
+        <device id="pixel_xl" />
+        <device id="3.4in WQVGA" />
+        <device id="4in WVGA (Nexus S)" />
+        <device id="pixel_3" />
+        <device id="5.1in WVGA" />
+        <device id="automotive_1024p_landscape" />
+      </config>
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="25ae809b-1685-4c20-ab1d-e67d2f95314b" name="Changes" comment="Add order report">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Acer\.android\avd\Pixel_4_API_30.avd]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/MiniTaxiAndroid">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/MiniTaxiAndroid/app">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/minitaxiuserinterface">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/minitaxiuserinterface">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/MiniTaxiAndroid/app">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/MiniTaxiAndroid">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MiniTaxiAndroid" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="valueResourceFile" />
+        <option value="Interface" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="TypeScript File" />
+        <option value="Enum" />
+        <option value="resourceFile" />
+        <option value="layoutResourceFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2GDz6SvhLCrR6JVkCggxZCUQpdn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="oracle" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="ResourceManagerPrefKey.ResourceType" value="MIPMAP" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="jdk.selected.JAVA_MODULE" value="temurin-11" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/drawable" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path" value="$APPLICATION_CONFIG_DIR$/node/node-v14.15.0-win-x64/node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Suggestions" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
+    <property name="ts.external.directory.path" value="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\node_modules\typescript\lib" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Signing Configs" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\drawable" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\model" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\libs" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiBackend\src\main\java" />
+    </key>
+    <key name="android.template.2106201214">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="android.template.1399147681">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="android.template.1123066583">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="android.template.88216090">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\drawable" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\layout" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\font" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\drivercarrecommendations" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\order" />
+    </key>
+    <key name="android.template.1789440043">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="android.template.1463597958">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.minitaxiandroid" />
+      <recent name="" />
+    </key>
+    <key name="android.template.143345861">
+      <recent name="com.example.minitaxiandroid.activities" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle --build-cache" />
+      <command value="gradlew publishToMavenLocal" />
+      <command value="mvn install:install-file -Dfile=ojdbc10.jar -DgroupId=com.oracle -DartifactId=ojdbc10 -Dversion=19.16.0.0 -Dpackaging=jar" />
+      <command value="mvn install:install-file -Dfile=ojdbc10-19.16.0.0.jar -DgroupId=com.oracle -DartifactId=ojdbc10 -Dversion=19.16.0.0 -Dpackaging=jar" />
+      <command value="mvn install:install-file -Dfile=C:\Users\Acer\.m2\repository\com\oracle\jdbc\ojdbc10\19.16.0.0\ojdbc10-19.16.0.0.jar -DgroupId=com.oracle -DartifactId=ojdbc10 -Dversion=19.16.0.0 -Dpackaging=jar" />
+      <command value="mvn compile" />
+      <command value="mvn install" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Android App.MainActivity">
+    <configuration name="FavouriteAddressesActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.FavouriteAddressesActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FavouriteDriversActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.FavouriteDriversActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.MainActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MapsActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.MapsActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserLoginActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" singleton="true">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.UserLoginActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="MiniTaxiAndroid.app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.UserLoginActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular Application (MiniTaxiAngular)" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="MinitaxiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="MiniTaxiBackend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.unicyb.minitaxi.MiniTaxiApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Angular CLI Server (MiniTaxiAngular)" type="js.build_tools.npm" temporary="true">
+      <package-json value="$PROJECT_DIR$/MiniTaxiAngular/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Android App.UserLoginActivity" />
+      <item itemvalue="Android App.MapsActivity" />
+      <item itemvalue="Android App.MainActivity" />
+      <item itemvalue="Android App.FavouriteDriversActivity" />
+      <item itemvalue="Android App.FavouriteAddressesActivity" />
+      <item itemvalue="JavaScript Debug.Angular Application (MiniTaxiAngular)" />
+      <item itemvalue="npm.Angular CLI Server (MiniTaxiAngular)" />
+      <item itemvalue="Spring Boot.MinitaxiApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android App.MainActivity" />
+        <item itemvalue="Android App.FavouriteAddressesActivity" />
+        <item itemvalue="Android App.FavouriteDriversActivity" />
+        <item itemvalue="Android App.MapsActivity" />
+        <item itemvalue="npm.Angular CLI Server (MiniTaxiAngular)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="25ae809b-1685-4c20-ab1d-e67d2f95314b" name="Changes" comment="" />
+      <created>1665937768518</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665937768518</updated>
+      <workItem from="1665937773586" duration="9999000" />
+      <workItem from="1665987062490" duration="4722000" />
+      <workItem from="1666180578780" duration="21000" />
+      <workItem from="1666361985443" duration="6139000" />
+      <workItem from="1666372588733" duration="2962000" />
+      <workItem from="1666545696902" duration="633000" />
+      <workItem from="1666791624115" duration="15000" />
+      <workItem from="1666849765798" duration="2099000" />
+      <workItem from="1666880310281" duration="3453000" />
+      <workItem from="1666897447572" duration="4433000" />
+      <workItem from="1666901949594" duration="1452000" />
+      <workItem from="1666946857811" duration="3594000" />
+      <workItem from="1666961180235" duration="727000" />
+      <workItem from="1666961935100" duration="40000" />
+      <workItem from="1666961992454" duration="20000" />
+      <workItem from="1666962025072" duration="62000" />
+      <workItem from="1666963530614" duration="2653000" />
+      <workItem from="1666966238941" duration="8901000" />
+      <workItem from="1666986919105" duration="2514000" />
+      <workItem from="1666989489304" duration="216000" />
+      <workItem from="1666989727259" duration="1267000" />
+      <workItem from="1666991031135" duration="1046000" />
+      <workItem from="1667036752921" duration="1567000" />
+      <workItem from="1667038361949" duration="15693000" />
+      <workItem from="1667054238029" duration="14280000" />
+      <workItem from="1667077969027" duration="621000" />
+      <workItem from="1667121311436" duration="2829000" />
+      <workItem from="1667124173817" duration="33590000" />
+      <workItem from="1667204122001" duration="905000" />
+      <workItem from="1667205412661" duration="33000" />
+      <workItem from="1667205761232" duration="2880000" />
+      <workItem from="1667219089165" duration="14799000" />
+      <workItem from="1667247077796" duration="6995000" />
+      <workItem from="1667291492274" duration="19365000" />
+      <workItem from="1667315337877" duration="13000" />
+      <workItem from="1667321438815" duration="9424000" />
+      <workItem from="1667331397719" duration="8483000" />
+      <workItem from="1667503538932" duration="12353000" />
+      <workItem from="1667548707797" duration="3335000" />
+      <workItem from="1667570047905" duration="23318000" />
+      <workItem from="1667648043564" duration="11906000" />
+      <workItem from="1667676832772" duration="7925000" />
+      <workItem from="1667726692923" duration="33383000" />
+      <workItem from="1667804585049" duration="16499000" />
+      <workItem from="1667826762084" duration="3474000" />
+      <workItem from="1667836779107" duration="1650000" />
+      <workItem from="1667838606279" duration="2901000" />
+      <workItem from="1667841560370" duration="21570000" />
+      <workItem from="1667893668774" duration="4426000" />
+      <workItem from="1667983945087" duration="11000" />
+      <workItem from="1668022777486" duration="2909000" />
+      <workItem from="1668027711653" duration="90000" />
+      <workItem from="1668027830593" duration="272000" />
+      <workItem from="1668068041757" duration="8220000" />
+      <workItem from="1668085175949" duration="19000" />
+      <workItem from="1668085287819" duration="6249000" />
+      <workItem from="1668098266447" duration="18005000" />
+      <workItem from="1668156884680" duration="26015000" />
+      <workItem from="1668248365052" duration="13924000" />
+      <workItem from="1668270271933" duration="21237000" />
+      <workItem from="1668330751648" duration="21390000" />
+      <workItem from="1668357877835" duration="27497000" />
+      <workItem from="1668413852954" duration="4546000" />
+      <workItem from="1668500410051" duration="243000" />
+      <workItem from="1668678631829" duration="14205000" />
+      <workItem from="1668712162802" duration="1191000" />
+      <workItem from="1668715761806" duration="2696000" />
+      <workItem from="1668759898966" duration="489000" />
+      <workItem from="1668781199261" duration="4507000" />
+      <workItem from="1668809165382" duration="8282000" />
+      <workItem from="1668852740191" duration="3853000" />
+      <workItem from="1668856690156" duration="1317000" />
+      <workItem from="1668866982703" duration="8498000" />
+      <workItem from="1668878250547" duration="20000" />
+      <workItem from="1668895802304" duration="7027000" />
+      <workItem from="1668940526121" duration="9161000" />
+      <workItem from="1668953234023" duration="5777000" />
+      <workItem from="1668978967328" duration="10355000" />
+      <workItem from="1669017242007" duration="19262000" />
+      <workItem from="1669054978955" duration="14216000" />
+      <workItem from="1669458161898" duration="11076000" />
+      <workItem from="1669498551276" duration="9721000" />
+      <workItem from="1669541307593" duration="14679000" />
+      <workItem from="1669585409413" duration="6855000" />
+      <workItem from="1669630891919" duration="5375000" />
+      <workItem from="1669744458163" duration="794000" />
+      <workItem from="1669896766234" duration="4132000" />
+      <workItem from="1670243991208" duration="7736000" />
+      <workItem from="1670588527756" duration="931000" />
+      <workItem from="1672744774236" duration="2224000" />
+      <workItem from="1673782001723" duration="599000" />
+      <workItem from="1673869764824" duration="3959000" />
+      <workItem from="1673895612791" duration="408000" />
+      <workItem from="1673950016267" duration="8600000" />
+      <workItem from="1673959043666" duration="1456000" />
+      <workItem from="1674038202110" duration="8735000" />
+      <workItem from="1674056422799" duration="9035000" />
+      <workItem from="1674211274222" duration="12188000" />
+      <workItem from="1674235246763" duration="3397000" />
+      <workItem from="1674297831872" duration="6670000" />
+      <workItem from="1675173911122" duration="12552000" />
+      <workItem from="1675246557230" duration="1841000" />
+      <workItem from="1675333973095" duration="1392000" />
+      <workItem from="1675345859845" duration="3755000" />
+      <workItem from="1676382498998" duration="2531000" />
+      <workItem from="1676802096954" duration="27869000" />
+      <workItem from="1676888401833" duration="21243000" />
+      <workItem from="1676918386003" duration="9175000" />
+      <workItem from="1677693170837" duration="14833000" />
+      <workItem from="1677752565296" duration="19336000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1677769841163</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1677769841163</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add order report">
+      <created>1677769875577</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677769875577</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="angular.json" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/MiniTaxiAngular" />
+    </ignored-roots>
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="Add order report" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add order report" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MiniTaxiAndroid$MainAndroid.ic" NAME="MainAndroid Coverage Results" MODIFIED="1667046873726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.minitaxiandroid.*</FILTER>
+    </SUITE>
+  </component>
+</project>

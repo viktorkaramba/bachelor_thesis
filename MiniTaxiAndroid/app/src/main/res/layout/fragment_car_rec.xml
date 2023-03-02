@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragments.CarRecFragment">
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:baselineAligned="false">
+		<TextView
+				android:text="Recommended Car"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/driverCarRecText" android:textAlignment="center"
+				android:textSize="24sp"/>
+		<TextView
+				android:text="Car"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/carDriveCarRecText" android:textSize="20sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/carDriveCarRecEditText" android:textSize="20sp"/>
+		<TextView
+				android:text="Car Class"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/carClassDriveCarRecText" android:textSize="20sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/carClassDriveCarRecEditText"
+				android:textSize="20sp"/>
+		<TextView
+				android:text="Price Per Kilometer"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/pricePKDriverCarRecText" android:textSize="20sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/pricePKDriverCarRecEditText"
+				android:textSize="20sp"/>
+		<TextView
+				android:text="New Salary"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/salaryDriveCarRecText" android:textSize="20sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/salaryDriveCarRecEditText"
+				android:textSize="20sp"/>
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+			<Button
+					android:text="Accept"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/acceptDriveCarRecButton"
+					android:layout_weight="1"/>
+			<Button
+					android:text="Reject"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/rejectDriveCarRecButton"
+					android:layout_weight="1"/>
+		</LinearLayout>
+	</LinearLayout>
+</FrameLayout>

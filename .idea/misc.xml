@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2703125" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_current_order.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_car_recommendations.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_menu.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_registration.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_favourite_addresses.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_favourite_drivers.xml" value="0.2" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_list_drivers.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_make_order.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_maps.xml" value="0.176" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_order_info.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_ranks_info.xml" value="0.25943646996278574" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_set_rating.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_login.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_order_history.xml" value="0.2" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_registry.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_wait_response.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/favourite_address_item.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/favourite_drivers_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/fragment_car_rec.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/fragment_empty_car_rec.xml" value="0.2" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/fragment_order_information.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/header.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/list_orderinfo_profile_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/list_userpickcar_item.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/popwindow.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/user_accept_response.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/user_order_history_item.xml" value="0.21403508771929824" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/user_reject_response.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/user_wait_response.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/menu-v26/main_menu_user.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/menu/main_menu_user.xml" value="0.264" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2703125" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.12395833333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/minitaxi" />
+    <file type="web" url="file://$PROJECT_DIR$/MiniTaxiAndroid" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/MiniTaxiBackend/pom.xml" />
+        <option value="$PROJECT_DIR$/minitaxi/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="PWA">
+    <option name="enabled" value="true" />
+    <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="temurin-11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/../MiniTaxiAndroid/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
+  </component>
+</project>

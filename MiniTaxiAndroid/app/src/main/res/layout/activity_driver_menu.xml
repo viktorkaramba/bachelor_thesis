@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:gravity="center">
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="15dp"
+				android:clickable="true"
+				app:srcCompat="@mipmap/ic_profile"
+				android:id="@+id/profileButton"
+				android:backgroundTint="#D5D5D5"
+				tools:ignore="SpeakableTextPresentCheck"
+		/>
+		<Button
+				android:text="See Car Recommendations"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/buttonCarRec"
+		/>
+	</LinearLayout>
+	<androidx.recyclerview.widget.RecyclerView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/orderInfoProfileList"
+	/>
+</LinearLayout>

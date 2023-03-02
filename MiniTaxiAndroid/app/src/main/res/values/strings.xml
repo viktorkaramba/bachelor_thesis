@@ -1,0 +1,29 @@
+<resources>
+	<string name="app_name">MiniTaxiAndroid</string>
+	<string name="address_customer">Your address</string>
+	<string name="address_delivery">Delivery address</string>
+	<string name="customer_telephone_number">Your telephone number</string>
+	<string name="button_order">Order</string>
+	<string name="rating_message">Please rate the work of the driver</string>
+	<string name="your_work_experience_in_driving">Your work experience in driving(in years)</string>
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="waiting_driver_response">Waiting for driver response</string>
+	<string name="title_activity_maps">MapsActivity</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="count_orders">Count orders</string>
+	<string name="adderess">Adderess</string>
+	<string name="average_rating">Average rating</string>
+	<string name="cars_name">Cars name</string>
+	<string name="drivers_fullname">Drivers fullname</string>
+	<string name="conditions_for_obtaining_a_rank">Conditions for obtaining a rank:</string>
+	<string name="history">History</string>
+	<string name="payment">Payment</string>
+	<string name="favourite_addresses">Favourite addresses</string>
+	<string name="favourite_drivers">Favourite drivers</string>
+	<string name="bonuses">Bonuses:</string>
+	<string name="nav_bonuses">Bonuses</string>
+	<string name="help">Help</string>
+	<string name="todo">TODO</string>
+	<string name="unknown">Unknown</string>
+</resources>

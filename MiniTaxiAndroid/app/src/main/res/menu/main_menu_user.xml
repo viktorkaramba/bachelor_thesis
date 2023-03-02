@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<group android:checkableBehavior="single">
+		<item android:id="@+id/nav_history"
+		      android:title="@string/history"
+		      android:icon="@drawable/history_icon"/>
+		<item android:id="@+id/nav_payment"
+		      android:title="@string/payment"
+		      android:icon="@drawable/payment_icon"
+		      android:iconTint="@color/light_blue"
+		     />
+		<item android:id="@+id/nav_favourite_addresses"
+		      android:title="@string/favourite_addresses"
+		      android:icon="@drawable/location_icon"/>
+		<item android:id="@+id/nav_favourite_drivers"
+		      android:title="@string/favourite_drivers"
+		      android:icon="@drawable/taxi_driver_icon"/>
+		<item android:id="@+id/nav_bonuses"
+		      android:title="@string/nav_bonuses"
+		      android:icon="@drawable/bonuses_icon"
+		      android:iconTint="@color/light_blue"/>
+		<item android:id="@+id/nav_help"
+		      android:title="@string/help"
+		      android:icon="@drawable/help_icon"/>
+
+	</group>
+
+</menu>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".activities.CurrentOrderActivity">
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+	>
+		<TextView
+				android:text="Order Info"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/orderInfoTextView" android:textSize="24sp"
+				android:textAlignment="center"/>
+		<TextView
+				android:text="Customer Name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/customerNameOrderInfoText" android:textSize="24sp"/>
+		<TextView
+				android:text="Customer Address"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/textView4" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/customerAddressOrderInfoText" android:textSize="24sp"/>
+		<TextView
+				android:text="Delivery Address"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/textView6" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/deliveryAddressOrderInfoText" android:textSize="24sp"/>
+		<TextView
+				android:text="Customer Telephone Numbe"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/textView8" android:textSize="24sp"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/telephoneNumberOrderInfoText" android:textSize="24sp"/>
+		<Button
+				android:text="Complete order"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" android:id="@+id/completeOrderButton"/>
+	</LinearLayout>
+</RelativeLayout>
