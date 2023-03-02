@@ -1,12 +1,12 @@
 package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.document.DriverResume;
 import com.example.minitaxiandroid.entities.messages.Message;
@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
-import static com.example.minitaxiandroid.services.ObjectParserService.parseMessageFromString;
+import static com.example.minitaxiandroid.services.ObjectParserService.*;
 
 public class DriverRegistrationActivity extends AppCompatActivity {
     private EditText driverUserNameEditText;
