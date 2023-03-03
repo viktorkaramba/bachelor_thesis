@@ -1,6 +1,8 @@
 package com.unicyb.minitaxi.controller.documents;
 
+import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.PricePerKilometersByTariffDAOImpl;
+import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.PricePerKilometersByTariff;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

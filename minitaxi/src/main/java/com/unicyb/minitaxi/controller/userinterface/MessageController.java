@@ -1,8 +1,6 @@
 package com.unicyb.minitaxi.controller.userinterface;
 
-import com.unicyb.minitaxi.entities.userinterfaceenteties.Message;
-import com.unicyb.minitaxi.entities.userinterfaceenteties.ResponseMessage;
-import com.unicyb.minitaxi.entities.userinterfaceenteties.UserSendDate;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
 import com.unicyb.minitaxi.services.WSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

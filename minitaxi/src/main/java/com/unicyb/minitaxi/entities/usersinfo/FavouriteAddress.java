@@ -1,4 +1,4 @@
-package com.unicyb.minitaxi.entities.indicators;
+package com.unicyb.minitaxi.entities.usersinfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

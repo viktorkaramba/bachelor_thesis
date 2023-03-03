@@ -1,10 +1,10 @@
-package com.unicyb.minitaxi.database.dao.documents;
+package com.unicyb.minitaxi.database.dao.ranksystem;
 
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
-import com.unicyb.minitaxi.ranksystem.EliteRank;
-import com.unicyb.minitaxi.ranksystem.EliteRankUserInfo;
+import com.unicyb.minitaxi.entities.ranksystem.EliteRank;
+import com.unicyb.minitaxi.entities.ranksystem.EliteRankUserInfo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +23,7 @@ public class EliteRankDAOImpl implements DAO<EliteRank> {
             preparedStatement.setInt(1, eliteRank.getRankId());
             preparedStatement.setInt(2, eliteRank.getCcId());
             preparedStatement.setFloat(3, eliteRank.getPeriod());
-            preparedStatement.setInt(5, eliteRank.getFreeOrders());
+            preparedStatement.setInt(4, eliteRank.getFreeOrders());
             preparedStatement.executeUpdate();
             connection.close();
             return true;
@@ -82,6 +82,25 @@ public class EliteRankDAOImpl implements DAO<EliteRank> {
     @Override
     public EliteRank getOne(int ID) {
         return null;
+    }
+
+    public List<EliteRank> getAllByRankId(int ID){
+        List<EliteRank> eliteRanksList = new ArrayList<>();
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_ELITE_RANK_BY_RANK_ID);
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                EliteRank eliteRank = getEliteRank(resultSet);
+                eliteRanksList.add(eliteRank);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return eliteRanksList;
     }
 
     @Override

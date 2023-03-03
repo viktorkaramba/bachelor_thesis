@@ -1,6 +1,10 @@
 package com.unicyb.minitaxi.controller.documents;
 
+import com.unicyb.minitaxi.database.dao.documents.CarsDAOImpl;
+import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
+import com.unicyb.minitaxi.entities.documents.Car;
+import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.FullName;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

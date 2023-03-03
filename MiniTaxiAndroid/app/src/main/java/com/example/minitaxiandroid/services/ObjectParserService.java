@@ -28,7 +28,7 @@ public class ObjectParserService {
     public static User parseUserFromString(String s) throws Exception{
         final JSONObject obj = new JSONObject(s);
         return new User(obj.getInt("userId"), obj.getString("userName"), obj.getString("password"),
-                ROLE.valueOf(obj.getString("role")));
+                ROLE.valueOf(obj.getString("role")), obj.getInt("rankId"));
     }
 
     public static LoginResponseMessage parseLoginMessageFromString(String s) throws Exception{

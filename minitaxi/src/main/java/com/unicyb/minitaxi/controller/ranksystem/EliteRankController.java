@@ -1,7 +1,7 @@
-package com.unicyb.minitaxi.controller.documents;
+package com.unicyb.minitaxi.controller.ranksystem;
 
-import com.unicyb.minitaxi.database.dao.documents.EliteRankDAOImpl;
-import com.unicyb.minitaxi.ranksystem.EliteRank;
+import com.unicyb.minitaxi.database.dao.ranksystem.EliteRankDAOImpl;
+import com.unicyb.minitaxi.entities.ranksystem.EliteRank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -30,6 +30,7 @@ public class OrderDAOImpl implements DAO<Order> {
             preparedStatement.setFloat(8, order.getNumberOfKilometers());
             preparedStatement.setString(9, order.getCustomerName());
             preparedStatement.setInt(10, order.getUserId());
+            preparedStatement.setString(11, order.getUserComment());
             preparedStatement.executeUpdate();
             connection.close();
             return true;
@@ -102,7 +103,7 @@ public class OrderDAOImpl implements DAO<Order> {
                 resultSet.getString(4), resultSet.getString(5),
                 resultSet.getFloat(6), resultSet.getTimestamp(7),
                 resultSet.getFloat(8), resultSet.getFloat(9),
-                resultSet.getString(10), resultSet.getInt(11));
+                resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12));
     }
 
     private UserOrderInfo getUserOrderInfo(ResultSet resultSet) throws SQLException {

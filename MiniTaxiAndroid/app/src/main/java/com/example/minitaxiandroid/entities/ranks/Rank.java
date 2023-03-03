@@ -13,4 +13,5 @@ public class Rank {
     private int minComments;
     private float salePeriod;
     private float saleValue;
+    private int isElite;
 }

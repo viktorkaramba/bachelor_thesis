@@ -8,6 +8,7 @@ import com.unicyb.minitaxi.entities.documents.FullName;
 import com.unicyb.minitaxi.entities.documents.ROLE;
 import com.unicyb.minitaxi.entities.documents.User;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
+import com.unicyb.minitaxi.ranksystem.RankSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,9 +22,7 @@ import java.util.Date;
 public class WSService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private UserDAOImpl userDAO;
-    private FullNameDAOImpl fullNameDAO;
-    private DriverDAOImpl driverDAO;
-
+    private RankSystem rankSystem;
     @Autowired
     public WSService(SimpMessagingTemplate simpMessagingTemplate){
         this.simpMessagingTemplate = simpMessagingTemplate;
@@ -51,12 +50,12 @@ public class WSService {
         try {
             FullName fullName = new FullName(driverResume.getDriverFirstName(), driverResume.getDriverSurName(),
                     driverResume.getDriverPatronymic());
-            fullNameDAO = new FullNameDAOImpl();
+            FullNameDAOImpl fullNameDAO = new FullNameDAOImpl();
             fullNameDAO.add(fullName);
             int id = fullNameDAO.getIdByFullName(fullName);
             Driver driver = new Driver(id, new Timestamp(new Date().getTime()), id, driverResume.getDriverTelephoneNumber(),
                     driverResume.getDriverExperience(), SalaryService.getSalary(driverResume.getDriverExperience()));
-            driverDAO = new DriverDAOImpl();
+            DriverDAOImpl driverDAO = new DriverDAOImpl();
             driverDAO.add(driver);
             User user = new User(driverResume.getDriverUserName(), driverResume.getDriverPassword(), ROLE.DRIVER, 1);
             userDAO = new UserDAOImpl();
@@ -80,6 +79,7 @@ public class WSService {
             message =  new Message(String.valueOf(newUser.getUserId()));
             simpMessagingTemplate.convertAndSendToUser(newUser.getUserName(), "/registration",
                    message);
+
         }
         catch (Exception e){
             message =  new Message("User with this username already exist");
@@ -96,32 +96,40 @@ public class WSService {
         if (loginUser != null) {
             if(user.getPassword().equals(loginUser.getPassword())) {
                 if(user.getRole().equals(loginUser.getRole())){
+//                    rankSystem = new RankSystem();
+//                    int newRank = rankSystem.getNewRank(userDAO.getUserStats(loginUser.getUserId()));
+//                    if (newRank != loginUser.getRankId()){
+//                        User newUser = new User(loginUser.getUserId(), loginUser.getUserName(), loginUser.getPassword(),
+//                                loginUser.getRole(), newRank);
+//                        userDAO.update(newUser);
+//                        loginUser = newUser;
+//                    }
                     loginResponseMessage = new LoginResponseMessage(
-                            String.valueOf(loginUser.getUserId()), user.getRole());
+                            String.valueOf(loginUser.getUserId()), user.getRole(), user.getRankId());
                     simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
                 }
                 else {
                     if(user.getRole().equals(ROLE.DRIVER)){
                         loginResponseMessage = new LoginResponseMessage(
-                                HtmlUtils.htmlEscape("User is not driver"), user.getRole());
+                                HtmlUtils.htmlEscape("User is not driver"), user.getRole(), user.getRankId());
                         simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
                     }
                     else {
                         loginResponseMessage = new LoginResponseMessage(
-                                HtmlUtils.htmlEscape(String.valueOf(loginUser.getUserId())), user.getRole());
+                                HtmlUtils.htmlEscape(String.valueOf(loginUser.getUserId())), user.getRole(), user.getRankId());
                         simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
                     }
                 }
             }
             else {
                 loginResponseMessage = new LoginResponseMessage(
-                        HtmlUtils.htmlEscape(HtmlUtils.htmlEscape("Incorrect password")), user.getRole());
+                        HtmlUtils.htmlEscape(HtmlUtils.htmlEscape("Incorrect password")), user.getRole(), user.getRankId());
                 simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
             }
         }
         else {
             loginResponseMessage = new LoginResponseMessage(
-                    HtmlUtils.htmlEscape(HtmlUtils.htmlEscape("Need registry")), user.getRole());
+                    HtmlUtils.htmlEscape(HtmlUtils.htmlEscape("Need registry")), user.getRole(), user.getRankId());
             simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
         }
         return loginResponseMessage;

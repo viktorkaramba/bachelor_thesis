@@ -48,7 +48,7 @@ public class UserRegistryActivity extends AppCompatActivity {
                 ListenableFuture<StompSession> f = userClient.connect();
                 stompSession = f.get();
                 subscribeAuthorization(stompSession);
-                user = new User(-1, userName.getText().toString(), password.getText().toString(), ROLE.USER);
+                user = new User(-1, userName.getText().toString(), password.getText().toString(), ROLE.USER, 1);
                 sendUserRegistryMessage(stompSession, user);
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();

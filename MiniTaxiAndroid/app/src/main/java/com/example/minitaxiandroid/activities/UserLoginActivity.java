@@ -89,10 +89,12 @@ public class UserLoginActivity extends AppCompatActivity {
                 ListenableFuture<StompSession> f = userClient.connect();
                 stompSession = f.get();
                 if(checkBox.isChecked()){
-                    user = new User(-1, userName.getText().toString(), password.getText().toString(), ROLE.DRIVER);
+                    user = new User(-1, userName.getText().toString(), password.getText().toString(),
+                            ROLE.DRIVER, 0);
                 }
                 else {
-                    user = new User(-1, userName.getText().toString(), password.getText().toString(), ROLE.USER);
+                    user = new User(-1, userName.getText().toString(), password.getText().toString(),
+                            ROLE.USER, 0);
                     Log.d("UserLogin", user.getUserName());
                 }
                 subscribeAuthorization(stompSession);
@@ -127,7 +129,8 @@ public class UserLoginActivity extends AppCompatActivity {
         stringBuilder.append("{ \"userId\" : ").append(user.getUserId()).append(",")
                 .append("\"userName\" : \"").append(user.getUserName()).append("\",")
                 .append("\"password\" : \"").append(user.getPassword()).append("\",")
-                .append("\"role\" : \"").append(user.getRole()).append("\" }");
+                .append("\"role\" : \"").append(user.getRole()).append("\",")
+                .append("\"rankId\" : \"").append(user.getRankId()).append("\" }");
         stompSession.send("/app/user-authorization", stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
     }
 

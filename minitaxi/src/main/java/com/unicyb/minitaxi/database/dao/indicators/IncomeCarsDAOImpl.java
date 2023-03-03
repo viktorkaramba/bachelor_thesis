@@ -3,6 +3,8 @@ package com.unicyb.minitaxi.database.dao.indicators;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
+import com.unicyb.minitaxi.entities.documents.Car;
+import com.unicyb.minitaxi.entities.indicators.DriverRating;
 import com.unicyb.minitaxi.entities.indicators.IncomeCars;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.Report;
 

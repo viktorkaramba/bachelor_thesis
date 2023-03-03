@@ -1,7 +1,7 @@
 package com.unicyb.minitaxi.controller.indicators;
 
 import com.unicyb.minitaxi.database.dao.userinterface.FavouriteAddressDAOImpl;
-import com.unicyb.minitaxi.entities.indicators.FavouriteAddress;
+import com.unicyb.minitaxi.entities.usersinfo.FavouriteAddress;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

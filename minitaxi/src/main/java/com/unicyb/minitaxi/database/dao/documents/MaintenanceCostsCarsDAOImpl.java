@@ -3,6 +3,7 @@ package com.unicyb.minitaxi.database.dao.documents;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
+import com.unicyb.minitaxi.entities.documents.Car;
 import com.unicyb.minitaxi.entities.documents.MaintenanceCostsCars;
 
 import java.sql.Connection;

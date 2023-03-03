@@ -16,4 +16,5 @@ public class SendOrder {
     private String telephoneNumber;
     private Float price;
     private Float rating;
+    private String userComment;
 }

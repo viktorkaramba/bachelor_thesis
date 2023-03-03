@@ -1,4 +1,4 @@
-package com.unicyb.minitaxi.ranksystem;
+package com.unicyb.minitaxi.entities.ranksystem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

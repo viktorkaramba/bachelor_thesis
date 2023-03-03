@@ -12,11 +12,12 @@ public class User {
     private String userName;
     private String password;
     private ROLE role;
-
-    public User(String userName, String password, ROLE role) {
+    private int rankId;
+    public User(String userName, String password, ROLE role, int rankId) {
         this.userName = userName;
         this.password = password;
         this.role = role;
+        this.rankId = rankId;
     }
 
 }

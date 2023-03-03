@@ -3,7 +3,7 @@ package com.unicyb.minitaxi.database.dao.userinterface;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
-import com.unicyb.minitaxi.entities.indicators.FavouriteAddress;
+import com.unicyb.minitaxi.entities.usersinfo.FavouriteAddress;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.FavouriteAddressUserInfo;
 
 import java.sql.Connection;

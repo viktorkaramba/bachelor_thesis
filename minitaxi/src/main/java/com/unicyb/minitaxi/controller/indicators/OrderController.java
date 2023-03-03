@@ -105,6 +105,6 @@ public class OrderController {
         Float price = sendOrder.getPrice() * numberOfKilometers;
         return new Order(sendOrder.getDriverId(), sendOrder.getAddressCustomer(), sendOrder.getAddressDelivery(),
                 sendOrder.getTelephoneNumber(), price, new Timestamp(new Date().getTime()), sendOrder.getRating(),
-                numberOfKilometers, sendOrder.getCustomerName(), sendOrder.getUserId());
+                numberOfKilometers, sendOrder.getCustomerName(), sendOrder.getUserId(), sendOrder.getUserComment());
     }
 }

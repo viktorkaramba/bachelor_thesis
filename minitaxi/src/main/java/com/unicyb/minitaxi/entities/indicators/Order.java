@@ -21,8 +21,10 @@ public class Order {
     private float numberOfKilometers;
     private String customerName;
     private int userId;
+    private String userComment;
 
-    public Order(int driverId, String addressCustomer, String addressDelivery, String telephoneCustomer, float price, Timestamp date, float rating, float numberOfKilometers, String customerName, int userId) {
+    public Order(int driverId, String addressCustomer, String addressDelivery, String telephoneCustomer, float price,
+                 Timestamp date, float rating, float numberOfKilometers, String customerName, int userId, String userComment) {
         this.driverId = driverId;
         this.addressCustomer = addressCustomer;
         this.addressDelivery = addressDelivery;
@@ -33,5 +35,6 @@ public class Order {
         this.numberOfKilometers = numberOfKilometers;
         this.customerName = customerName;
         this.userId = userId;
+        this.userComment = userComment;
     }
 }

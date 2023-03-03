@@ -5,12 +5,14 @@ import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.documents.ROLE;
 import com.unicyb.minitaxi.entities.documents.User;
+import com.unicyb.minitaxi.entities.usersinfo.UserStats;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserDAOImpl implements DAO<User> {
@@ -75,7 +77,34 @@ public class UserDAOImpl implements DAO<User> {
 
     private User getUser(ResultSet resultSet) throws SQLException {
         return new User(resultSet.getInt(1), resultSet.getString(2),
-                resultSet.getString(3), ROLE.valueOf(resultSet.getString(4)), resultSet.getInt(5));
+                resultSet.getString(3), ROLE.valueOf(resultSet.getString(4)),
+                resultSet.getInt(5));
+    }
+
+    public UserStats getUserStats(int ID){
+        UserStats userStats = new UserStats();
+        HashMap<Integer, String> stats = new HashMap<>();
+        try {
+            Connection connection = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_USER_STATS);
+            preparedStatement.setInt(1, ID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                stats.put(resultSet.getInt(1), resultSet.getString(2));
+            }
+            userStats.setCountOrders(stats.size());
+            int count = 0;
+            for (String i : stats.values()) {
+               if(i.length() > 4){
+                   count++;
+               }
+            }
+            userStats.setCountComments(count);
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return userStats;
     }
 
     public User getOneByUserName(String userName) {
@@ -106,8 +135,8 @@ public class UserDAOImpl implements DAO<User> {
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getRole().name());
-            statement.setInt(4, user.getUserId());
-            statement.setInt(5, user.getRankId());
+            statement.setInt(4, user.getRankId());
+            statement.setInt(5, user.getUserId());
             statement.executeUpdate();
             con.close();
             return true;
