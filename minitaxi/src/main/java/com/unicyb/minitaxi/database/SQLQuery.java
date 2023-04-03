@@ -145,9 +145,9 @@ public class SQLQuery {
     public static final String UPDATE_FAVOURITE_DRIVERS="UPDATE FROM FAVOURITE_DRIVERS SET USERS_ID=?, " +
             "ADDRESS = ? WHERE F_D_ID = ?";
     public static final String DELETE_FAVOURITE_DRIVERS="DELETE FROM FAVOURITE_DRIVERS WHERE F_D_ID = ?";
-    public static final String SELECT_FAVOURITE_DRIVERS_INFO_BY_USER_ID_AND_DRIVER_ID="SELECT favourite_drivers.DRIVERS_ID, " +
-            "COUNT(ORDERS.RATING), AVG(ORDERS.RATING), \n" +
-            "FULLNAME.FIRSTNAME, FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND\n" +
+    public static final String SELECT_FAVOURITE_DRIVERS_INFO_BY_USER_ID_AND_DRIVER_ID="SELECT favourite_drivers.F_D_ID," +
+            "favourite_drivers.DRIVERS_ID, COUNT(ORDERS.RATING), AVG(ORDERS.RATING), FULLNAME.FIRSTNAME, " +
+            "FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND\n" +
             "FROM favourite_drivers \n" +
             "JOIN DRIVERS\n" +
             "ON DRIVERS.DRIVERS_ID = favourite_drivers.DRIVERS_ID\n" +
@@ -160,7 +160,8 @@ public class SQLQuery {
             "WHERE favourite_drivers.USERS_ID = ?\n" +
             "GROUP BY favourite_drivers.DRIVERS_ID, FULLNAME.FIRSTNAME, FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND";
 
-    public static final String SELECT_FAVOURITE_ADDRESSES_INFO_BY_USER_ID = "SELECT favourite_addresses.USERS_ID,  " +
+    public static final String SELECT_FAVOURITE_ADDRESSES_INFO_BY_USER_ID = "SELECT favourite_addresses.F_A_ID, " +
+            "favourite_addresses.USERS_ID,  " +
             "favourite_addresses.ADDRESS, COUNT(ORDERS.ORDERS_ID)\n" +
             "FROM favourite_addresses \n" +
             "JOIN ORDERS\n" +
@@ -210,5 +211,13 @@ public class SQLQuery {
 
     public static final String DELETE_USER_ELITE_RANK_ACHIEVEMENT_INFO="DELETE * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE UERAI_ID=?";
     public static final String CHECK_IF_EXIST_USER_ELITE_RANK="SELECT COUNT(1) FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
+    public static final String SELECT_DRIVER_INFO_BY_ID="SELECT DRIVERS.DRIVERS_ID, FULLNAME.FIRSTNAME, FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND,\n" +
+            "CARS.IN_ORDER\n" +
+            "FROM DRIVERS\n" +
+            "JOIN CARS\n" +
+            "ON DRIVERS.CARS_ID = CARS.CARS_ID\n" +
+            "JOIN FULLNAME\n" +
+            "ON DRIVERS.FULLNAME_ID = FULLNAME.FULLNAME_ID\n" +
+            "WHERE DRIVERS.DRIVERS_ID = ?";
 
 }

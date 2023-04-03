@@ -37,8 +37,8 @@ public class FavouriteAddressDAOImpl implements DAO<FavouriteAddress> {
     }
 
     private FavouriteAddressUserInfo getFavouriteAddressUserInfo(ResultSet resultSet) throws SQLException {
-        return new FavouriteAddressUserInfo(resultSet.getInt(1), resultSet.getString(2),
-                resultSet.getInt(3));
+        return new FavouriteAddressUserInfo(resultSet.getInt(1), resultSet.getInt(2),
+                resultSet.getString(3), resultSet.getInt(4));
     }
 
     public List<FavouriteAddressUserInfo> getAllByUserId(int userId){

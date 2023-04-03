@@ -1,14 +1,21 @@
 package com.example.minitaxiandroid.adapter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.minitaxiandroid.R;
+import com.example.minitaxiandroid.entities.messages.Message;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
+import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
+import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -48,12 +55,37 @@ public class FavouriteDriversAdapter extends RecyclerView.Adapter<FavouriteDrive
         DecimalFormat df = new DecimalFormat("#.#");
         String avgRating = String.valueOf(df.format(rating).replace(',','.'));
         favouriteDriversHolder.averageRating.setText(avgRating);
+        favouriteDriversHolder.deleteFavouriteDriverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteDriver(favouriteDriverUserInfo.getFavouriteDriverId());
+            }
+        });
         favouriteDriversHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectListener.onItemClicked(favouriteDriverUserInfoList.get(i));
             }
         });
+    }
+
+    private void deleteDriver(int ID) {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi favouriteDriversApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        String userId = String.valueOf(ID);
+        favouriteDriversApi.deleteFavouriteDriverUserInfo(userId)
+                .enqueue(new Callback<Message>() {
+                    @Override
+                    public void onResponse(Call<Message> call, Response<Message> response) {
+                        String message = response.toString();
+                        Log.d("get favourite driver log", message);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Message> call, Throwable t) {
+                        Log.d("get favourite driver log", "Failed to delete favourite driver info");
+                    }
+                });
     }
 
     @Override

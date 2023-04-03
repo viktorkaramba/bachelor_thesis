@@ -1,6 +1,7 @@
 package com.example.minitaxiandroid.adapter;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,6 +10,7 @@ import com.example.minitaxiandroid.R;
 
 public class FavouriteDriversHolder  extends  RecyclerView.ViewHolder{
     public TextView fullName, carName, countsOrder, averageRating;
+    public Button deleteFavouriteDriverButton;
     public ConstraintLayout constraintLayout;
 
     public FavouriteDriversHolder(@NonNull View itemView) {
@@ -17,6 +19,7 @@ public class FavouriteDriversHolder  extends  RecyclerView.ViewHolder{
         carName = itemView.findViewById(R.id.favouriteDriversCarName);
         countsOrder = itemView.findViewById(R.id.favouriteDriversCountsOrder);
         averageRating = itemView.findViewById(R.id.favouriteDriversAverageRating);
+        deleteFavouriteDriverButton = itemView.findViewById(R.id.deleteFavouriteDriverButton);
         constraintLayout = itemView.findViewById(R.id.favouriteDriversRecycleView);
     }
 }

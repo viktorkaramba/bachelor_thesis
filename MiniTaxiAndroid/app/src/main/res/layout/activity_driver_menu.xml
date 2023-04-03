@@ -11,18 +11,33 @@
 		<com.google.android.material.floatingactionbutton.FloatingActionButton
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_margin="15dp"
+				android:layout_margin="10dp"
 				android:clickable="true"
 				app:srcCompat="@mipmap/ic_profile"
 				android:id="@+id/profileButton"
 				android:backgroundTint="#D5D5D5"
 				tools:ignore="SpeakableTextPresentCheck"
 		/>
-		<Button
-				android:text="See Car Recommendations"
+	<Button
+				android:text="@string/see_car_recommendations"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/buttonCarRec"
+				android:textSize="12sp"
+				android:background="@drawable/roundcorner"
+				android:padding="10dp"
+				android:layout_height="wrap_content"
+				android:id="@+id/buttonCarRec"
 		/>
+		<Switch
+				android:text="@string/is_online"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textColor="@color/dark_blue"
+				android:layout_marginLeft="5dp"
+				android:paddingLeft="5dp"
+				android:theme="@style/SCBSwitch"
+				android:background="@drawable/roundcorner"
+				android:id="@+id/isOnlineSwitch"/>
+
 	</LinearLayout>
 	<androidx.recyclerview.widget.RecyclerView
 			android:layout_width="match_parent"

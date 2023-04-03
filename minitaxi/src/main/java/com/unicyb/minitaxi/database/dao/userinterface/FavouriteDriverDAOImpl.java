@@ -34,8 +34,8 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
 
     private FavouriteDriverUserInfo getFavouriteDriverUserInfo(ResultSet resultSet) throws SQLException {
         return new FavouriteDriverUserInfo(resultSet.getInt(1), resultSet.getInt(2),
-                resultSet.getFloat(3), resultSet.getString(4), resultSet.getString(5),
-                resultSet.getString(6), resultSet.getString(7));
+                resultSet.getInt(3), resultSet.getFloat(4), resultSet.getString(5),
+                resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
     }
 
     public List<FavouriteDriverUserInfo> getAllByUserId(int userId){

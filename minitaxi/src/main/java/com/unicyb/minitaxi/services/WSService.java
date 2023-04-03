@@ -1,28 +1,37 @@
 package com.unicyb.minitaxi.services;
 
+import com.unicyb.minitaxi.database.dao.documents.CarClassDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.UserDAOImpl;
-import com.unicyb.minitaxi.entities.documents.Driver;
-import com.unicyb.minitaxi.entities.documents.FullName;
-import com.unicyb.minitaxi.entities.documents.ROLE;
-import com.unicyb.minitaxi.entities.documents.User;
+import com.unicyb.minitaxi.database.dao.userinterface.DriverInfoDAOImpl;
+import com.unicyb.minitaxi.distancematrixapi.DistanceMatrixAPi;
+import com.unicyb.minitaxi.entities.documents.*;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
+import com.unicyb.minitaxi.entities.usersinfo.DriverInfo;
+import com.unicyb.minitaxi.entities.usersinfo.DriverSendInfoMessage;
 import com.unicyb.minitaxi.ranksystem.RankSystem;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class WSService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private UserDAOImpl userDAO;
     private RankSystem rankSystem;
+    private CarClassDAOImpl carClassDAO;
+    private DriverInfoDAOImpl driverInfoDAO;
+
     @Autowired
     public WSService(SimpMessagingTemplate simpMessagingTemplate){
         this.simpMessagingTemplate = simpMessagingTemplate;
@@ -43,6 +52,25 @@ public class WSService {
 
     public void notifyOrderMessage(final UserSendDate userSendDate){
         simpMessagingTemplate.convertAndSendToUser(String.valueOf(userSendDate.getUserId()), "/order-message", userSendDate);
+    }
+
+    public void notifyUserAddressesMessage(final UserAddressesMessage userAddressesMessage)
+            throws IOException, ParseException, InterruptedException {
+        DistanceMatrixAPi distanceMatrixAPi = new DistanceMatrixAPi(userAddressesMessage.getUserAddressFrom(),
+                userAddressesMessage.getUserAddressTo());
+        Float numberOfKilometers = distanceMatrixAPi.getDistance();
+        carClassDAO = new CarClassDAOImpl();
+        List<CarClass> classList = carClassDAO.getAll();
+        List<Float> floatList =new ArrayList<>();
+        PriceByClass priceByClassList = new PriceByClass();
+        priceByClassList.setDistance(numberOfKilometers);
+        priceByClassList.setClassName(classList.get(0).getName());
+        for(CarClass carClass: classList){
+            floatList.add(carClass.getPrice() * numberOfKilometers);
+        }
+        priceByClassList.setPriceByClass(floatList);
+        simpMessagingTemplate.convertAndSendToUser(String.valueOf(userAddressesMessage.getUserId()),
+                "/prices-by-class", priceByClassList);
     }
 
     public Message notifyDriverRegistryMessage(final DriverResume driverResume){
@@ -96,14 +124,14 @@ public class WSService {
         if (loginUser != null) {
             if(user.getPassword().equals(loginUser.getPassword())) {
                 if(user.getRole().equals(loginUser.getRole())){
-//                    rankSystem = new RankSystem();
-//                    int newRank = rankSystem.getNewRank(userDAO.getUserStats(loginUser.getUserId()));
-//                    if (newRank != loginUser.getRankId()){
-//                        User newUser = new User(loginUser.getUserId(), loginUser.getUserName(), loginUser.getPassword(),
-//                                loginUser.getRole(), newRank);
-//                        userDAO.update(newUser);
-//                        loginUser = newUser;
-//                    }
+                    rankSystem = new RankSystem(userDAO.getUserStats(loginUser.getUserId()), loginUser);
+                    int newRank = rankSystem.getNewRank();
+                    if (newRank != loginUser.getRankId()){
+                        User newUser = new User(loginUser.getUserId(), loginUser.getUserName(), loginUser.getPassword(),
+                                loginUser.getRole(), newRank);
+                        userDAO.update(newUser);
+                        loginUser = newUser;
+                    }
                     loginResponseMessage = new LoginResponseMessage(
                             String.valueOf(loginUser.getUserId()), user.getRole(), user.getRankId());
                     simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
@@ -139,5 +167,31 @@ public class WSService {
         simpMessagingTemplate.convertAndSendToUser(String.valueOf(sendOrder.getUserId()), "/order-complete",
                 ResponseEntity.ok("Order successfully complete"));
         return ResponseEntity.ok("Order successfully complete");
+    }
+
+    public void notifyUserRequestDriversInfoMessage(String userId){
+        System.out.println("user: " + userId);
+
+        simpMessagingTemplate.convertAndSend("/users-request-drivers", userId);
+    }
+
+    synchronized public DriverInfo notifyDriverSendInfoMessage(DriverSendInfoMessage driverSendInfoMessage, int userCount){
+        driverInfoDAO = new DriverInfoDAOImpl();
+        DriverInfo driverInfo;
+        if(userCount == 0){
+            System.out.println("Disconnect");
+            driverInfo = new DriverInfo();
+            driverInfo.setDriverId(0);
+            simpMessagingTemplate.convertAndSend("/topic/users-request-drivers", driverInfo);
+        }
+        else {
+            System.out.println(driverSendInfoMessage.getLatitude() + " " + driverSendInfoMessage.getLongitude());
+            driverInfo = driverInfoDAO.getOne(driverSendInfoMessage.getDriverId());
+            driverInfo.setLatitude(driverSendInfoMessage.getLatitude());
+            driverInfo.setLongitude(driverSendInfoMessage.getLongitude());
+            System.out.println(driverInfo);
+            simpMessagingTemplate.convertAndSend("/topic/users-request-drivers-info", driverInfo);
+        }
+        return driverInfo;
     }
 }

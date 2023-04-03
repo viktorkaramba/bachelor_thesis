@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavouriteDriverUserInfo {
+    private int favouriteDriverId;
     private int driverId;
     private int countOrders;
     private float averageRating;

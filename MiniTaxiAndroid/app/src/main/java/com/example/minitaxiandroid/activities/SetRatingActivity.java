@@ -135,7 +135,6 @@ public class SetRatingActivity extends AppCompatActivity {
                 .append("\"telephoneNumber\" : \"").append(userSendDate.getTelephoneNumber()).append("\",")
                 .append("\"price\" : \"").append(price).append("\",")
                 .append("\"rating\" : \"").append(ratingDriverBar.getRating()).append("\" }");
-        System.out.println(stringBuilder);
         stompSession.send("/app/order-complete-message", stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
     }
 

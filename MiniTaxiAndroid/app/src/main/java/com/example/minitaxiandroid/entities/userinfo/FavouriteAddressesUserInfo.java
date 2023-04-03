@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavouriteAddressesUserInfo {
+    private int favouriteAddressId;
     private int userId;
     private String address;
     private int count;

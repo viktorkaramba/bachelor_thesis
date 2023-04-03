@@ -1,10 +1,12 @@
 package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -24,12 +26,12 @@ import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
 import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
 import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
-import com.example.minitaxiandroid.websocket.WebSocketClient;
+import com.example.minitaxiandroid.services.DriverInfoService;
+import com.example.minitaxiandroid.services.LocationService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.util.concurrent.ListenableFuture;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,10 +50,13 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
     private TextView customerName, telephoneCustomer, addressCustomer, addressDelivery;
     private Button accept, cancel, driverCarRec;
     private FloatingActionButton profileButton;
+    private Switch isOnlineSwitch;
     private StompSession stompSession;
     private UserSendDate userSendDate;
     private RecyclerView recyclerView;
     private String userId;
+    private LocationManager locationManager;
+    private LocationService locationService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,23 +65,28 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         recyclerView = findViewById(R.id.orderInfoProfileList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         profileButton = findViewById(R.id.profileButton);
+        isOnlineSwitch = findViewById(R.id.isOnlineSwitch);
         userId = getDate(savedInstanceState, "userId");
         driverCarRec = findViewById(R.id.buttonCarRec);
         driverCarRec.setOnClickListener(view -> goCarRec());
         profileButton.setOnClickListener(view -> goDriverProfile());
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationService = new LocationService(locationManager);
+        DriverInfoService driverInfoService = new DriverInfoService(this, locationService.getCurrentLocation());
+        driverInfoService.driverWaitRequest();
         getOrders();
-        new Thread(() -> {
-            try {
-                Log.d("Driver Menu", "Run");
-                WebSocketClient driverClient = new WebSocketClient();
-                ListenableFuture<StompSession> f = driverClient.connect();
-                stompSession = f.get();
-                System.out.println(userId);
-                subscribeDriver(Integer.parseInt(userId));
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
+//        new Thread(() -> {
+//            try {
+//                Log.d("Driver Menu", "Run");
+//                WebSocketClient driverClient = new WebSocketClient();
+//                ListenableFuture<StompSession> f = driverClient.connect();
+//                stompSession = f.get();
+//                System.out.println(userId);
+//                driverInfoService.subscribeDriver(stompSession);
+//            } catch (ExecutionException | InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
     }
 
     public void goCarRec(){

@@ -9,6 +9,7 @@
                                            tools:context=".activities.MainActivity"
                                            android:fitsSystemWindows="true"
                                            tools:openDrawer="start"
+                                           android:windowSoftInputMode="adjustPan"
                                            android:background="@color/light_blue">
 
 	<com.google.android.material.navigation.NavigationView
@@ -34,37 +35,43 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:background="@color/light_blue"
-				android:theme="?attr/actionBarTheme"
+				app:titleTextColor="@color/dark_blue"
 				android:minHeight="?attr/actionBarSize"
 				android:id="@+id/toolbar"
+				android:theme="@style/MyActionBarTheme"
 				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintBottom_toTopOf="@+id/map"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"/>
-
-		<fragment
-				android:layout_width="match_parent"
-				app:layout_constraintBottom_toTopOf="@id/searchAddress"
-				android:id="@+id/map"
-				map:uiZoomControls="true"
-				map:uiRotateGestures="true"
-				map:cameraZoom="15"
-				tools:context=".activities.MainActivity"
-				android:name="com.google.android.gms.maps.SupportMapFragment"
-				app:layout_constraintTop_toBottomOf="@+id/toolbar"
-				android:layout_height="0dp"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"/>
-		<SearchView
-				android:id="@+id/searchAddress"
-				android:layout_width="match_parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.0"/>
+<!--		<fragment-->
+<!--				android:layout_width="match_parent"-->
+<!--				app:layout_constraintBottom_toBottomOf="parent"-->
+<!--				android:id="@+id/map"-->
+<!--				app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+<!--				android:layout_height="0dp"-->
+<!--				map:uiRotateGestures="true"-->
+<!--				map:cameraZoom="17"-->
+<!--				tools:context=".activities.MainActivity"-->
+<!--				android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--				app:layout_constraintStart_toStartOf="parent"-->
+<!--				app:layout_constraintEnd_toEndOf="parent"-->
+<!--				app:layout_constraintHorizontal_bias="0.0"/>-->
+		<androidx.fragment.app.FragmentContainerView
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:name="com.example.minitaxiandroid.fragments.SearchAddressesFragment"
+				android:id="@+id/fragmentContainerView"
 				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/map"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				android:background="@color/white"/>
+				android:visibility="visible"/>
+
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
+<!--		app:layout_constraintBottom_toTopOf="@+id/map"-->
+		<!--				map:uiRotateGestures="true"-->
+		<!--				map:cameraZoom="17"-->
+		<!--				tools:context=".activities.MainActivity"-->
+		<!--				android:name="com.google.android.gms.maps.SupportMapFragment"-->

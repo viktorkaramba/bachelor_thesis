@@ -1,6 +1,5 @@
 <component name="libraryTable">
-  <library name="Spring-5.2.3.RELEASE (2)" type="spring">
-    <properties version="5.2.3.RELEASE" />
+  <library name="Spring-5.2.3.RELEASE (2)">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/MiniTaxiBackend/lib/spring-jms-5.2.3.RELEASE.jar!/" />
       <root url="jar://$PROJECT_DIR$/MiniTaxiBackend/lib/spring-aop-5.2.3.RELEASE.jar!/" />

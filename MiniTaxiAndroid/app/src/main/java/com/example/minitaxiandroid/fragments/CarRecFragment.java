@@ -27,7 +27,7 @@ public class CarRecFragment extends Fragment {
     private TextView pricePerKilometer;
     private TextView salary;
     private Button accept, reject;
-    private  CarRecommendationInfo carRecommendationInfo;
+    private CarRecommendationInfo carRecommendationInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

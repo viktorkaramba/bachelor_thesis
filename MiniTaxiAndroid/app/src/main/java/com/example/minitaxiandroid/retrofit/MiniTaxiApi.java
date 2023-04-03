@@ -11,9 +11,8 @@ import com.example.minitaxiandroid.entities.messages.OrderInfo;
 import com.example.minitaxiandroid.entities.messages.UserPickCar;
 import com.example.minitaxiandroid.entities.ranks.EliteRankUserInfo;
 import com.example.minitaxiandroid.entities.ranks.Rank;
-import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
-import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
-import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
+import com.example.minitaxiandroid.entities.userinfo.*;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -50,8 +49,20 @@ public interface MiniTaxiApi {
     @GET("/favourite_drivers/{id}")
     Call<List<FavouriteDriverUserInfo>> getFavouriteDriverUserInfo(@Path(value ="id", encoded = true) String id);
 
+    @GET("/favourite_drivers")
+    Call<Message> getFavouriteDriverUserInfo(@Body FavouriteDriver favouriteDriver);
+
+    @DELETE("/favourite_drivers/{id}")
+    Call<Message> deleteFavouriteDriverUserInfo(@Path(value ="id", encoded = true) String id);
+
     @GET("/favourite_addresses/{id}")
     Call<List<FavouriteAddressesUserInfo>> getFavouriteAddressesUserInfo(@Path(value ="id", encoded = true) String id);
+
+    @POST("/favourite_addresses")
+    Call<Message> addFavouriteAddressesUserInfo(@Body FavouriteAddress favouriteAddress);
+
+    @DELETE("/favourite_addresses/{id}")
+    Call<Message> deleteFavouriteAddressesUserInfo(@Path(value ="id", encoded = true) String id);
 
     @POST("/drivers-locations")
     Call<DriverLocation> saveDriverLocation(@Body DriverLocation driverLocation);
@@ -64,4 +75,8 @@ public interface MiniTaxiApi {
 
     @GET("/elite-ranks-user-info")
     Call<List<EliteRankUserInfo>> getEliteRanksInfo();
+
+    @GET("/api/0.6/map")
+    Call<ResponseBody> getMapData(@Query("bbox") String bbox, @Query("format") String format);
+
 }
