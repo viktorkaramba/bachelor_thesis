@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">EnergyTaxi</string>
+	<string name="app_name" translatable="false">EnergyTaxi</string>
 	<string name="address_customer">Your address</string>
 	<string name="address_delivery">Delivery address</string>
 	<string name="customer_telephone_number">Your telephone number</string>
@@ -31,9 +31,7 @@
 	<string name="department">From</string>
 	<string name="destination">To</string>
 	<string name="apply_address_button_text">Apply Address</string>
-	<string name="pick_favourite_driver_text">You can pick your favourite driver on a map by clicking on a car with
-		heart
-	</string>
+	<string name="pick_favourite_driver_text">You can pick your favourite driver on a map</string>
 	<string name="click_tos_select_address_map">Click on map to select the address</string>
 	<string name="price_value">PRICE:</string>
 	<string name="cancel">Cancel</string>
@@ -49,4 +47,35 @@
 	<string name="order">Order</string>
 	<string name="please_select_address_from_toast_text">Please select address from </string>
 	<string name="please_select_address_to_toast_text">Please select address to</string>
+	<string name="orders">Orders</string>
+	<string name="comments">Comments</string>
+	<string name="sale">Sale</string>
+	<string name="count_of_free_order_by_car_class">Count of free order by car class</string>
+	<string name="your_stats_and_count_of_orders_with_sale">Your stats and count of orders with sale</string>
+	<string name="bonuses_info">Rank Bonuses info</string>
+	<string name="deadline">Deadline:</string>
+	<string name="wait_until">Wait until</string>
+	<string name="error_to_get_user_stats">Error to get user stats</string>
+	<string name="error_to_get_base_rank_user_info">Error to get base rank user info</string>
+	<string name="error_to_get_user_order_price_by_class">Error to get user order price by class</string>
+	<string name="military_bonuses">Military Bonuses</string>
+	<string name="load_document">Load Document</string>
+	<string name="failed_delete_document">Failed to delete your document</string>
+	<string name="failed_get_military_bonuses">Failed to get military bonuses</string>
+	<string name="military_bonuses_notice">If you are a member of the armed forces and have a document that proves it, you can show it to us and get a discount on every trip forever value of</string>
+	<string name="military_bonuses_waiting_notice">Please wait until admin confirm your document, and you will get sale</string>
+	<string name="military_bonuses_complete_notice">Please wait until admin confirm your document, and you will get sale</string>
+	<string name="military_bonuses_delete_button">Delete Document</string>
+	<string name="military_bonuses_delete_notice">Your document deleted and you will never have a sale</string>
+	<string name="user_sale_order">Use sale on order</string>
+	<string name="user_free_order_on_standard">Use free order on standard</string>
+	<string name="user_free_order_on_comfort">Use free order on comfort</string>
+	<string name="user_free_order_on_elite">Use free order on elite</string>
+	<string name="sale_bonus">Sale Bonus</string>
+	<string name="pick_car_class">Pick car class</string>
+	<string name="free_order_bonus">Free order bonus</string>
+	<string name="your_phone">Your phone</string>
+	<string name="your_name">Your name</string>
+	<string name="please_enter_phone">Please enter your phone number so that the driver can contact you</string>
+	<string name="error_find_driver">Error starting driver search</string>
 </resources>

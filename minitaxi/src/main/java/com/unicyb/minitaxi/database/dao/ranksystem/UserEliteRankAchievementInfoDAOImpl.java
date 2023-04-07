@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAchievementInfo> {
+
     @Override
     public boolean add(UserEliteRankAchievementInfo userEliteRankAchievementInfo) {
         try {
@@ -61,6 +62,47 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
     @Override
     public UserEliteRankAchievementInfo getOne(int ID) {
         return null;
+    }
+
+    public List<UserEliteRankAchievementInfo> getByUserIdAndRankId(int userId, int rankId) {
+        List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = new ArrayList<>();
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID);
+            statement.setInt(1, userId);
+            statement.setInt(2, rankId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                UserEliteRankAchievementInfo userEliteRankAchievementInfo = getUserEliteRankAchievementInfo(resultSet);
+                userEliteRankAchievementInfoList.add(userEliteRankAchievementInfo);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return userEliteRankAchievementInfoList;
+    }
+
+    public List<UserEliteRankAchievementInfo> getByUserIdAndRankIdDriverId(int userId, int rankId, int driverId) {
+        List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = new ArrayList<>();
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID);
+            statement.setInt(1, userId);
+            statement.setInt(2, rankId);
+            statement.setInt(3, driverId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                UserEliteRankAchievementInfo userEliteRankAchievementInfo = getUserEliteRankAchievementInfo(resultSet);
+                userEliteRankAchievementInfoList.add(userEliteRankAchievementInfo);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return userEliteRankAchievementInfoList;
     }
 
     public List<UserEliteRankAchievementInfo> getOneByUserId(int ID) {

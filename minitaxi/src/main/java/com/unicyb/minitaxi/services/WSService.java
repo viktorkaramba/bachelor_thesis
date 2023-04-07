@@ -5,24 +5,22 @@ import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.UserDAOImpl;
 import com.unicyb.minitaxi.database.dao.userinterface.DriverInfoDAOImpl;
-import com.unicyb.minitaxi.distancematrixapi.DistanceMatrixAPi;
-import com.unicyb.minitaxi.entities.documents.*;
+import com.unicyb.minitaxi.entities.documents.Driver;
+import com.unicyb.minitaxi.entities.documents.FullName;
+import com.unicyb.minitaxi.entities.documents.ROLE;
+import com.unicyb.minitaxi.entities.documents.User;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
 import com.unicyb.minitaxi.entities.usersinfo.DriverInfo;
 import com.unicyb.minitaxi.entities.usersinfo.DriverSendInfoMessage;
 import com.unicyb.minitaxi.ranksystem.RankSystem;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class WSService {
@@ -54,24 +52,6 @@ public class WSService {
         simpMessagingTemplate.convertAndSendToUser(String.valueOf(userSendDate.getUserId()), "/order-message", userSendDate);
     }
 
-    public void notifyUserAddressesMessage(final UserAddressesMessage userAddressesMessage)
-            throws IOException, ParseException, InterruptedException {
-        DistanceMatrixAPi distanceMatrixAPi = new DistanceMatrixAPi(userAddressesMessage.getUserAddressFrom(),
-                userAddressesMessage.getUserAddressTo());
-        Float numberOfKilometers = distanceMatrixAPi.getDistance();
-        carClassDAO = new CarClassDAOImpl();
-        List<CarClass> classList = carClassDAO.getAll();
-        List<Float> floatList =new ArrayList<>();
-        PriceByClass priceByClassList = new PriceByClass();
-        priceByClassList.setDistance(numberOfKilometers);
-        priceByClassList.setClassName(classList.get(0).getName());
-        for(CarClass carClass: classList){
-            floatList.add(carClass.getPrice() * numberOfKilometers);
-        }
-        priceByClassList.setPriceByClass(floatList);
-        simpMessagingTemplate.convertAndSendToUser(String.valueOf(userAddressesMessage.getUserId()),
-                "/prices-by-class", priceByClassList);
-    }
 
     public Message notifyDriverRegistryMessage(final DriverResume driverResume){
         Message message = null;
@@ -133,7 +113,7 @@ public class WSService {
                         loginUser = newUser;
                     }
                     loginResponseMessage = new LoginResponseMessage(
-                            String.valueOf(loginUser.getUserId()), user.getRole(), user.getRankId());
+                            String.valueOf(loginUser.getUserId()), loginUser.getRole(), loginUser.getRankId());
                     simpMessagingTemplate.convertAndSendToUser(user.getUserName(), "/authorization", loginResponseMessage);
                 }
                 else {

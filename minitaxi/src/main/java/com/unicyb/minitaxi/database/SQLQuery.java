@@ -49,7 +49,7 @@ public class SQLQuery {
     public static final String INSERT_ORDER="INSERT INTO ORDERS VALUES(order_sequence.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SELECT_ALL_ORDERS="SELECT * FROM ORDERS";
     public static final String SELECT_ALL_ORDERS_BY_DRIVER_ID="SELECT DATE_O, ADDRESS_CUSTOMER, ADDRESS_DELIVERY, " +
-            "TELEPHONE_CUSTOMER, PRICE, RATING, NUMBER_OF_KILOMETERS, CUSTOMER_NAME FROM ORDERS WHERE DRIVERS_ID=?";
+            "TELEPHONE_CUSTOMER, PRICE, RATING, NUMBER_OF_KILOMETERS, CUSTOMER_NAME, USERS_ID, USER_COMMENT FROM ORDERS WHERE DRIVERS_ID=?";
     public static final String REPORT_ORDERS="SELECT * FROM ORDERS " +
             "WHERE TRUNC(DATE_O) >= TRUNC(CAST(? AS TIMESTAMP)) AND TRUNC(DATE_O) <= TRUNC(CAST(? AS TIMESTAMP))";
     public static final String REPORT_BY_ID_ORDERS="SELECT * FROM ORDERS " +
@@ -132,20 +132,28 @@ public class SQLQuery {
             "JOIN FULLNAME\n" +
             "ON DRIVERS.FULLNAME_ID = FULLNAME.FULLNAME_ID\n" +
             "WHERE ORDERS.USERS_ID = ?";
-    public static final String SELECT_USER_STATS="SELECT ORDERS_ID, USER_COMMENT FROM ORDERS WHERE USERS_ID=?";
+    public static final String SELECT_USER_STATS="SELECT ORDERS_ID, USER_COMMENT, USERS.RANKS_ID \n" +
+            "FROM ORDERS \n" +
+            "JOIN USERS\n" +
+            "ON USERS.USERS_ID=ORDERS.USERS_ID \n" +
+            "WHERE ORDERS.USERS_ID=?";
     public static final String INSERT_FAVOURITE_ADDRESSES="INSERT INTO FAVOURITE_ADDRESSES VALUES(" +
             "FAVOURITE_ADDRESSES_SEQUENCE.nextval, ?, ?";
     public static final String SELECT_FAVOURITE_ADDRESSES_BY_USER="SELECT * FROM FAVOURITE_ADDRESSES WHERE USERS_ID=?";
     public static final String UPDATE_FAVOURITE_ADDRESSES="UPDATE FROM FAVOURITE_ADDRESSES SET USERS_ID=?, " +
             "ADDRESS = ? WHERE F_A_ID = ?";
     public static final String DELETE_FAVOURITE_ADDRESS="DELETE FROM FAVOURITE_ADDRESSES WHERE F_A_ID = ?";
+    public static final String DELETE_FAVOURITE_ADDRESS_BY_USER_ID_ADDRESS="DELETE FROM FAVOURITE_ADDRESSES WHERE USERS_ID = ? " +
+            "AND ADDRESS = ?";
     public static final String INSERT_FAVOURITE_DRIVERS="INSERT INTO FAVOURITE_DRIVERS VALUES(" +
             "FAVOURITE_DRIVERS_SEQUENCE.nextval, ?, ?";
     public static final String SELECT_FAVOURITE_DRIVERS_BY_USER="SELECT * FROM FAVOURITE_DRIVERS WHERE USERS_ID=?";
     public static final String UPDATE_FAVOURITE_DRIVERS="UPDATE FROM FAVOURITE_DRIVERS SET USERS_ID=?, " +
             "ADDRESS = ? WHERE F_D_ID = ?";
     public static final String DELETE_FAVOURITE_DRIVERS="DELETE FROM FAVOURITE_DRIVERS WHERE F_D_ID = ?";
-    public static final String SELECT_FAVOURITE_DRIVERS_INFO_BY_USER_ID_AND_DRIVER_ID="SELECT favourite_drivers.F_D_ID," +
+    public static final String DELETE_FAVOURITE_DRIVERS_BY_DRIVER_ID_USER_ID ="DELETE FROM FAVOURITE_DRIVERS WHERE DRIVERS_ID = ? " +
+            "AND USERS_ID=?";
+    public static final String SELECT_FAVOURITE_DRIVERS_INFO_BY_USER_ID_AND_DRIVER_ID="SELECT " +
             "favourite_drivers.DRIVERS_ID, COUNT(ORDERS.RATING), AVG(ORDERS.RATING), FULLNAME.FIRSTNAME, " +
             "FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND\n" +
             "FROM favourite_drivers \n" +
@@ -160,7 +168,7 @@ public class SQLQuery {
             "WHERE favourite_drivers.USERS_ID = ?\n" +
             "GROUP BY favourite_drivers.DRIVERS_ID, FULLNAME.FIRSTNAME, FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND";
 
-    public static final String SELECT_FAVOURITE_ADDRESSES_INFO_BY_USER_ID = "SELECT favourite_addresses.F_A_ID, " +
+    public static final String SELECT_FAVOURITE_ADDRESSES_INFO_BY_USER_ID = "SELECT " +
             "favourite_addresses.USERS_ID,  " +
             "favourite_addresses.ADDRESS, COUNT(ORDERS.ORDERS_ID)\n" +
             "FROM favourite_addresses \n" +
@@ -190,10 +198,12 @@ public class SQLQuery {
     public static final String DELETE_ELITE_RANK="DELETE FROM ELITE_RANKS WHERE E_R_ID = ?";
 
     public static final String INSERT_USER_RANK_ACHIEVEMENT_INFO="INSERT INTO USERS_RANK_ACHIEVEMENT_INFO VALUES(" +
-            "USERS_RANK_ACHIEVEMENT_INFO.SEQUENCE.nextval, ?, ?, ?, ?, ?";
+            "USERS_RANK_ACHIEVEMENT_INFO.SEQUENCE.nextval, ?, ?, ?, ?, ?)";
 
     public static final String SELECT_USER_RANK_ACHIEVEMENT_INFO="SELECT * FROM USERS_RANK_ACHIEVEMENT_INFO";
     public static final String SELECT_USER_RANK_ACHIEVEMENT_INFO_BY_USER_ID="SELECT * FROM USERS_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
+    public static final String SELECT_USER_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID="SELECT * FROM USERS_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=? AND RANKS_ID=?";
+    public static final String SELECT_USER_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID="SELECT * FROM USERS_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=? AND RANKS_ID=?";
 
     public static final String UPDATE_USER_RANK_ACHIEVEMENT_INFO="UPDATE FROM USERS_RANK_ACHIEVEMENT_INFO SET DATE_URI=?," +
             "USERS_ID=?, RANKS_ID=?, NUMBER_OF_USES_SALE=?, DEADLINE_DATE_SALE=? WHERE URI_ID=?";
@@ -205,7 +215,37 @@ public class SQLQuery {
             "USERS_ELITE_RANK_ACHIEVEMENT_INFO.SEQUENCE.nextval, ?, ?, ?, ?, ?, ?";
     public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO="SELECT * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO";
     public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID="SELECT * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
+    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID="SELECT user_elite_rank_achievement_info.UERAI_ID, \n" +
+            "user_elite_rank_achievement_info.DATE_UERAI, \n" +
+            "user_elite_rank_achievement_info.USERS_ID,\n" +
+            "user_elite_rank_achievement_info.E_R_ID,\n" +
+            "user_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
+            "user_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
+            "user_elite_rank_achievement_info.CC_ID\n" +
+            "FROM user_elite_rank_achievement_info\n" +
+            "JOIN USERS\n" +
+            "ON USERS.USERS_ID=user_elite_rank_achievement_info.USERS_ID\n" +
+            "JOIN ELITE_RANKS\n" +
+            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND user_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
+            "WHERE USERS.USERS_ID=? AND USERS.RANKS_ID=?";
 
+    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID="SELECT user_elite_rank_achievement_info.UERAI_ID,\n" +
+            "user_elite_rank_achievement_info.DATE_UERAI,\n" +
+            "user_elite_rank_achievement_info.USERS_ID,\n" +
+            "user_elite_rank_achievement_info.E_R_ID,\n" +
+            "user_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
+            "user_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
+            "user_elite_rank_achievement_info.CC_ID\n" +
+            "FROM user_elite_rank_achievement_info\n" +
+            "JOIN DRIVERS\n" +
+            "ON DRIVERS.DRIVERS_ID=DRIVERS_ID\n" +
+            "JOIN CARS\n" +
+            "ON CARS.CARS_ID=DRIVERS.CARS_ID AND user_elite_rank_achievement_info.CC_ID=CARS.CC_ID\n" +
+            "JOIN USERS\n" +
+            "ON USERS.USERS_ID=user_elite_rank_achievement_info.USERS_ID\n" +
+            "JOIN ELITE_RANKS\n" +
+            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND user_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
+            "WHERE USERS.USERS_ID=? AND USERS.RANKS_ID=? AND DRIVERS_ID=?";
     public static final String UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO="UPDATE FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO SET DATE_UERAI=?," +
             "USERS_ID=?, E_R_ID=?, NUMBER_OF_USES_FREE_ORDER=?, DEADLINE_DATE_FREE_ORDER=?, CC_ID=? WHERE UERAI_ID=?";
 
@@ -219,5 +259,13 @@ public class SQLQuery {
             "JOIN FULLNAME\n" +
             "ON DRIVERS.FULLNAME_ID = FULLNAME.FULLNAME_ID\n" +
             "WHERE DRIVERS.DRIVERS_ID = ?";
+
+    public static final String INSERT_MILITARY_BONUSES="INSERT INTO MILITARY_BONUSES VALUES(" +
+            "MILITARY_BONUSES_SEQUENCE.nextval, ?, ?, ?, ?, ?)";
+    public static final String SELECT_ALL_MILITARY_BONUSES="SELECT * FROM MILITARY_BONUSES";
+    public static final String SELECT_ALL_MILITARY_BONUSES_BY_ID="SELECT * FROM MILITARY_BONUSES WHERE M_B_ID=?";
+    public static final String SELECT_ALL_MILITARY_BONUSES_BY_USER_ID_WITHOUT_PHOTO="SELECT M_B_ID, USERS_ID, STATUS, SALE_VALUE, DATE_M_B FROM MILITARY_BONUSES WHERE USERS_ID=?";
+    public static final String UPDATE_MILITARY_BONUSES="UPDATE FROM MILITARY_BONUSES SET USERS_ID=?, DOCUMENT_PHOTO=?, STATUS=?, SALE_VALUE=?, DATE_M_B=>, WHERE M_B_ID=?";
+    public static final String DELETE_MILITARY_BONUSES="DELETE FROM MILITARY_BONUSES WHERE M_B_ID=?";
 
 }

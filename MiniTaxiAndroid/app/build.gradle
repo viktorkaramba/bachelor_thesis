@@ -5,8 +5,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdk = 33
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
@@ -24,7 +23,7 @@ android {
     defaultConfig {
         applicationId "com.example.minitaxiandroid"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 33
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
@@ -40,26 +39,22 @@ android {
         viewBinding true
     }
 }
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute module('org.hamcrest:hamcrest-core:1.1') with module('junit:junit:4.10')
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'androidx.test.ext:junit:1.1.3'
+    implementation 'androidx.test.ext:junit:1.1.5'
     implementation 'com.android.volley:volley:1.2.1'
-    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'org.awaitility:awaitility:4.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'org.awaitility:awaitility:3.1.6'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
     implementation group: 'org.springframework', name: 'spring-websocket', version: '5.3.23'
@@ -70,4 +65,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.google.android.libraries.places:places:3.0.0'
+    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+    implementation 'com.google.firebase:firebase-database'
 }
+
+apply plugin: 'com.google.gms.google-services'

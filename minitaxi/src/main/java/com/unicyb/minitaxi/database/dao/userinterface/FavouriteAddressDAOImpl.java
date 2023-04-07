@@ -3,7 +3,7 @@ package com.unicyb.minitaxi.database.dao.userinterface;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
-import com.unicyb.minitaxi.entities.usersinfo.FavouriteAddress;
+import com.unicyb.minitaxi.entities.indicators.FavouriteAddress;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.FavouriteAddressUserInfo;
 
 import java.sql.Connection;
@@ -37,8 +37,8 @@ public class FavouriteAddressDAOImpl implements DAO<FavouriteAddress> {
     }
 
     private FavouriteAddressUserInfo getFavouriteAddressUserInfo(ResultSet resultSet) throws SQLException {
-        return new FavouriteAddressUserInfo(resultSet.getInt(1), resultSet.getInt(2),
-                resultSet.getString(3), resultSet.getInt(4));
+        return new FavouriteAddressUserInfo(resultSet.getInt(1),
+                resultSet.getString(2), resultSet.getInt(3));
     }
 
     public List<FavouriteAddressUserInfo> getAllByUserId(int userId){
@@ -93,6 +93,22 @@ public class FavouriteAddressDAOImpl implements DAO<FavouriteAddress> {
             Connection con = DatabaseConnection.initializeDatabase();
             PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_FAVOURITE_ADDRESS);
             statement.setInt(1, ID);
+            statement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteByUserIdAndAddress(int userId, String address) {
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_FAVOURITE_ADDRESS_BY_USER_ID_ADDRESS);
+            statement.setInt(1, userId);
+            statement.setString(2, address);
             statement.executeUpdate();
             con.close();
             return true;

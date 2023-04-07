@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "375890700548",
+    "firebase_url": "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "energy-taxi",
+    "storage_bucket": "energy-taxi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375890700548:android:db0ddeaf033f6d1c098851",
+        "android_client_info": {
+          "package_name": "com.example.minitaxiandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375890700548-fo96q9io7irkstu4r4mokjehi8f6pv3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDURSf4eTqa2VDzoqcKixrDcg8bu_bRPlc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375890700548-fo96q9io7irkstu4r4mokjehi8f6pv3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

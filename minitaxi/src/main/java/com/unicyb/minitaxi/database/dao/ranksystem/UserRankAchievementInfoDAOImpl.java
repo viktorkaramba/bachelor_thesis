@@ -62,6 +62,25 @@ public class UserRankAchievementInfoDAOImpl implements DAO<UserRankAchievementIn
         return null;
     }
 
+    public UserRankAchievementInfo getOneByUserIdAndRankId(int userId, int rankId){
+        UserRankAchievementInfo userRankAchievementInfo = null;
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID);
+            statement.setInt(1, userId);
+            statement.setInt(2, rankId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                userRankAchievementInfo = getUserRankAchievementInfo(resultSet);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return userRankAchievementInfo;
+    }
+
     public UserRankAchievementInfo getOneByUserId(int ID) {
         UserRankAchievementInfo userRankAchievementInfo = null;
         try {

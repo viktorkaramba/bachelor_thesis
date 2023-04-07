@@ -11,7 +11,7 @@ public class DatabaseConnection {
         String DRIVER = "oracle.jdbc.driver.OracleDriver";
         String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
         String dbUsername = "System";
-        String dbPassword = "0961533469Vi";
+        String dbPassword = "karamba614";
         Class.forName(DRIVER);
         Connection con = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
         return con;

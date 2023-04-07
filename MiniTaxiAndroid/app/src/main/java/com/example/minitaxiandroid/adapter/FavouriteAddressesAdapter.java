@@ -13,6 +13,7 @@ import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
 import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
 import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.services.UserLoginInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +49,7 @@ public class FavouriteAddressesAdapter extends RecyclerView.Adapter<FavouriteAdd
         favouriteAddressesHolder.deleteFavouriteAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteAddress(favouriteAddressesUserInfo.getFavouriteAddressId());
+                deleteAddress(favouriteAddressesUserInfo.getAddress());
             }
         });
         favouriteAddressesHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +60,11 @@ public class FavouriteAddressesAdapter extends RecyclerView.Adapter<FavouriteAdd
         });
     }
 
-    private void deleteAddress(int ID) {
+    private void deleteAddress(String address) {
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteAddressApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        String userId = String.valueOf(ID);
-        favouriteAddressApi.deleteFavouriteAddressesUserInfo(userId)
+        String userId = UserLoginInfoService.getProperty("userId");
+        favouriteAddressApi.deleteFavouriteAddressesUserInfo(Integer.valueOf(userId), address)
                 .enqueue(new Callback<Message>() {
                     @Override
                     public void onResponse(Call<Message> call, Response<Message> response) {

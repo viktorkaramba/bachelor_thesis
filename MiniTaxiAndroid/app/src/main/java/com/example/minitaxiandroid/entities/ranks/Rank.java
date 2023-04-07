@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rank {
+    private int rankId;
     private String name;
     private int minOrders;
     private int minComments;

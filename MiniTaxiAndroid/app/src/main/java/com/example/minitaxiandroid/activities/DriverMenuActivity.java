@@ -1,6 +1,8 @@
 package com.example.minitaxiandroid.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,10 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.adapter.OrderInfoProfileAdapter;
+import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.example.minitaxiandroid.entities.messages.OrderInfo;
 import com.example.minitaxiandroid.entities.messages.ResponseMessage;
 import com.example.minitaxiandroid.entities.messages.UserPickCar;
@@ -26,9 +30,10 @@ import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
 import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
 import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
-import com.example.minitaxiandroid.services.DriverInfoService;
-import com.example.minitaxiandroid.services.LocationService;
+import com.example.minitaxiandroid.services.DriverLocationService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -54,9 +59,10 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
     private StompSession stompSession;
     private UserSendDate userSendDate;
     private RecyclerView recyclerView;
-    private String userId;
+    private String driverId;
     private LocationManager locationManager;
-    private LocationService locationService;
+    private DatabaseReference databaseReference;
+    private DriverLocationService driverLocationService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,14 +72,42 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         profileButton = findViewById(R.id.profileButton);
         isOnlineSwitch = findViewById(R.id.isOnlineSwitch);
-        userId = getDate(savedInstanceState, "userId");
+        driverId = getDate(savedInstanceState, "driverId");
         driverCarRec = findViewById(R.id.buttonCarRec);
         driverCarRec.setOnClickListener(view -> goCarRec());
         profileButton.setOnClickListener(view -> goDriverProfile());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
+                "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
+        databaseReference = firebaseDatabase.getReference();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationService = new LocationService(locationManager);
-        DriverInfoService driverInfoService = new DriverInfoService(this, locationService.getCurrentLocation());
-        driverInfoService.driverWaitRequest();
+        driverLocationService = new DriverLocationService(Integer.parseInt(driverId),
+                DRIVER_STATUS.OFFLINE, databaseReference);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 15,
+                driverLocationService);
+        isOnlineSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOnlineSwitch.isChecked()){
+                    setDriverStatus(DRIVER_STATUS.ONLINE);
+                    driverLocationService.setDriverStatus(DRIVER_STATUS.ONLINE);
+                }
+                else {
+                    setDriverStatus(DRIVER_STATUS.OFFLINE);
+                    driverLocationService.setDriverStatus(DRIVER_STATUS.OFFLINE);
+                }
+            }
+        });
+
         getOrders();
 //        new Thread(() -> {
 //            try {
@@ -89,16 +123,33 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
 //        }).start();
     }
 
+    private void setDriverStatus(DRIVER_STATUS driverStatus){
+        String id = "driver-"+1;
+        databaseReference.child("drivers-info").child(id).child("status").
+                setValue(driverStatus.name()).addOnCompleteListener(task -> {
+                    if(task.isComplete()){
+                        Log.d("TAG", "Driver status successfully changed");
+                        Toast.makeText(DriverMenuActivity.this, "Driver status successfully changed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d("TAG", "Error to change driver status");
+                        Toast.makeText(DriverMenuActivity.this,
+                                "Error to change driver status", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     public void goCarRec(){
         Intent intent = new Intent(this, DriverCarRecommendationsActivity.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("driverId", driverId);
         startActivity(intent);
     }
 
     public void getOrders(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi orderInfoProfileApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        orderInfoProfileApi.getOderInfoDriver(userId)
+        orderInfoProfileApi.getOderInfoDriver(driverId)
                 .enqueue(new Callback<List<OrderInfo>>() {
                     @Override
                     public void onResponse(Call<List<OrderInfo>> call, Response<List<OrderInfo>> response) {
@@ -120,8 +171,8 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
 
     private void goDriverProfile() {
         Intent intent = new Intent(DriverMenuActivity.this, DriverProfile.class);
-        System.out.println("id " + userId);
-        intent.putExtra("driverId", userId);
+        System.out.println("id " + driverId);
+        intent.putExtra("driverId", driverId);
         startActivity(intent);
     }
 
@@ -262,7 +313,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
 
     public void goOrderFullInfo(OrderInfo orderInfo){
         Intent intent = new Intent(this, OrderInfoActivity.class);
-        intent.putExtra("driverId",  userId);
+        intent.putExtra("driverId",  driverId);
         intent.putExtra("date", String.valueOf(orderInfo.getDate()));
         intent.putExtra("addressCustomer", orderInfo.getAddressCustomer());
         intent.putExtra("addressDelivery", orderInfo.getAddressDelivery());

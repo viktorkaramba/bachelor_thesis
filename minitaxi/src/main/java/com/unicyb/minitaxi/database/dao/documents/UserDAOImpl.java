@@ -90,6 +90,7 @@ public class UserDAOImpl implements DAO<User> {
             preparedStatement.setInt(1, ID);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
+                userStats.setRankId(resultSet.getInt(3));
                 stats.put(resultSet.getInt(1), resultSet.getString(2));
             }
             userStats.setCountOrders(stats.size());

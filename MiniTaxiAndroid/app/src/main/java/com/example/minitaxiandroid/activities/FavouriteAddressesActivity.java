@@ -55,7 +55,7 @@ public class FavouriteAddressesActivity extends AppCompatActivity implements Sel
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteAddressApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
         String userId = "1";
-        favouriteAddressApi.getFavouriteAddressesUserInfo(userId)
+        favouriteAddressApi.getFavouriteAddressesUserInfo(Integer.valueOf(userId))
                 .enqueue(new Callback<List<FavouriteAddressesUserInfo>>() {
                     @Override
                     public void onResponse(Call<List<FavouriteAddressesUserInfo>> call, Response<List<FavouriteAddressesUserInfo>> response) {

@@ -21,7 +21,7 @@ public class UserController {
     private UserDAOImpl userDAO;
 
     @GetMapping("/users")
-    public ResponseEntity geUsers(){
+    public ResponseEntity getUsers(){
         try {
             userDAO = new UserDAOImpl();
             return ResponseEntity.ok(userDAO.getAll());
@@ -60,4 +60,16 @@ public class UserController {
         userDAO = new UserDAOImpl();
         userDAO.delete(id);
     }
+
+    @GetMapping("/user-stats/{userId}")
+    public ResponseEntity getUsersStats(@PathVariable("userId") int userId){
+        try {
+            userDAO = new UserDAOImpl();
+            return ResponseEntity.ok(userDAO.getUserStats(userId));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Error to get users stats");
+        }
+    }
+
 }

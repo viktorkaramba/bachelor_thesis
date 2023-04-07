@@ -163,6 +163,7 @@ public class UserLoginActivity extends AppCompatActivity {
                 UserLoginInfoService.addProperty("userId",  loginResponseMessage.getUserId());
                 UserLoginInfoService.addProperty("username", userName.getText().toString());
                 UserLoginInfoService.addProperty("password", password.getText().toString());
+                UserLoginInfoService.addProperty("rankId", String.valueOf(loginResponseMessage.getRankId()));
                 startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();

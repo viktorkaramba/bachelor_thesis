@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center|center_vertical|center_horizontal"
-              android:orientation="vertical"
-              tools:visibility="visible">
+              android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:id="@+id/makeOrderConstraintLayout"
+            tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/pick_car_class"
+            android:textSize="24sp"
+            android:layout_margin="10dp"
+            android:id="@+id/makeOrderCarClassTextView"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeOrderCarClassTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:cardElevation="5dp"
@@ -59,8 +78,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:buttonTint="@color/dark_blue"
+                    android:contextClickable="false"
                     android:id="@+id/standardRadioButton"
-                    android:layout_above="@+id/priceStandardTextView" android:minWidth="48dp"/>
+                    android:layout_above="@+id/priceStandardTextView"
+                    android:minWidth="48dp"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -173,11 +194,229 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="@string/your_name"
+            android:ems="10"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/eliteCardView"
+            android:id="@+id/userEditTextTextPersonName"
+            android:autofillHints="Please input your name"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="@string/your_phone"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userEditTextTextPersonName"
+            android:layout_margin="10dp"
+            android:id="@+id/userEditTextPhone"
+            android:autofillHints="Please input your phone"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/sale_bonus"
+            android:textSize="24sp"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            android:id="@+id/makeOrderBonusesTextView"
+            app:layout_constraintTop_toBottomOf="@id/userEditTextPhone"/>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/saleBonusesCardView"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="20dp"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:backgroundTint="@color/light_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeOrderBonusesTextView">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentStart="true"
+                      android:layout_alignParentTop="true"
+                      android:text="@string/user_sale_order"
+                      android:id="@+id/saleBonusesTextView"
+                      android:gravity="center"
+                      android:textSize="20sp"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginStart="10dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_alignBottom="@+id/saleRadioButton"
+            />
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:buttonTint="@color/dark_blue"
+                    android:id="@+id/saleRadioButton"
+                    android:minWidth="48dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+            android:id="@+id/bonusesLinearLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saleBonusesCardView">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/free_order_bonus"
+                android:textSize="24sp"
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:id="@+id/freeOrderBonusesTextView"
+                app:layout_constraintTop_toBottomOf="@id/eliteCardView"/>
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/standardBonusesCardView"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/light_blue">
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentStart="true"
+                          android:layout_alignParentTop="true"
+                          android:text="@string/user_free_order_on_standard"
+                          android:id="@+id/standardBonusesTextView"
+                          android:gravity="center"
+                          android:textSize="20sp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginStart="10dp"
+                          android:layout_marginEnd="10dp"
+                          android:layout_alignBottom="@+id/standardFreeOrdersRadioButton"
+                />
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:buttonTint="@color/dark_blue"
+                        android:id="@+id/standardFreeOrdersRadioButton"
+                        android:minWidth="48dp"
+                        android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/comfortBonusesCardView"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/light_blue">
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentStart="true"
+                          android:layout_alignParentTop="true"
+                          android:text="@string/user_free_order_on_comfort"
+                          android:id="@+id/comfortBonusesTextView"
+                          android:gravity="center"
+                          android:textSize="20sp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginStart="10dp"
+                          android:layout_marginEnd="10dp"
+                          android:layout_alignBottom="@+id/comfortFreeOrdersRadioButton"
+                />
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:buttonTint="@color/dark_blue"
+                        android:id="@+id/comfortFreeOrdersRadioButton"
+                        android:minWidth="48dp"
+                        android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eliteBonusesCardView"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:backgroundTint="@color/light_blue">
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentStart="true"
+                          android:layout_alignParentTop="true"
+                          android:text="@string/user_free_order_on_elite"
+                          android:id="@+id/eliteBonusesTextView"
+                          android:gravity="center"
+                          android:textSize="20sp"
+                          android:layout_marginTop="10dp"
+                          android:layout_marginStart="10dp"
+                          android:layout_marginEnd="10dp"
+                          android:layout_alignBottom="@+id/eliteFreeOrdersRadioButton"
+                />
+                <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:buttonTint="@color/dark_blue"
+                        android:id="@+id/eliteFreeOrdersRadioButton"
+                        android:minWidth="48dp"
+                        android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/eliteCardView"
+            app:layout_constraintTop_toBottomOf="@+id/bonusesLinearLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center">
@@ -200,5 +439,5 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cancelMakeOrderButton"/>
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

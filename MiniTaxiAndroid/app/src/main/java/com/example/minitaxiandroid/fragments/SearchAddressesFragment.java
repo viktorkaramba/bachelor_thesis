@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.activities.MainActivity;
 import com.example.minitaxiandroid.activities.MakeOrderActivity;
+import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -40,10 +41,10 @@ public class SearchAddressesFragment extends Fragment {
     private TextInputLayout searchFromTextInputLayout;
     private TextInputEditText searchToTextInputEditText;
     private TextInputLayout searchToTextInputLayout;
-    private ImageButton favouriteAddressesFromButton;
-    private ImageButton favouriteAddressesToButton;
-    private ImageButton searchAddressToButton;
-    private ImageButton searchAddressFromButton;
+    private TextInputEditText favouriteDriverTextInputEditText;
+    private TextInputLayout  favouriteDriverTextInputLayout;
+    private ImageButton favouriteAddressesFromButton, favouriteAddressesToButton, searchAddressToButton,
+            searchAddressFromButton;
     private ArrayAdapter<String> favouriteAddressesAdapter;
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
@@ -60,7 +61,6 @@ public class SearchAddressesFragment extends Fragment {
     private boolean isCloseTo = false;
     private boolean isPlaceEnable = false;
 
-    @SuppressWarnings("DuplicatedCode")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -78,6 +78,8 @@ public class SearchAddressesFragment extends Fragment {
         searchFromTextInputLayout = view.findViewById(R.id.searchFromTextInputLayout);
         searchToTextInputEditText = view.findViewById(R.id.searchToTextInputEditText);
         searchToTextInputLayout = view.findViewById(R.id.searchToTextInputLayout);
+        favouriteDriverTextInputLayout = view.findViewById(R.id.favouriteDriverTextInputLayout);
+        favouriteDriverTextInputEditText = view.findViewById(R.id.favouriteDriverTextInputEditText);
         if(!Places.isInitialized()){
             Places.initialize(this.getContext(), getResources().getString(R.string.google_maps_key));
         }
@@ -98,7 +100,7 @@ public class SearchAddressesFragment extends Fragment {
                     }
                     else if(result.getResultCode() == RESULT_CANCELED){
                         isCloseFrom = false;
-                        searchFromTextInputLayout.getEditText().clearFocus();
+                        Objects.requireNonNull(searchFromTextInputLayout.getEditText()).clearFocus();
                     }
                 }
         );
@@ -117,44 +119,13 @@ public class SearchAddressesFragment extends Fragment {
                     }
                     else if(result.getResultCode() == RESULT_CANCELED){
                         isCloseTo = false;
-                        searchToTextInputLayout.getEditText().clearFocus();
+                        Objects.requireNonNull(searchToTextInputLayout.getEditText()).clearFocus();
                     }
                 }
         );
-        searchFromTextInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    if(!isCloseFrom){
-                        Intent intent = new Autocomplete.IntentBuilder(
-                                AutocompleteActivityMode.FULLSCREEN, fields)
-                                .setCountry("UA")
-                                .setLocationRestriction(RectangularBounds.newInstance(
-                                        new LatLng(50.1698, 26.1859),
-                                        new LatLng(50.6233, 27.2049)))
-                                .build(SearchAddressesFragment.this.getContext());
-                        if(isPlaceEnable) {
-                            activityResultLauncherFrom.launch(intent);
-                        }
-                        isCloseFrom = true;
-                    }
-                }
-            }
-        });
-        searchFromTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("TextInputLayoutFrom", "TextInputLayoutFrom closed");
-                isCloseFrom = false;
-                searchFromTextInputLayout.getEditText().setText("");
-                searchFromTextInputLayout.getEditText().setFocusableInTouchMode(true);
-                searchFromTextInputLayout.getEditText().clearFocus();
-            }
-        });
-        searchToTextInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b && !isCloseTo) {
+        searchFromTextInputLayout.getEditText().setOnFocusChangeListener((view13, b) -> {
+            if(b) {
+                if(!isCloseFrom){
                     Intent intent = new Autocomplete.IntentBuilder(
                             AutocompleteActivityMode.FULLSCREEN, fields)
                             .setCountry("UA")
@@ -163,28 +134,50 @@ public class SearchAddressesFragment extends Fragment {
                                     new LatLng(50.6233, 27.2049)))
                             .build(SearchAddressesFragment.this.getContext());
                     if(isPlaceEnable) {
-                        activityResultLauncherTo.launch(intent);
+                        activityResultLauncherFrom.launch(intent);
+                        isCloseFrom = true;
                     }
+                }
+            }
+        });
+        searchFromTextInputLayout.setEndIconOnClickListener(view12 -> {
+            Log.d("TextInputLayoutFrom", "TextInputLayoutFrom closed");
+            isCloseFrom = false;
+            searchFromTextInputLayout.getEditText().setText("");
+            searchFromTextInputLayout.getEditText().setFocusableInTouchMode(true);
+            searchFromTextInputLayout.getEditText().clearFocus();
+        });
+        searchToTextInputLayout.getEditText().setOnFocusChangeListener((view1, b) -> {
+            if(b && !isCloseTo) {
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .setCountry("UA")
+                        .setLocationRestriction(RectangularBounds.newInstance(
+                                new LatLng(50.1698, 26.1859),
+                                new LatLng(50.6233, 27.2049)))
+                        .build(SearchAddressesFragment.this.getContext());
+                if(isPlaceEnable) {
+                    activityResultLauncherTo.launch(intent);
                     isCloseTo = true;
                 }
             }
         });
-        searchToTextInputLayout.setEndIconOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("TextInputLayoutTo", "TextInputLayoutTo closed");
-                searchToTextInputLayout.getEditText().setText("");
-                searchToTextInputLayout.getEditText().clearFocus();
-                isCloseTo = false;
-            }
+        searchToTextInputLayout.setEndIconOnClickListener(view14 -> {
+            Log.d("TextInputLayoutTo", "TextInputLayoutTo closed");
+            searchToTextInputLayout.getEditText().setText("");
+            searchToTextInputLayout.getEditText().clearFocus();
+            isCloseTo = false;
         });
+//        favouriteDriverTextInputLayout.getEditText().setOnFocusChangeListener((view15, b) -> {
+//            if(b){
+//                favouriteDriverTextInputLayout.getEditText().setCursorVisible(false);
+//                favouriteDriverTextInputLayout.getEditText().setTextIsSelectable(false);
+//                favouriteDriverTextInputLayout.getEditText().setFocusableInTouchMode(false);
+//                favouriteDriverTextInputLayout.getEditText().clearFocus();
+//            }
+//        });
         orderMainMenuButton = view.findViewById(R.id.orderMainMenuButton);
-        orderMainMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                order();
-            }
-        });
+        orderMainMenuButton.setOnClickListener(view16 -> order());
         if (Objects.equals(message, "From")){
             searchFromTextInputEditText.setText(getArguments().getString("address"));
             searchToTextInputEditText.setText(otherAddress);
@@ -195,33 +188,17 @@ public class SearchAddressesFragment extends Fragment {
         }
         searchAddressFromButton = view.findViewById(R.id.mapSearchFromImageButton);
         searchAddressToButton = view.findViewById(R.id.mapSearchToImageButton);
-        searchAddressFromButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getAddressFromMap("From");
-            }
-        });
-        searchAddressToButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getAddressFromMap("To");
-            }
-        });
+        searchAddressFromButton.setOnClickListener(view17 -> getAddressFromMap("From"));
+        searchAddressToButton.setOnClickListener(view18 -> getAddressFromMap("To"));
         favouriteAddressesFromButton = view.findViewById(R.id.favouriteAddressesFromImageButton);
-        favouriteAddressesFromButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isSearchFrom = true;
-                createFavouriteAddressesListSearchDialog();
-            }
+        favouriteAddressesFromButton.setOnClickListener(view19 -> {
+            isSearchFrom = true;
+            createFavouriteAddressesListSearchDialog();
         });
         favouriteAddressesToButton = view.findViewById(R.id.favouriteAddressesToImageButton);
-        favouriteAddressesToButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isSearchFrom = false;
-                createFavouriteAddressesListSearchDialog();
-            }
+        favouriteAddressesToButton.setOnClickListener(view110 -> {
+            isSearchFrom = false;
+            createFavouriteAddressesListSearchDialog();
         });
         return view;
     }
@@ -238,15 +215,13 @@ public class SearchAddressesFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         }
         else{
-            if(driverId > 0){
-                //TODO
-            }
-            else {
-                Intent intent = new Intent(SearchAddressesFragment.this.getContext(), MakeOrderActivity.class);
-                intent.putExtra("userAddressFrom", placeFrom.getAddress());
-                intent.putExtra("userAddressTo",  placeTo.getAddress());
-                startActivity(intent);
-            }
+            Intent intent = new Intent(SearchAddressesFragment.this.getContext(), MakeOrderActivity.class);
+            intent.putExtra("userAddressFrom", placeFrom.getAddress());
+            intent.putExtra("userAddressTo",  placeTo.getAddress());
+            intent.putExtra("latitude",  placeTo.getLatLng().latitude);
+            intent.putExtra("longitude",  placeTo.getLatLng().longitude);
+            intent.putExtra("driverId",  placeTo.getLatLng().longitude);
+            startActivity(intent);
         }
     }
 
@@ -282,19 +257,32 @@ public class SearchAddressesFragment extends Fragment {
         favouriteAddressesAdapter = new ArrayAdapter<>(SearchAddressesFragment.this.getContext(),
                 android.R.layout.simple_list_item_1, activity.getFavouriteAddressesList());
         favouriteAddressesListView.setAdapter(favouriteAddressesAdapter);
-        favouriteAddressesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String address = String.valueOf(adapterView.getAdapter().getItem(i));
-                if (isSearchFrom){
-                    searchFromTextInputEditText.setText(address);
-                }
-                else {
-                    searchToTextInputEditText.setText(address);
-                }
-                dialog.dismiss();
+        favouriteAddressesListView.setOnItemClickListener((adapterView, view, i, l) -> {
+            String address = String.valueOf(adapterView.getAdapter().getItem(i));
+            if (isSearchFrom){
+                searchFromTextInputEditText.setText(address);
             }
+            else {
+                searchToTextInputEditText.setText(address);
+            }
+            dialog.dismiss();
         });
     }
 
+    public void setFavouriteDriver(DriverInfo driverInfo){
+        String name = driverInfo.getDriverFirstName() + " " + driverInfo.getDriverSurName();
+        driverId = driverInfo.getDriverId();
+        favouriteDriverTextInputEditText.setText(name);
+        favouriteDriverTextInputLayout.setEndIconVisible(true);
+        favouriteDriverTextInputLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+        favouriteDriverTextInputLayout.setEndIconOnClickListener(view -> {
+            Log.d("TextInputLayoutTo", "TextInputLayoutTo closed");
+            favouriteDriverTextInputLayout.getEditText().setText(getResources().getString(R.string.pick_favourite_driver_text));
+            favouriteDriverTextInputLayout.getEditText().clearFocus();
+            favouriteDriverTextInputLayout.setEndIconVisible(false);
+            favouriteDriverTextInputEditText.setTextSize(14);
+            driverId = 0;
+        });
+        favouriteDriverTextInputEditText.setTextSize(20);
+    }
 }

@@ -18,6 +18,7 @@ import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
 import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
 import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.services.UserLoginInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,8 +54,8 @@ public class FavouriteDriversActivity extends AppCompatActivity implements Selec
     public void getFavouritesDrivers(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteDriversApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        String userId = "1";
-        favouriteDriversApi.getFavouriteDriverUserInfo(userId)
+        String userId = UserLoginInfoService.getProperty("userId");
+        favouriteDriversApi.getFavouriteDriverUserInfo(Integer.valueOf(userId))
                 .enqueue(new Callback<List<FavouriteDriverUserInfo>>() {
                     @Override
                     public void onResponse(Call<List<FavouriteDriverUserInfo>> call, Response<List<FavouriteDriverUserInfo>> response) {

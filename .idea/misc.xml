@@ -21,7 +21,7 @@
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_make_order.xml" value="0.264" />
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_maps.xml" value="0.176" />
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_order_info.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_ranks_info.xml" value="0.25943646996278574" />
+        <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_ranks_info.xml" value="0.2" />
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_set_rating.xml" value="0.264" />
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_login.xml" value="0.264" />
         <entry key="..\:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/layout/activity_user_order_history.xml" value="0.2" />
@@ -68,6 +68,9 @@
   <component name="PWA">
     <option name="enabled" value="true" />
     <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectResources">
+    <resource url="http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" location="$PROJECT_DIR$" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="temurin-11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/../MiniTaxiAndroid/build/classes" />

@@ -13,6 +13,7 @@ import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
 import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
 import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.services.UserLoginInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +59,7 @@ public class FavouriteDriversAdapter extends RecyclerView.Adapter<FavouriteDrive
         favouriteDriversHolder.deleteFavouriteDriverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteDriver(favouriteDriverUserInfo.getFavouriteDriverId());
+                deleteDriver(favouriteDriverUserInfo.getDriverId());
             }
         });
         favouriteDriversHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
@@ -72,8 +73,8 @@ public class FavouriteDriversAdapter extends RecyclerView.Adapter<FavouriteDrive
     private void deleteDriver(int ID) {
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteDriversApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        String userId = String.valueOf(ID);
-        favouriteDriversApi.deleteFavouriteDriverUserInfo(userId)
+        Integer userId = Integer.valueOf(UserLoginInfoService.getProperty("userId"));
+        favouriteDriversApi.deleteFavouriteDriverUserInfo(userId, ID)
                 .enqueue(new Callback<Message>() {
                     @Override
                     public void onResponse(Call<Message> call, Response<Message> response) {

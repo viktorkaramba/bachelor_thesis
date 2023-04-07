@@ -2,6 +2,7 @@ package com.example.minitaxiandroid.services;
 
 import com.example.minitaxiandroid.entities.ROLE;
 import com.example.minitaxiandroid.entities.User;
+import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.example.minitaxiandroid.entities.login.LoginResponseMessage;
 import com.example.minitaxiandroid.entities.messages.*;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
@@ -22,8 +23,8 @@ public class ObjectParserService {
         final JSONObject obj = new JSONObject(s);
         return new DriverInfo(obj.getInt("driverId"), obj.getString("driverFirstName"),
                 obj.getString("driverSurName"), obj.getString("carProducer"),
-                obj.getString("carBrand"), obj.getString("inOrder"),
-                obj.getString("latitude"), obj.getString("longitude"));
+                obj.getString("carBrand"), obj.getDouble("latitude"),
+                obj.getDouble("longitude"), DRIVER_STATUS.valueOf(obj.getString("status")));
     }
 
     public static PriceByClass parsePriceByClassFromString(String s) throws Exception {
@@ -61,7 +62,7 @@ public class ObjectParserService {
 
     public static LoginResponseMessage parseLoginMessageFromString(String s) throws Exception{
         final JSONObject obj = new JSONObject(s);
-        return new LoginResponseMessage(obj.getString("userId"), ROLE.valueOf(obj.getString("role")));
+        return new LoginResponseMessage(obj.getString("userId"), ROLE.valueOf(obj.getString("role")), obj.getInt("rankId"));
     }
 
     public static Message parseMessageFromString(String s) throws Exception{

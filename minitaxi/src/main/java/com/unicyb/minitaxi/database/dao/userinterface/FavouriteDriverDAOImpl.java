@@ -3,7 +3,7 @@ package com.unicyb.minitaxi.database.dao.userinterface;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
-import com.unicyb.minitaxi.entities.usersinfo.FavouriteDriver;
+import com.unicyb.minitaxi.entities.indicators.FavouriteDriver;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.FavouriteDriverUserInfo;
 
 import java.sql.Connection;
@@ -34,12 +34,12 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
 
     private FavouriteDriverUserInfo getFavouriteDriverUserInfo(ResultSet resultSet) throws SQLException {
         return new FavouriteDriverUserInfo(resultSet.getInt(1), resultSet.getInt(2),
-                resultSet.getInt(3), resultSet.getFloat(4), resultSet.getString(5),
-                resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
+                resultSet.getFloat(3), resultSet.getString(4), resultSet.getString(5),
+                resultSet.getString(6), resultSet.getString(7));
     }
 
     public List<FavouriteDriverUserInfo> getAllByUserId(int userId){
-        List<FavouriteDriverUserInfo> FavouriteDriverUserInfoList = new ArrayList<>();
+        List<FavouriteDriverUserInfo> favouriteDriverUserInfoList = new ArrayList<>();
         try {
             Connection connection = DatabaseConnection.initializeDatabase();
             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_FAVOURITE_DRIVERS_INFO_BY_USER_ID_AND_DRIVER_ID);
@@ -47,13 +47,13 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 FavouriteDriverUserInfo favouriteDriverUserInfo = getFavouriteDriverUserInfo(resultSet);
-                FavouriteDriverUserInfoList.add(favouriteDriverUserInfo);
+                favouriteDriverUserInfoList.add(favouriteDriverUserInfo);
             }
             connection.close();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return FavouriteDriverUserInfoList;
+        return favouriteDriverUserInfoList;
     }
 
     @Override
@@ -90,6 +90,22 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
             Connection con = DatabaseConnection.initializeDatabase();
             PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_FAVOURITE_DRIVERS);
             statement.setInt(1, ID);
+            statement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteByUserId(int driverId, int userId){
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_FAVOURITE_DRIVERS_BY_DRIVER_ID_USER_ID);
+            statement.setInt(1, driverId);
+            statement.setInt(1, userId);
             statement.executeUpdate();
             con.close();
             return true;
