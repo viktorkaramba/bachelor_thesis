@@ -14,8 +14,8 @@ import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.activities.MainActivity;
 import com.example.minitaxiandroid.entities.messages.Message;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteAddress;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.services.UserLoginInfoService;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -32,7 +32,8 @@ public class SearchAddressOnMapFragment extends Fragment {
     private LikeButton addressMapLikeButton;
     private MainActivity activity;
     private String message;
-    private String otherAddress;
+    private String otherAddress = "";
+    private String favouriteDriver = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +46,7 @@ public class SearchAddressOnMapFragment extends Fragment {
         if (getArguments()!=null) {
             message = getArguments().getString("messageFrom");
             otherAddress = getArguments().getString("otherAddress");
+            favouriteDriver = getArguments().getString("favouriteDriver");
         }
         selectedAddressOnMapText = view.findViewById(R.id.selectedAddressOnMapText);
         applyAddressOnMapButton = view.findViewById(R.id.applyAddressOnMapButton);
@@ -70,7 +72,13 @@ public class SearchAddressOnMapFragment extends Fragment {
         applyAddressOnMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                applyAddress();
+                if(selectedAddressOnMapText.getText().equals(getResources().
+                        getString(R.string.click_tos_select_address_map))){
+                    Toast.makeText(activity.getApplicationContext(), "You dont select a address", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    applyAddress();
+                }
             }
         });
         return view;
@@ -130,6 +138,7 @@ public class SearchAddressOnMapFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("messageTo", message);
         bundle.putString("otherAddress", otherAddress);
+        bundle.putString("favouriteDriver", favouriteDriver);
         bundle.putString("address", selectedAddressOnMapText.getText().toString());
         SearchAddressesFragment searchAddressesFragment = new SearchAddressesFragment();
         searchAddressesFragment.setArguments(bundle);
@@ -142,6 +151,7 @@ public class SearchAddressOnMapFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("messageTo", message);
         bundle.putString("otherAddress", otherAddress);
+        bundle.putString("favouriteDriver", favouriteDriver);
         SearchAddressesFragment searchAddressesFragment = new SearchAddressesFragment();
         searchAddressesFragment.setArguments(bundle);
         replaceFragment(searchAddressesFragment);

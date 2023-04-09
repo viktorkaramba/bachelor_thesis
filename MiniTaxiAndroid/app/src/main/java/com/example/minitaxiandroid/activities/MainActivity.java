@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,14 +29,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import com.example.minitaxiandroid.R;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
 import com.example.minitaxiandroid.fragments.SearchAddressOnMapFragment;
 import com.example.minitaxiandroid.fragments.SearchAddressesFragment;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
 import com.example.minitaxiandroid.services.UserLocationService;
 import com.example.minitaxiandroid.services.UserLoginInfoService;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -67,16 +66,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment fragment;
     private SupportMapFragment mapFragment;
     private LocationManager locationManager;
-    private UserLocationService locationService;
+    private UserLocationService userLocationService;
     private boolean isMapFragment = false;
     private Marker markerForAddressPick;
     private ArrayList<String> favouriteAddressesList;
     private List<FavouriteDriverUserInfo> favouriteDriverUserInfoList;
     private DatabaseReference databaseReference;
     private static Map<Marker, DriverInfo> driverMarkerMap;
+
     public boolean isMapFragment() {
         return isMapFragment;
     }
+
     public void setMapFragment(boolean mapFragment) {
         isMapFragment = mapFragment;
     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},
                 PackageManager.PERMISSION_GRANTED);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_views);
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentContainerView = findViewById(R.id.fragmentContainerView);
         setSupportActionBar(toolbar);
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle  = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
         databaseReference = firebaseDatabase.getReference();
         getFavouriteDriverUserInfoRequest();
+
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorId){
@@ -181,9 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         uidRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-//                DriverInfo driverInfo = snapshot.getValue(DriverInfo.class);
-//                Log.d("TAG", driverInfo.getDriverFirstName());
-//                setDriverOnMap(driverInfo);
+
             }
 
             @Override
@@ -255,6 +255,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent fav_drivers_intent = new Intent(MainActivity.this, FavouriteDriversActivity.class);
                 startActivity(fav_drivers_intent);
                 break;
+            case R.id.nav_help:
+                Intent help_intent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(help_intent);
+                break;
         }
         return true;
     }
@@ -273,29 +277,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng newLatLng = new LatLng(UserLocationService.DEFAULT_LOCATION.latitude,
-                UserLocationService.DEFAULT_LOCATION.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.setOnMyLocationClickListener(new GoogleMap.OnMyLocationClickListener() {
-            @Override
-            public void onMyLocationClick(@NonNull Location location) {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        userLocationService = new UserLocationService();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 15,
+                userLocationService);
+        boolean isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(isGPSEnable){
+            locationManager.getCurrentLocation(
+                    LocationManager.GPS_PROVIDER,
+                    null,
+                    getMainExecutor(),
+                    location -> {
+                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                        userLocationService.setCurrentLocation(latLng);
+                        setAddressUserInSearchForm(getAddressName(latLng));
+                    });
+        }
+        else{
+            LatLng newLatLng = new LatLng(UserLocationService.DEFAULT_LOCATION.latitude,
+                    UserLocationService.DEFAULT_LOCATION.longitude);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
+        }
+        mMap.setOnMyLocationButtonClickListener(() -> {
+            if (mapFragment.getView().isClickable()) {
+                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
+                        userLocationService.getCurrentLocation().longitude);
+                addText(getAddressName(latLng));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                setFragment();
+                if (checkIsFavourite(getAddressName(latLng))) {
+                    setLike();
+                } else {
+                    setLikeVisible();
+                }
             }
-        });
-        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-
-                return false;
+            else{
+                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
+                        userLocationService.getCurrentLocation().longitude);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                userLocationService.setCurrentLocation(latLng);
+                setAddressUserInSearchForm(getAddressName(latLng));
             }
+            return false;
         });
         mMap.setOnMapClickListener(latLng -> {
             if (mapFragment.getView().isClickable()){
+                setFragment();
                 addAddressMarker(latLng);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                setFragment();
                 addText(getAddressName(latLng));
                 if(checkIsFavourite(getAddressName(latLng))){
                     setLike();
@@ -306,10 +344,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         mMap.setOnMarkerClickListener(marker -> {
-            if(driverMarkerMap.containsKey(marker)){
-                DriverInfo driverInfo = driverMarkerMap.get(marker);
-                if(checkIsFavouriteDriver(driverInfo)) {
-                    setFavouriteDriver(driverInfo);
+            if (!mapFragment.getView().isClickable()) {
+                System.out.println("Yes");
+                if (driverMarkerMap.containsKey(marker)) {
+                    DriverInfo driverInfo = driverMarkerMap.get(marker);
+                    if (!driverInfo.getStatus().equals(DRIVER_STATUS.IN_ORDER)) {
+                        if (checkIsFavouriteDriver(driverInfo)) {
+                            setFavouriteDriver(driverInfo);
+                        }
+                    }
                 }
             }
             return false;
@@ -336,6 +379,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void setAddressUserInSearchForm(String address){
+        if (fragment instanceof SearchAddressesFragment){
+            SearchAddressesFragment searchAddressesFragment = (SearchAddressesFragment)fragment;
+            searchAddressesFragment.setAddressUserInSearchForm(address);
+        }
+        else {
+            Log.d("fragment not SearchAddressOnMapFragment",
+                    "in setLike fragment not SearchAddressOnMapFragment");
+        }
+    }
     private void setLike() {
         if (fragment instanceof SearchAddressOnMapFragment){
             SearchAddressOnMapFragment searchAddressOnMapFragment = (SearchAddressOnMapFragment)fragment;

@@ -22,7 +22,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.minitaxiandroid"
-        minSdkVersion 26
+        minSdkVersion 30
         targetSdkVersion 33
         multiDexEnabled true
         versionCode 1
@@ -38,6 +38,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -47,6 +51,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.test.ext:junit:1.1.5'
     implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -67,6 +73,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:3.0.0'
     implementation platform('com.google.firebase:firebase-bom:31.4.0')
     implementation 'com.google.firebase:firebase-database'
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

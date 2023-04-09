@@ -49,10 +49,4 @@ public class DistanceMatrixAPi {
         return result.get("value").toString();
     }
 
-    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
-        DistanceMatrixAPi distanceMatrixAPi = new DistanceMatrixAPi(
-                "Budivelnykiv St, 7, Netishyn, Khmel'nyts'ka oblast, 30100",
-                "Vul. Pryvokzalʹna, Staryi Kryvyn, Khmel'nyts'ka oblast, 30063");
-        System.out.println(distanceMatrixAPi.getDistance());
-    }
 }

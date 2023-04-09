@@ -4,16 +4,28 @@
 		xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingBottom="20dp"
+		android:background="@drawable/card_view_border_reverse"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/favouriteAddressRecycleView">
 
 	<androidx.cardview.widget.CardView
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:background="@drawable/card_view_border_reverse"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintBottom_toBottomOf="@+id/deleteFavouriteAddressButton"
+			app:layout_constraintEnd_toStartOf="@+id/deleteFavouriteAddressButton"
 			app:cardElevation="0dp"
+			app:cardBackgroundColor="@color/light_blue"
+			android:layout_marginStart="10dp"
+			android:layout_marginEnd="10dp"
 			android:id="@+id/cardView">
+		<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="@drawable/card_view_border_reverse"
+		>
 			<TextView
 					android:id="@+id/favouriteAddressesName"
 					android:text="@string/adderess"
@@ -21,9 +33,11 @@
 					android:layout_height="wrap_content"
 					android:layout_alignParentStart="true"
 					android:layout_alignParentTop="true"
-					android:layout_margin="10dp"
 					android:textSize="16sp"
-			/>
+					android:layout_marginTop="10dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"/>
+		</RelativeLayout>
+
 	</androidx.cardview.widget.CardView>
 	<TextView
 			android:id="@+id/favouriteAddressesCountOrders"
@@ -32,6 +46,7 @@
 			android:layout_height="wrap_content"
 			app:layout_constraintTop_toTopOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="@+id/deleteFavouriteAddressButton"
 			app:layout_constraintBottom_toTopOf="@+id/deleteFavouriteAddressButton"
 			android:textSize="16sp"
 			android:layout_margin="10dp"
@@ -40,7 +55,8 @@
 			android:text="@string/delete"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:background="@drawable/roundcorner"
+			android:textColor="@color/light_blue"
+			android:background="@drawable/roundcorner_button"
 			app:layout_constraintTop_toBottomOf="@+id/favouriteAddressesCountOrders"
 			app:layout_constraintEnd_toEndOf="parent"
 			android:id="@+id/deleteFavouriteAddressButton"

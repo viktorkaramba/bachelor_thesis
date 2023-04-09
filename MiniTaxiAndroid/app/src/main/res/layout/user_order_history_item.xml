@@ -4,8 +4,8 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-
 		xmlns:app="http://schemas.android.com/apk/res-auto"
+
 		android:id="@+id/userOrderHistoryRecycleView">
 
 	<LinearLayout
@@ -16,6 +16,7 @@
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintEnd_toEndOf="parent">
 		<androidx.cardview.widget.CardView
+				android:backgroundTint="@color/dark_blue"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_weight="2"
@@ -23,6 +24,7 @@
 				android:layout_margin="5dp"
 				app:cardCornerRadius="15dp">
 			<RelativeLayout
+					android:background="@drawable/card_view_border_reverse"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">
 				<TextView
@@ -32,8 +34,8 @@
 						android:id="@+id/userOrderHistoryDriverName"
 						android:layout_alignParentTop="true"
 						android:layout_alignParentStart="true"
-						android:layout_margin="10dp"
-				/>
+						android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
 				<TextView
 						android:text="@string/unknown"
 						android:layout_width="wrap_content"
@@ -52,14 +54,14 @@
 						android:layout_alignParentStart="true"
 						android:id="@+id/userOrderHistoryOrderAddress"
 						android:layout_below="@+id/userOrderHistoryDriverName"
-						android:layout_marginLeft="10dp"
+						android:layout_marginStart="10dp"
 						android:layout_marginTop="25dp"/>
 				<TextView
 						android:text="@string/unknown"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_alignParentStart="true"
-						android:layout_marginLeft="10dp"
+						android:layout_marginStart="10dp"
 						android:layout_marginTop="20dp"
 						android:id="@+id/userOrderHistoryDeliveryAddress"
 						android:layout_below="@+id/userOrderHistoryOrderAddress"
@@ -68,12 +70,13 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_alignParentStart="true"
-						android:layout_marginLeft="10dp"
+						android:layout_marginStart="10dp"
 						android:layout_marginTop="20dp"
 						android:id="@+id/userOrderHistoryRating"
-						android:progressBackgroundTint="@color/dark_blue"
+						android:progressBackgroundTint="@color/white"
 						android:layout_below="@+id/userOrderHistoryDeliveryAddress"
-						tools:ignore="SpeakableTextPresentCheck" android:progressTint="@color/light_blue"/>
+						tools:ignore="SpeakableTextPresentCheck"
+						android:progressTint="@color/dark_blue"/>
 
 				<TextView
 						android:text="@string/unknown"
@@ -81,7 +84,7 @@
 						android:layout_height="wrap_content"
 						android:layout_alignParentStart="true"
 						android:layout_below="@+id/userOrderHistoryRating"
-						android:layout_marginLeft="10dp"
+						android:layout_marginStart="10dp"
 						android:layout_marginTop="15dp"
 						android:layout_marginBottom="10dp"
 						android:id="@+id/userOrderHistoryPrice"/>

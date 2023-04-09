@@ -12,13 +12,11 @@ import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.document.DriverRecAnswer;
 import com.example.minitaxiandroid.entities.messages.CarRecommendationInfo;
 import com.example.minitaxiandroid.entities.messages.Message;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.Objects;
 
 public class CarRecFragment extends Fragment {
 
@@ -67,12 +65,12 @@ public class CarRecFragment extends Fragment {
 
     private void accept() {
         setAnswer("Yes");
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void reject() {
         setAnswer("No");
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void setAnswer(String answer){

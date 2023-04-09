@@ -15,9 +15,9 @@ import com.example.minitaxiandroid.entities.messages.UserPickCar;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
-import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.api.SelectListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +54,7 @@ public class FavouriteAddressesActivity extends AppCompatActivity implements Sel
     public void getFavouritesAddresses(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteAddressApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        //TODO
         String userId = "1";
         favouriteAddressApi.getFavouriteAddressesUserInfo(Integer.valueOf(userId))
                 .enqueue(new Callback<List<FavouriteAddressesUserInfo>>() {

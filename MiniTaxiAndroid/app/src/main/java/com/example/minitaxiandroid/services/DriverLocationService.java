@@ -15,7 +15,7 @@ public class DriverLocationService implements LocationListener {
 
     private LatLng currentLocation;
 
-    private int driverId;
+    private int driverId = 0;
 
     private DRIVER_STATUS driverStatus;
 
@@ -32,7 +32,7 @@ public class DriverLocationService implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        if(driverStatus.equals(DRIVER_STATUS.ONLINE)){
+        if(driverStatus.equals(DRIVER_STATUS.ONLINE) || driverStatus.equals(DRIVER_STATUS.IN_ORDER)){
             String id = "driver-" + driverId;
             Map<String, Object> childUpdates = new HashMap<>();
             childUpdates.put("drivers-info/"+ id +"/latitude", location.getLatitude());
@@ -43,21 +43,5 @@ public class DriverLocationService implements LocationListener {
                 Log.d("TAG DRIVER LOCATION", "Error to change driver location");
             });
         }
-    }
-
-    public LatLng getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(LatLng currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
-    }
-
-    public void setDatabaseReference(DatabaseReference databaseReference) {
-        this.databaseReference = databaseReference;
     }
 }

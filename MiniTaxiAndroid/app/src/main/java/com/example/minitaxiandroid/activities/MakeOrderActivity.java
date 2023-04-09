@@ -20,8 +20,8 @@ import com.example.minitaxiandroid.entities.ranks.Rank;
 import com.example.minitaxiandroid.entities.ranks.UserEliteRankAchievementInfo;
 import com.example.minitaxiandroid.entities.ranks.UserRankAchievementInfo;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.services.GFG;
 import com.example.minitaxiandroid.services.UserLoginInfoService;
 import com.example.minitaxiandroid.websocket.WebSocketClient;
@@ -42,7 +42,6 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.minitaxiandroid.services.ObjectParserService.parseResponseMessageFromString;
 
-;
 
 public class MakeOrderActivity extends AppCompatActivity {
     private Button makeOrderButton, cancelMakeOrderButton;
@@ -56,6 +55,7 @@ public class MakeOrderActivity extends AppCompatActivity {
     private String userId, userAddressFrom, userAddressTo, latitude, longitude;
     private Rank userRank;
     private int driverId;
+    private float distance;
     private int classId;
     private StompSession stompSession;
     private DatabaseReference databaseReference;
@@ -83,8 +83,8 @@ public class MakeOrderActivity extends AppCompatActivity {
         userAddressTo = getDate(savedInstanceState, "userAddressTo");
         latitude = getDate(savedInstanceState, "latitude");
         longitude = getDate(savedInstanceState, "longitude");
-//        driverId = Integer.parseInt(getDate(savedInstanceState, "driverId"));
-        driverId = 0;
+        driverId = Integer.parseInt(getDate(savedInstanceState, "driverId"));
+        distance = Float.parseFloat(getDate(savedInstanceState, "distance"));
         UserLoginInfoService.init(MakeOrderActivity.this);
         UserLoginInfoService.addProperty("userId", "1");
         UserLoginInfoService.addProperty("rankId", "6");
@@ -95,7 +95,8 @@ public class MakeOrderActivity extends AppCompatActivity {
         makeOrderButton.setOnClickListener(view -> {
             makeOrder();
         });
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
+                "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
         databaseReference = firebaseDatabase.getReference();
         cancelMakeOrderButton.setOnClickListener(view -> goMain());
     }
@@ -119,8 +120,8 @@ public class MakeOrderActivity extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             DriverInfo driverInfo = ds.getValue(DriverInfo.class);
                             double currentDistance = GFG.distance(driverInfo.getLatitude(),
-                                    Double.parseDouble("50.1"), driverInfo.getLongitude(),
-                                    Double.parseDouble("24.4"));
+                                    Double.parseDouble(latitude), driverInfo.getLongitude(),
+                                    Double.parseDouble(longitude));
                             if (minDistance > currentDistance) {
                                 minDistance = currentDistance;
                                 nearestDriver = driverInfo;
@@ -605,8 +606,6 @@ public class MakeOrderActivity extends AppCompatActivity {
 //            dialog.dismiss();
             finish();
         }, 5000);
-        Intent intent = new Intent(MakeOrderActivity.this, UserOrderHistoryActivity.class);
-        intent.putExtra("userId", userId);
     }
 
     public void sendUserDateMessage(StompSession stompSession, UserSendDate userSendDate) {

@@ -29,6 +29,7 @@
 			android:backgroundTint="@color/dark_blue"
 			tools:ignore="SpeakableTextPresentCheck"/>
 	<androidx.recyclerview.widget.RecyclerView
+			android:background="@drawable/main_background"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
 			android:id="@+id/favouriteDriversList"

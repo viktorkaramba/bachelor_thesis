@@ -8,14 +8,26 @@ android:id="@+id/user_reject_response_layout"
 
 	<LinearLayout
 			android:orientation="vertical"
+			android:background="@drawable/card_view_borders"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:gravity="center">
+			android:layout_height="wrap_content"
+			android:gravity="center">
 		<ImageView
-				android:layout_width="48dp"
-				android:layout_height="48dp" app:srcCompat="@mipmap/ic_reject" android:id="@+id/driverRejectImageView"/>
-		<TextView
-				android:text="Sorry, driver reject your order"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/driverRejectTextView"/>
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				app:srcCompat="@mipmap/reject_png_icon"
+				android:id="@+id/driverRejectImageView"/>
+		<TextView
+				android:text="@string/sorry_driver_reject_your_order"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="10dp"
+				android:layout_marginEnd="10dp"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:gravity="center"
+				android:textColor="@color/light_blue"
+				android:id="@+id/driverRejectTextView"/>
 	</LinearLayout>
 </RelativeLayout>

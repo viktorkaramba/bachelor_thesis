@@ -4,7 +4,7 @@
 	<string name="address_delivery">Delivery address</string>
 	<string name="customer_telephone_number">Your telephone number</string>
 	<string name="button_order">Order</string>
-	<string name="rating_message">Please rate the work of the driver</string>
+	<string name="rating_message">Please rate the driver</string>
 	<string name="your_work_experience_in_driving">Your work experience in driving(in years)</string>
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 	<string name="waiting_driver_response">Waiting for driver response</string>
@@ -45,7 +45,7 @@
 	<string name="from">From</string>
 	<string name="to">To</string>
 	<string name="order">Order</string>
-	<string name="please_select_address_from_toast_text">Please select address from </string>
+	<string name="please_select_address_from_toast_text">Please select address from</string>
 	<string name="please_select_address_to_toast_text">Please select address to</string>
 	<string name="orders">Orders</string>
 	<string name="comments">Comments</string>
@@ -62,9 +62,13 @@
 	<string name="load_document">Load Document</string>
 	<string name="failed_delete_document">Failed to delete your document</string>
 	<string name="failed_get_military_bonuses">Failed to get military bonuses</string>
-	<string name="military_bonuses_notice">If you are a member of the armed forces and have a document that proves it, you can show it to us and get a discount on every trip forever value of</string>
-	<string name="military_bonuses_waiting_notice">Please wait until admin confirm your document, and you will get sale</string>
-	<string name="military_bonuses_complete_notice">Please wait until admin confirm your document, and you will get sale</string>
+	<string name="military_bonuses_notice">If you are a member of the armed forces and have a document that proves it,
+		you can show it to us and get a discount on every trip forever value of
+	</string>
+	<string name="military_bonuses_waiting_notice">Please wait until admin confirm your document, and you will get
+		sale
+	</string>
+	<string name="military_bonuses_complete_notice">Your document confirmed, so you have sale on each order</string>
 	<string name="military_bonuses_delete_button">Delete Document</string>
 	<string name="military_bonuses_delete_notice">Your document deleted and you will never have a sale</string>
 	<string name="user_sale_order">Use sale on order</string>
@@ -78,4 +82,58 @@
 	<string name="your_name">Your name</string>
 	<string name="please_enter_phone">Please enter your phone number so that the driver can contact you</string>
 	<string name="error_find_driver">Error starting driver search</string>
+	<string name="evaluate">Evaluate</string>
+	<string name="please_leave_a_comment">Please leave a comment</string>
+	<string name="rating">Rating</string>
+	<string name="date">Date</string>
+	<string name="price">Price</string>
+	<string name="number_of_kilometers">Number of kilometers</string>
+	<string name="profile">Profile</string>
+	<string name="fullname">Fullname</string>
+	<string name="car">Car</string>
+	<string name="experience">Experience</string>
+	<string name="salary">Salary</string>
+	<string name="back">back</string>
+	<string name="complete_order">Complete order</string>
+	<string name="order_info">Order Info</string>
+	<string name="customer_name">Customer Name</string>
+	<string name="customer_address">Customer Address</string>
+	<string name="delivery_address">Delivery Address</string>
+	<string name="customer_telephone_number_current_order">Customer Telephone Number</string>
+	<string name="no_recommendations">No Recommendations</string>
+	<string name="accept">Accept</string>
+	<string name="reject">Reject</string>
+	<string name="recommended_car">Recommended Car</string>
+	<string name="car_class">Car Class</string>
+	<string name="price_per_kilometer">Price Per Kilometer</string>
+	<string name="new_salary">New Salary</string>
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="register_as_user">Register as User</string>
+	<string name="register_as_driver">Register as driver</string>
+	<string name="log_in">Login</string>
+	<string name="login_as_a_driver">Login as a driver</string>
+	<string name="energy_taxi">Energy Taxi</string>
+	<string name="register">Register</string>
+	<string name="resume">Resume</string>
+	<string name="send">Send</string>
+	<string name="first_name">First Name</string>
+	<string name="surname">Surname</string>
+	<string name="patronymic">Patronymic</string>
+	<string name="telephone_number">Telephone Number</string>
+	<string name="experience_in_years">Experience (in years)</string>
+	<string name="energytaxilogo">EnergyTaxiLogo</string>
+	<string name="registration">Registration</string>
+	<string name="driver_accept_your_order">Driver accept your order</string>
+	<string name="sorry_driver_reject_your_order">Sorry, driver reject your order</string>
+	<string name="error_to_get_distance">Error to get distance</string>
+	<string name="distance_is_to_short">Distance between your source and destination is to small</string>
+	<string name="distance_is_to_long">Distance between your source and destination is to long</string>
+	<string name="contact_us">Contact Us</string>
+	<string name="call">Call</string>
+	<string name="email">Email</string>
+	<string name="xxx_xxx_xxx_xxx">XXX-XXX-XXX-XXX</string>
+	<string name="energytaxihelp_gmail_com">energytaxihelp@gmail.com</string>
+	<string name="telegram">Telegram</string>
+	<string name="t_me_energytaxihelp">t.me/energytaxihelp</string>
 </resources>

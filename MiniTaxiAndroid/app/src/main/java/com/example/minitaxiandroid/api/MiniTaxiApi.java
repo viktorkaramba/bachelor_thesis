@@ -1,4 +1,4 @@
-package com.example.minitaxiandroid.retrofit;
+package com.example.minitaxiandroid.api;
 
 import com.example.minitaxiandroid.entities.User;
 import com.example.minitaxiandroid.entities.bonuses.MilitaryBonuses;
@@ -18,6 +18,7 @@ import retrofit2.http.*;
 import java.util.List;
 
 public interface MiniTaxiApi {
+
     @GET("/userpickcar")
     Call<List<UserPickCar>> getUserPickCar();
 

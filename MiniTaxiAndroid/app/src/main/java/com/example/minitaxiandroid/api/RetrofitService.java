@@ -1,4 +1,4 @@
-package com.example.minitaxiandroid.retrofit;
+package com.example.minitaxiandroid.api;
 
 import com.example.minitaxiandroid.constants.Links;
 import com.google.gson.Gson;

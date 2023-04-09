@@ -1,6 +1,7 @@
 package com.unicyb.minitaxi.controller.bonuses;
 
 import com.unicyb.minitaxi.database.dao.bonuses.MilitaryBonusesDAOImpl;
+import com.unicyb.minitaxi.entities.bonuses.MILITARY_BONUS_STATUS;
 import com.unicyb.minitaxi.entities.bonuses.MilitaryBonuses;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.Message;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class MilitaryBonusesController {
                 militaryBonuses = new MilitaryBonuses();
                 militaryBonuses.setMilitaryBonusesId(0);
                 militaryBonuses.setSaleValue(5);
+                militaryBonuses.setMilitaryBonusStatus(MILITARY_BONUS_STATUS.REJECT);
                 return ResponseEntity.ok(militaryBonuses);
             }
             return ResponseEntity.ok(militaryBonuses);

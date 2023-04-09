@@ -27,16 +27,18 @@ import com.example.minitaxiandroid.entities.messages.UserSendDate;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
-import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.api.SelectListener;
 import com.example.minitaxiandroid.services.DriverLocationService;
+import com.example.minitaxiandroid.websocket.WebSocketClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.util.concurrent.ListenableFuture;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,7 +74,8 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         profileButton = findViewById(R.id.profileButton);
         isOnlineSwitch = findViewById(R.id.isOnlineSwitch);
-        driverId = getDate(savedInstanceState, "driverId");
+//        driverId = getDate(savedInstanceState, "driverId");
+        driverId = "1";
         driverCarRec = findViewById(R.id.buttonCarRec);
         driverCarRec.setOnClickListener(view -> goCarRec());
         profileButton.setOnClickListener(view -> goDriverProfile());
@@ -82,45 +85,39 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         driverLocationService = new DriverLocationService(Integer.parseInt(driverId),
                 DRIVER_STATUS.OFFLINE, databaseReference);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 15,
                 driverLocationService);
-        isOnlineSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isOnlineSwitch.isChecked()){
-                    setDriverStatus(DRIVER_STATUS.ONLINE);
-                    driverLocationService.setDriverStatus(DRIVER_STATUS.ONLINE);
-                }
-                else {
-                    setDriverStatus(DRIVER_STATUS.OFFLINE);
-                    driverLocationService.setDriverStatus(DRIVER_STATUS.OFFLINE);
-                }
+        isOnlineSwitch.setOnClickListener(view -> {
+            if(isOnlineSwitch.isChecked()){
+                setDriverStatus(DRIVER_STATUS.ONLINE);
+                driverLocationService.setDriverStatus(DRIVER_STATUS.ONLINE);
+            }
+            else {
+                setDriverStatus(DRIVER_STATUS.OFFLINE);
+                driverLocationService.setDriverStatus(DRIVER_STATUS.OFFLINE);
             }
         });
 
         getOrders();
-//        new Thread(() -> {
-//            try {
-//                Log.d("Driver Menu", "Run");
-//                WebSocketClient driverClient = new WebSocketClient();
-//                ListenableFuture<StompSession> f = driverClient.connect();
-//                stompSession = f.get();
-//                System.out.println(userId);
-//                driverInfoService.subscribeDriver(stompSession);
-//            } catch (ExecutionException | InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
+        new Thread(() -> {
+            try {
+                Log.d("Driver Menu", "Run");
+                WebSocketClient driverClient = new WebSocketClient();
+                ListenableFuture<StompSession> f = driverClient.connect();
+                stompSession = f.get();
+                subscribeDriver(driverId);
+
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void setDriverStatus(DRIVER_STATUS driverStatus){
@@ -165,8 +162,8 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
     }
 
     private void populateListView(List<OrderInfo> body) {
-       OrderInfoProfileAdapter orderInfoProfileAdapter = new OrderInfoProfileAdapter(body, this);
-       recyclerView.setAdapter(orderInfoProfileAdapter);
+        OrderInfoProfileAdapter orderInfoProfileAdapter = new OrderInfoProfileAdapter(body, this);
+        recyclerView.setAdapter(orderInfoProfileAdapter);
     }
 
     private void goDriverProfile() {
@@ -191,8 +188,8 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         return result;
     }
 
-    public void subscribeDriver(int userID) throws ExecutionException, InterruptedException {
-        stompSession.subscribe("/user/" + userID + "/driver", new StompFrameHandler() {
+    public void subscribeDriver(String driverId) throws ExecutionException, InterruptedException {
+        stompSession.subscribe("/user/" + driverId + "/driver", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return byte[].class;
@@ -209,7 +206,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
                 }
             }
         });
-        stompSession.subscribe("/user/" + userID + "/order-accept", new StompFrameHandler() {
+        stompSession.subscribe("/user/" + driverId + "/order-accept", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return byte[].class;
@@ -285,6 +282,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         intent.putExtra("telephoneNumber", userSendDate.getTelephoneNumber());
         startActivity(intent);
     }
+
 
     @Override
     public void onItemClicked(UserPickCar userPickCar) {

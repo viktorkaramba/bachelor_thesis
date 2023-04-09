@@ -1,4 +1,4 @@
-package com.example.minitaxiandroid.retrofit;
+package com.example.minitaxiandroid.api;
 
 import com.example.minitaxiandroid.entities.messages.OrderInfo;
 import com.example.minitaxiandroid.entities.messages.UserPickCar;

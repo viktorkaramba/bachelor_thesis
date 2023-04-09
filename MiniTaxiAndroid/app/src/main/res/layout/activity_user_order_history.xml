@@ -28,10 +28,12 @@
             android:backgroundTint="@color/dark_blue"
             tools:ignore="SpeakableTextPresentCheck"/>
     <androidx.recyclerview.widget.RecyclerView
+            android:background="@drawable/main_background"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/userOrderHistoryList"
             app:layout_constraintTop_toBottomOf="@+id/toolbarUserOrderHistory"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

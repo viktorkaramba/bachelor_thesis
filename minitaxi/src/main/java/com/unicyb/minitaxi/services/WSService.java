@@ -1,17 +1,13 @@
 package com.unicyb.minitaxi.services;
 
-import com.unicyb.minitaxi.database.dao.documents.CarClassDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.UserDAOImpl;
-import com.unicyb.minitaxi.database.dao.userinterface.DriverInfoDAOImpl;
 import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.FullName;
 import com.unicyb.minitaxi.entities.documents.ROLE;
 import com.unicyb.minitaxi.entities.documents.User;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
-import com.unicyb.minitaxi.entities.usersinfo.DriverInfo;
-import com.unicyb.minitaxi.entities.usersinfo.DriverSendInfoMessage;
 import com.unicyb.minitaxi.ranksystem.RankSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +23,6 @@ public class WSService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private UserDAOImpl userDAO;
     private RankSystem rankSystem;
-    private CarClassDAOImpl carClassDAO;
-    private DriverInfoDAOImpl driverInfoDAO;
 
     @Autowired
     public WSService(SimpMessagingTemplate simpMessagingTemplate){
@@ -147,31 +141,5 @@ public class WSService {
         simpMessagingTemplate.convertAndSendToUser(String.valueOf(sendOrder.getUserId()), "/order-complete",
                 ResponseEntity.ok("Order successfully complete"));
         return ResponseEntity.ok("Order successfully complete");
-    }
-
-    public void notifyUserRequestDriversInfoMessage(String userId){
-        System.out.println("user: " + userId);
-
-        simpMessagingTemplate.convertAndSend("/users-request-drivers", userId);
-    }
-
-    synchronized public DriverInfo notifyDriverSendInfoMessage(DriverSendInfoMessage driverSendInfoMessage, int userCount){
-        driverInfoDAO = new DriverInfoDAOImpl();
-        DriverInfo driverInfo;
-        if(userCount == 0){
-            System.out.println("Disconnect");
-            driverInfo = new DriverInfo();
-            driverInfo.setDriverId(0);
-            simpMessagingTemplate.convertAndSend("/topic/users-request-drivers", driverInfo);
-        }
-        else {
-            System.out.println(driverSendInfoMessage.getLatitude() + " " + driverSendInfoMessage.getLongitude());
-            driverInfo = driverInfoDAO.getOne(driverSendInfoMessage.getDriverId());
-            driverInfo.setLatitude(driverSendInfoMessage.getLatitude());
-            driverInfo.setLongitude(driverSendInfoMessage.getLongitude());
-            System.out.println(driverInfo);
-            simpMessagingTemplate.convertAndSend("/topic/users-request-drivers-info", driverInfo);
-        }
-        return driverInfo;
     }
 }

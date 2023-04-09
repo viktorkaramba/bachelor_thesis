@@ -38,9 +38,6 @@ public class SetRatingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_rating);
         ratingDriverBar = findViewById(R.id.ratingDriverBar);
         evaluate = findViewById(R.id.evaluateRatingButton);
-        ratingDriverBar.setEnabled(false);
-        ratingDriverBar.setRating(2.5f);
-        evaluate.setEnabled(false);
         evaluate.setOnClickListener(view -> {
             new Thread(this::sendOrder).start();
             goListDriver();
@@ -119,7 +116,7 @@ public class SetRatingActivity extends AppCompatActivity {
     }
 
     private void goListDriver() {
-        Intent intent = new Intent(SetRatingActivity.this, UserOrderHistoryActivity.class);
+        Intent intent = new Intent(SetRatingActivity.this, MainActivity.class);
         intent.putExtra("userId", userId);
         startActivity(intent);
     }

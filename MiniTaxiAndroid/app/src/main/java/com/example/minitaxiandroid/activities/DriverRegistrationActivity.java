@@ -126,7 +126,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
         else{
             try {
                 Intent intent = new Intent(DriverRegistrationActivity.this, DriverMenuActivity.class);
-                intent.putExtra("userId", message.getContent());
+                intent.putExtra("driverId", message.getContent());
                 startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();

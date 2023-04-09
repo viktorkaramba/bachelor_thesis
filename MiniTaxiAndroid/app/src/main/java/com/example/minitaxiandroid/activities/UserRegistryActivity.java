@@ -34,9 +34,9 @@ public class UserRegistryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_registry);
-        userName = findViewById(R.id.userNameRegistryEditText);
-        password = findViewById(R.id.passwordRegistryEditText);
-        registry = findViewById(R.id.registryUserRegistryButton);
+        userName = findViewById(R.id.userNameUserRegistryEditText);
+        password = findViewById(R.id.passwordUserRegistryEditText);
+        registry = findViewById(R.id.registryLoginButton);
         registry.setOnClickListener(view -> registry());
     }
 

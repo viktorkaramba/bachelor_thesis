@@ -9,18 +9,28 @@
 	<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:gravity="center">
+			android:layout_height="wrap_content"
+			android:background="@drawable/card_view_borders"
+			android:gravity="center">
 		<ProgressBar android:layout_width="150dp"
 		             android:layout_height="wrap_content"
 		             app:layout_constraintBottom_toBottomOf="parent"
 		             app:layout_constraintTop_toTopOf="parent"
 		             app:layout_constraintLeft_toLeftOf="parent"
 		             app:layout_constraintRight_toRightOf="parent"
+		             android:indeterminateTint="@color/light_blue"
+		             android:layout_margin="10dp"
 		             android:id="@+id/waitingDriverResponseProgressBar"/>
 		<TextView
 				android:text="@string/waiting_driver_response"
+				android:layout_marginStart="10dp"
+				android:layout_marginEnd="10dp"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textColor="@color/light_blue"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/waitDriverResponseTextView"/>
+				android:layout_height="wrap_content"
+				android:id="@+id/waitDriverResponseTextView"/>
 	</LinearLayout>
 
 </RelativeLayout>

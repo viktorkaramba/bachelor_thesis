@@ -4,36 +4,84 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
+                                                   android:background="@drawable/main_background"
                                                    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/rateDriver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rating_message"
-        app:layout_constraintBottom_toTopOf="@+id/ratingDriverBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
+<ScrollView
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+   <androidx.cardview.widget.CardView
+           android:layout_height="wrap_content"
+           android:layout_width="match_parent"
+           app:cardElevation="50dp"
+           app:cardBackgroundColor="@color/light_blue"
+           android:layout_margin="5dp"
+           app:cardCornerRadius="15dp">
 
-    <RatingBar
-            android:id="@+id/ratingDriverBar"
-            android:layout_width="240dp"
-            android:layout_height="58dp"
-            android:max="5"
-            android:numStars="5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck"/>
-    <Button
-            android:text="Evaluate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/evaluateRatingButton"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/ratingDriverBar"
-            app:layout_constraintHorizontal_bias="0.498" app:layout_constraintVertical_bias="0.0"/>
+      <RelativeLayout
+              android:background="@drawable/card_view_borders"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+         <TextView
+                 android:id="@+id/rateDriver"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/rating_message"
+                 android:textColor="@color/light_blue"
+                 android:textSize="28sp"
+                 android:gravity="center"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_alignParentTop="true"
+                 android:layout_margin="10dp"/>
+         <RatingBar
+                 android:id="@+id/ratingDriverBar"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:numStars="5"
+                 android:rating="2.5"
+                 android:max="5"
+                 android:stepSize="0.5"
+                 android:enabled="false"
+                 android:theme="@style/RatingBar"
+                 android:layout_below="@+id/rateDriver"
+                 android:layout_centerHorizontal="true"
+                 tools:ignore="SpeakableTextPresentCheck"
+                 android:layout_margin="10dp"
+         />
+         <EditText
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:inputType="textPersonName"
+                 android:padding="10dp"
+                 android:layout_margin="10dp"
+                 android:layout_below="@+id/ratingDriverBar"
+                 android:hint="@string/please_leave_a_comment"
+                 android:textColor="@color/light_blue"
+                 android:textColorHint="@color/light_blue"
+                 app:backgroundTint="@color/light_blue"
+                 android:ems="10"
+                 android:id="@+id/userCommentText"/>
+         <Button
+                 android:text="@string/evaluate"
+                 android:layout_width="wrap_content"
+                 android:background="@drawable/roundcorner"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/evaluateRatingButton"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_below="@+id/userCommentText"
+                 android:enabled="false"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginStart="10dp"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginEnd="10dp"/>
+
+      </RelativeLayout>
+   </androidx.cardview.widget.CardView>
+</ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

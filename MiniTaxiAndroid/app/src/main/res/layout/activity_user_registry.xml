@@ -1,44 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:background="@drawable/main_background"
 		tools:context=".activities.UserRegistryActivity">
+	<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+		<androidx.cardview.widget.CardView
+				android:layout_width="200dp"
+				android:layout_height="200dp"
+				app:cardCornerRadius="180dp"
+				android:elevation="12dp"
+				android:layout_margin="10dp"
+				android:id="@+id/registryLogoCardView"
+				android:layout_centerHorizontal="true"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toTopOf="@+id/userRegistryLinearLayout2">
+		<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:background="@drawable/energy_taxi_logo"
+					android:scaleType="centerCrop"
+					android:src="@mipmap/ic_launcher_adaptive_fore"/>
+		</androidx.cardview.widget.CardView>
 	<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintEnd_toEndOf="parent" android:gravity="center">
+			android:layout_height="wrap_content"
+			app:layout_constraintTop_toBottomOf="@+id/registryLogoCardView"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			android:background="@drawable/card_view_borders"
+			android:layout_marginStart="10dp"
+			android:layout_marginEnd="10dp"
+			android:id="@+id/userRegistryLinearLayout2">
 		<TextView
-				android:text="Username"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/userNameRegistryText" android:textSize="24sp"/>
+				android:text="@string/registration"
+				android:fontFamily="@font/main_font"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/loginAppName"
+				android:textSize="34sp"
+				android:background="@color/dark_blue"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toTopOf="@+id/userNameLoginEditText"
+				android:textColor="@color/light_blue"
+				android:padding="10dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginStart="10dp"
+				android:layout_marginEnd="10dp"
+				android:textAlignment="center"/>
 		<EditText
+				android:textColor="@color/light_blue"
+				android:backgroundTint="@color/light_blue"
+				android:hint="@string/username"
+				android:textColorHint="@color/light_blue"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:inputType="textPersonName"
-				android:ems="10"
-				android:id="@+id/userNameRegistryEditText" tools:ignore="SpeakableTextPresentCheck"
+				android:layout_marginStart="10dp"
+				android:layout_marginEnd="10dp"
+				android:layout_marginBottom="10dp"
+				android:padding="20dp"
+				android:drawableStart="@drawable/user_svgrepo_com"
+				android:drawablePadding="20dp"
+				android:id="@+id/userNameUserRegistryEditText"
+				tools:ignore="SpeakableTextPresentCheck"
 				android:minHeight="48dp"/>
-		<TextView
-				android:text="Password"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/passwordRegistryText" android:textSize="24sp"/>
 		<EditText
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:inputType="textPersonName"
-				android:ems="10"
-				android:id="@+id/passwordRegistryEditText" android:minHeight="48dp"
+				android:drawableStart="@drawable/password_lock_solid_svgrepo_com"
+				android:drawablePadding="20dp"
+				android:inputType="textPassword"
+				android:layout_marginStart="10dp"
+				android:padding="20dp"
+				android:layout_marginEnd="10dp"
+				android:id="@+id/passwordUserRegistryEditText"
+				android:minHeight="48dp"
+				android:textColor="@color/light_blue"
+				android:hint="@string/password"
+				android:textColorHint="@color/light_blue"
+				android:backgroundTint="@color/light_blue"
 				tools:ignore="SpeakableTextPresentCheck"/>
 		<Button
-				android:text="Register"
-				android:layout_width="wrap_content"
+				android:text="@string/register"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:id="@+id/registryUserRegistryButton"
-				android:textSize="24sp"/>
+				android:background="@drawable/roundcorner"
+				android:padding="10dp"
+				android:layout_margin="10dp"
+				android:id="@+id/registryLoginButton"
+		/>
 	</LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

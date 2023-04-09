@@ -22,8 +22,8 @@ import com.example.minitaxiandroid.entities.ranks.Rank;
 import com.example.minitaxiandroid.entities.ranks.UserEliteRankAchievementInfo;
 import com.example.minitaxiandroid.entities.ranks.UserRankAchievementInfo;
 import com.example.minitaxiandroid.entities.userinfo.UserStats;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.services.UserLoginInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -219,14 +219,14 @@ public class RanksInfoActivity extends AppCompatActivity {
         int countOfSaleOrders = response.getNumberOfUsesSale();
         saleCountTextView.setText(String.valueOf(countOfSaleOrders));
         String message;
+        LocalDate date = Instant.ofEpochMilli(response.getDeadlineDateSale().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         if(countOfSaleOrders == 0){
-            LocalDate date = Instant.ofEpochMilli(response.getDeadlineDateSale().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
             message = getResources().getString(R.string.wait_until) + " " +
                     date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
         else {
             message = getResources().getString(R.string.deadline) + " " +
-                    response.getDeadlineDateSale().getTime();
+                    date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
         saleDeadlineTextView.setText(message);
         String deadlineText = getResources().getString(R.string.deadline) + " None";
@@ -415,7 +415,9 @@ public class RanksInfoActivity extends AppCompatActivity {
                 enqueue(new Callback<MilitaryBonuses>() {
                     @Override
                     public void onResponse(Call<MilitaryBonuses> call, Response<MilitaryBonuses> response) {
-                        getMilitaryBonusesInfo(response.body());
+                        if(response.body()!=null) {
+                            getMilitaryBonusesInfo(response.body());
+                        }
                     }
 
                     @Override
@@ -428,14 +430,15 @@ public class RanksInfoActivity extends AppCompatActivity {
 
     public void getMilitaryBonusesInfo(MilitaryBonuses response){
         this.militaryBonuses = response;
-        if(response.getMilitaryBonusesId() == 0 || response.getMILITARYBONUSEStatus().equals(MILITARY_BONUS_STATUS.REJECT)){
+        if(response.getMilitaryBonusesId() == 0 || response.getMilitaryBonusStatus().name().
+                equals(MILITARY_BONUS_STATUS.REJECT.name())){
             StringBuilder newString = new StringBuilder(getResources().
                     getString(R.string.military_bonuses_notice));
             newString.append(" ").append(response.getSaleValue());
             militaryBonusesInfoText.setText(newString.toString());
         }
         else {
-            if(response.getMILITARYBONUSEStatus().equals(MILITARY_BONUS_STATUS.WAITING)){
+            if(response.getMilitaryBonusStatus().name().equals(MILITARY_BONUS_STATUS.WAITING.name())){
                 isMilitaryBonusesSend = true;
                 StringBuilder newString = new StringBuilder(getResources().
                         getString(R.string.military_bonuses_waiting_notice));
@@ -443,7 +446,7 @@ public class RanksInfoActivity extends AppCompatActivity {
                 militaryBonusesInfoText.setText(newString.toString());
                 militaryBonusesButton.setText(getResources().getString(R.string.military_bonuses_delete_button));
             }
-            else if(response.getMILITARYBONUSEStatus().equals(MILITARY_BONUS_STATUS.COMPLETE)){
+            else if(response.getMilitaryBonusStatus().name().equals(MILITARY_BONUS_STATUS.COMPLETE.name())){
                 isMilitaryBonusesSend = true;
                 StringBuilder newString = new StringBuilder(getResources().
                         getString(R.string.military_bonuses_complete_notice));

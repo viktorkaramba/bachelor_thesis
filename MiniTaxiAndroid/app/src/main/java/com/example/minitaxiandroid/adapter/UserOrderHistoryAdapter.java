@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.userinfo.UserOrderInfo;
-import com.example.minitaxiandroid.retrofit.SelectListener;
+import com.example.minitaxiandroid.api.SelectListener;
 
 import java.util.List;
 

@@ -80,8 +80,8 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 WebSocketClient userClient = new WebSocketClient();
                 ListenableFuture<StompSession> f = userClient.connect();
                 stompSession = f.get();
-                subscribe(stompSession, userSendDate.getUserId());
-                sendUserDateMessage(stompSession);
+                subscribe(userSendDate.getUserId());
+                sendUserDateMessage();
                 Intent intent = new Intent(CurrentOrderActivity.this, DriverMenuActivity.class);
                 System.out.println("CurrentOrder userId " + userSendDate.getDriverId());
                 intent.putExtra("userId", String.valueOf(userSendDate.getDriverId()));
@@ -93,7 +93,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
 
     }
 
-    public void subscribe(StompSession stompSession, int userID) throws ExecutionException, InterruptedException {
+    public void subscribe(int userID) throws ExecutionException, InterruptedException {
         stompSession.subscribe("/user/" + userID + "/order-message", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -107,7 +107,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
         });
     }
 
-    public void sendUserDateMessage(StompSession stompSession) {
+    public void sendUserDateMessage() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("{ \"driverId\" : ").append(userSendDate.getDriverId()).append(",")

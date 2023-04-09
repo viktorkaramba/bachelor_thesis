@@ -2,51 +2,151 @@
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:background="@drawable/main_background"
 		tools:context=".activities.CurrentOrderActivity">
+	<ScrollView android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_alignParentStart="true"
+	            android:layout_alignParentEnd="true">
+		<androidx.cardview.widget.CardView
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				app:cardElevation="50dp"
+				android:layout_margin="5dp"
+				app:cardBackgroundColor="@color/light_blue"
+				app:cardCornerRadius="15dp">
+			<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:background="@drawable/card_view_borders"
+					android:textAlignment="center">
+				<TextView
+						android:text="@string/order_info"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/orderInfoTextView"
+						android:textSize="24sp"
 
-	<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-	>
-		<TextView
-				android:text="Order Info"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/orderInfoTextView" android:textSize="24sp"
-				android:textAlignment="center"/>
-		<TextView
-				android:text="Customer Name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/textView2" android:textSize="24sp"/>
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/customerNameOrderInfoText" android:textSize="24sp"/>
-		<TextView
-				android:text="Customer Address"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/textView4" android:textSize="24sp"/>
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/customerAddressOrderInfoText" android:textSize="24sp"/>
-		<TextView
-				android:text="Delivery Address"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/textView6" android:textSize="24sp"/>
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/deliveryAddressOrderInfoText" android:textSize="24sp"/>
-		<TextView
-				android:text="Customer Telephone Numbe"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/textView8" android:textSize="24sp"/>
-		<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/telephoneNumberOrderInfoText" android:textSize="24sp"/>
-		<Button
-				android:text="Complete order"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/completeOrderButton"/>
-	</LinearLayout>
+						android:layout_alignParentTop="true"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:textColor="@color/light_blue"
+						android:layout_margin="10dp"
+						android:textAlignment="center"/>
+				<TextView
+						android:text="@string/customer_name"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/customerNameOrderInfoTextView"
+						android:layout_below="@+id/orderInfoTextView"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:textColor="@color/light_blue"
+						android:textSize="24sp" android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+				<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/customerNameOrderInfoTextView"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:id="@+id/customerNameOrderInfoText"
+						android:background="@drawable/roundcorner"
+						android:gravity="center"
+						android:textSize="24sp"
+						android:padding="10dp"
+						android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+				<TextView
+						android:text="@string/customer_address"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/customerAddressOrderInfoTextView"
+						android:layout_below="@+id/customerNameOrderInfoText"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:textColor="@color/light_blue"
+						android:layout_margin="10dp"
+						android:textSize="24sp"/>
+				<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/customerAddressOrderInfoTextView"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:id="@+id/customerAddressOrderInfoText"
+						android:background="@drawable/roundcorner"
+						android:gravity="center"
+						android:textSize="24sp"
+						android:padding="10dp"
+						android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+				<TextView
+						android:text="@string/delivery_address"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/customerAddressOrderInfoText"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:id="@+id/deliveryAddressOrderInfoTextView"
+						android:textColor="@color/light_blue"
+						android:layout_margin="10dp"
+						android:textSize="24sp"/>
+				<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/deliveryAddressOrderInfoTextView"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:id="@+id/deliveryAddressOrderInfoText"
+						android:background="@drawable/roundcorner"
+						android:gravity="center"
+						android:textSize="24sp"
+						android:padding="10dp"
+						android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+				<TextView
+						android:text="@string/customer_telephone_number"
+						android:textColor="@color/light_blue"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/deliveryAddressOrderInfoText"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:id="@+id/customerTelephoneNumber"
+						android:layout_margin="10dp"
+						android:textSize="24sp"
+
+				/>
+				<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:id="@+id/telephoneNumberOrderInfoText"
+						android:layout_below="@+id/customerTelephoneNumber"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:background="@drawable/roundcorner"
+						android:gravity="center"
+						android:textSize="24sp"
+						android:padding="10dp"
+						android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+				<Button
+						android:text="@string/complete_order"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:layout_below="@+id/telephoneNumberOrderInfoText"
+						android:layout_alignParentStart="true"
+						android:layout_alignParentEnd="true"
+						android:background="@drawable/roundcorner"
+						android:id="@+id/completeOrderButton"/>
+			</RelativeLayout>
+		</androidx.cardview.widget.CardView>
+	</ScrollView>
 </RelativeLayout>

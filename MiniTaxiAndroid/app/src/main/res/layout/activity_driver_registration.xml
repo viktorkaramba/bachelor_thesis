@@ -5,135 +5,176 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:background="@drawable/main_background"
 		tools:context=".activities.DriverRegistrationActivity">
-	<LinearLayout
-			android:orientation="vertical"
+	<ScrollView
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:gravity="center" android:textAlignment="center"
-			android:layout_centerInParent="true" app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent">
-		<TextView
-				android:text="Resume"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/resumeText" android:textAlignment="center"
-				android:textSize="24sp" android:textColor="@color/black"/>
-		<TextView
-				android:text="Username"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/userNameDriverText"/>
-		<EditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPersonName"
-				android:ems="10"
-				android:id="@+id/driverUserNameEditText" android:minHeight="48dp"
-				tools:ignore="SpeakableTextPresentCheck"/>
-		<TextView
-				android:text="Password"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" android:id="@+id/passwordDriverText"/>
-		<EditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textPassword"
-				android:ems="10"
-				android:id="@+id/driverPasswordDriverEditText" tools:ignore="SpeakableTextPresentCheck"
-				android:minHeight="48dp"/>
-		<TextView
-				android:id="@+id/driverFirstNameText"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="Your firstname"
-				tools:layout_editor_absoluteX="43dp"
-				tools:layout_editor_absoluteY="219dp"/>
-
-		<EditText
-				android:id="@+id/driverFirstName"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:ems="10"
-				tools:layout_editor_absoluteX="125dp"
-				tools:layout_editor_absoluteY="200dp"
-				tools:ignore="SpeakableTextPresentCheck"
-				android:minHeight="48dp"/>
-
-		<TextView
-				android:id="@+id/driverSurNameText"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="Your surname"
-				tools:layout_editor_absoluteX="34dp"
-				tools:layout_editor_absoluteY="307dp"/>
-
-		<EditText
-				android:id="@+id/driverSurName"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:ems="10"
-				tools:layout_editor_absoluteX="122dp"
-				tools:layout_editor_absoluteY="290dp"
-				android:minHeight="48dp"
-				tools:ignore="SpeakableTextPresentCheck"/>
-		<TextView
-				android:id="@+id/driverPatronymicText"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="Your patronymic"
-				tools:layout_editor_absoluteX="34dp"
-				tools:layout_editor_absoluteY="307dp"/>
-		<EditText
-				android:id="@+id/driverPatronymic"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:ems="10"
-				tools:layout_editor_absoluteX="125dp"
-				tools:layout_editor_absoluteY="200dp"
-				tools:ignore="SpeakableTextPresentCheck"
-				android:minHeight="48dp"/>
-		<TextView
-				android:id="@+id/driverTelephoneNumberText"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/customer_telephone_number"
-				tools:layout_editor_absoluteX="32dp"
-				tools:layout_editor_absoluteY="401dp"/>
-
-		<EditText
-				android:id="@+id/driverTelephoneNumber"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:ems="10"
-				android:inputType="phone"
-				tools:layout_editor_absoluteX="120dp"
-				tools:layout_editor_absoluteY="382dp"
-				tools:ignore="SpeakableTextPresentCheck" android:minHeight="48dp"/>
-
-		<TextView
-				android:text="@string/your_work_experience_in_driving"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:id="@+id/driverExperienceText"/>
-		<EditText
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="numberDecimal"
-				android:ems="10"
-				android:id="@+id/driverExperience" tools:ignore="SpeakableTextPresentCheck" android:minHeight="48dp"/>
+			android:layout_height="wrap_content">
 		<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:layout_gravity="center">
-			<Button
-					android:text="Send"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textAlignment="center"
+				android:background="@drawable/card_view_borders"
+				android:layout_margin="5dp"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent">
+			<TextView
+					android:text="@string/resume"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/resumeText"
+					android:textAlignment="center"
+					android:textSize="34sp"
+					android:layout_marginTop="10dp"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:textColor="@color/light_blue"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/username"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPersonName"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/user_svgrepo_com"
+					android:drawablePadding="20dp"
+					android:id="@+id/driverUserNameEditText"
+					android:minHeight="48dp"
+					tools:ignore="SpeakableTextPresentCheck"/>
+			<EditText
+					android:drawableStart="@drawable/password_lock_solid_svgrepo_com"
+					android:drawablePadding="20dp"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:textColor="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPassword"
+					android:hint="@string/password"
+					android:textColorHint="@color/light_blue"
+					android:backgroundTint="@color/light_blue"
+					android:id="@+id/driverPasswordDriverEditText"
+					tools:ignore="SpeakableTextPresentCheck"
+					android:minHeight="48dp"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:id="@+id/driverFirstName"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/first_name"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/user_fullname"
+					android:drawablePadding="20dp"
+					tools:ignore="SpeakableTextPresentCheck"
+					android:minHeight="48dp"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:id="@+id/driverSurName"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/surname"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/user_fullname"
+					android:drawablePadding="20dp"
+					android:minHeight="48dp"
+					tools:ignore="SpeakableTextPresentCheck"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:id="@+id/driverPatronymic"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/patronymic"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/user_fullname"
+					android:drawablePadding="20dp"
+					tools:ignore="SpeakableTextPresentCheck"
+					android:minHeight="48dp"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:id="@+id/driverTelephoneNumber"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/telephone_number"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/telephone_phone_svgrepo_com"
+					android:drawablePadding="20dp"
+					android:inputType="phone"
+					tools:ignore="SpeakableTextPresentCheck"
+					android:minHeight="48dp"/>
+			<EditText
+					android:textColor="@color/light_blue"
+					android:backgroundTint="@color/light_blue"
+					android:hint="@string/experience_in_years"
+					android:textColorHint="@color/light_blue"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="20dp"
+					android:drawableStart="@drawable/time_forward_svgrepo_com"
+					android:drawablePadding="20dp"
+					android:inputType="numberDecimal"
+					android:id="@+id/driverExperience"
+					tools:ignore="SpeakableTextPresentCheck"
+					android:minHeight="48dp"/>
+			<LinearLayout
+					android:orientation="horizontal"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:id="@+id/sendButton"/>
-			<Button
-					android:text="Cancel"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:id="@+id/cancelButton" android:layout_weight="1"/>
+					android:layout_gravity="center">
+				<Button
+						android:layout_margin="10dp"
+						android:background="@drawable/roundcorner"
+						android:text="@string/send"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:id="@+id/sendButton"/>
+				<Button
+						android:layout_margin="10dp"
+						android:background="@drawable/roundcorner"
+						android:text="@string/cancel"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:id="@+id/cancelButton"
+						android:layout_weight="1"/>
+			</LinearLayout>
 		</LinearLayout>
-	</LinearLayout>
+	</ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

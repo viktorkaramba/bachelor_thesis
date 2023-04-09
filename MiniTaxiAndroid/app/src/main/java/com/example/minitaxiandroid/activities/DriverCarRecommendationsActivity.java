@@ -12,8 +12,8 @@ import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.messages.CarRecommendationInfo;
 import com.example.minitaxiandroid.fragments.CarRecFragment;
 import com.example.minitaxiandroid.fragments.EmptyCarRecFragment;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +22,7 @@ import retrofit2.internal.EverythingIsNonNull;
 public class DriverCarRecommendationsActivity extends AppCompatActivity {
 
     private FrameLayout frameLayout;
-    private String userId;
+    private String driverId;
     private Button back;
 
     @Override
@@ -30,7 +30,7 @@ public class DriverCarRecommendationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_car_recommendations);
         frameLayout = findViewById(R.id.frameLayout);
-        userId = getDate(savedInstanceState, "userId");
+        driverId = getDate(savedInstanceState, "driverId");
         back = findViewById(R.id.backDriverCarRecButton);
         back.setOnClickListener(view -> gotoDriveMenu());
         getCarRecInfo();
@@ -38,7 +38,7 @@ public class DriverCarRecommendationsActivity extends AppCompatActivity {
 
     private void gotoDriveMenu() {
         Intent intent = new Intent(this, DriverMenuActivity.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("driverId", driverId);
         startActivity(intent);
     }
 
@@ -60,8 +60,8 @@ public class DriverCarRecommendationsActivity extends AppCompatActivity {
     public void getCarRecInfo(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi carRecInfo = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        System.out.println("current " + userId);
-        carRecInfo.getDriverCarRecommendations(userId)
+        System.out.println("current " + driverId);
+        carRecInfo.getDriverCarRecommendations(driverId)
                 .enqueue(new Callback<CarRecommendationInfo>() {
                     @Override
                     public void onResponse(@EverythingIsNonNull Call<CarRecommendationInfo> call,
@@ -82,7 +82,8 @@ public class DriverCarRecommendationsActivity extends AppCompatActivity {
                             carRecFragment.setArguments(bundle);
                             ft.replace(R.id.frameLayout, carRecFragment);
                             ft.commit();
-                        }else {
+                        }
+                        else {
                             System.out.println("In empty");
                             EmptyCarRecFragment emptyCarRecFragment = new EmptyCarRecFragment();
                             ft.replace(R.id.frameLayout, emptyCarRecFragment);

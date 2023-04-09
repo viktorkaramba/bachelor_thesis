@@ -5,12 +5,13 @@
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:background="@color/dark_blue"
 		tools:context=".activities.RanksInfoActivity"
 		android:layout_centerHorizontal="true">
-
 	<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+	>
 		<androidx.appcompat.widget.Toolbar
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
 				android:backgroundTint="@color/dark_blue"
 				tools:ignore="SpeakableTextPresentCheck"/>
 		<TextView
+				android:textColor="@color/light_blue"
 				android:layout_width="wrap_content"
 				android:text="@string/your_stats_and_count_of_orders_with_sale"
 				app:layout_constraintStart_toStartOf="parent"
@@ -43,134 +45,143 @@
 				android:id="@+id/statsAndSaleTextView"
 				app:layout_constraintTop_toBottomOf="@+id/toolbar2"
 				android:layout_height="wrap_content"/>
-		<LinearLayout
-				android:layout_width="0dp"
+
+		<HorizontalScrollView
+				android:id="@+id/bonusesStatsScrollView"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:gravity="center"
 				android:orientation="horizontal"
 				app:layout_constraintTop_toBottomOf="@+id/statsAndSaleTextView"
 				app:layout_constraintStart_toStartOf="parent"
-				android:id="@+id/bonusesStatsLinearLayout"
-				android:padding="10dp"
-				app:layout_constraintEnd_toEndOf="parent">
-			<androidx.cardview.widget.CardView
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.0">
+			<LinearLayout
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:id="@+id/orderStatsCardView"
-					android:layout_margin="5dp"
-			>
-				<RelativeLayout
+					android:gravity="center"
+					android:orientation="horizontal"
+					android:id="@+id/bonusesStatsConstraintLayout"
+					android:padding="10dp">
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:text="@string/orders"
-							android:textSize="20sp"
-							android:layout_margin="10dp"
+						android:layout_height="wrap_content"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:id="@+id/orderStatsCardView"
+						android:layout_margin="5dp">
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/orderTextView"/>
-					<TextView
-							android:layout_alignStart="@+id/orderTextView"
-							android:layout_below="@+id/orderTextView"
-							android:layout_alignEnd="@+id/orderTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/orderCountTextView"/>
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-			<androidx.cardview.widget.CardView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:id="@+id/commentsStatsCardView"
-					android:layout_margin="5dp"
-			>
-				<RelativeLayout
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:text="@string/orders"
+								android:textSize="20sp"
+								android:layout_margin="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/orderTextView"/>
+						<TextView
+								android:layout_alignStart="@+id/orderTextView"
+								android:layout_below="@+id/orderTextView"
+								android:layout_alignEnd="@+id/orderTextView"
+								android:gravity="center"
+								android:textSize="38sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/orderCountTextView"/>
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:text="@string/comments"
-							android:textSize="20sp"
+						android:layout_height="wrap_content"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:id="@+id/commentsStatsCardView"
+						android:layout_margin="5dp">
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/commentsTextView"
-							android:layout_marginTop="10dp"
-							android:layout_marginStart="10dp"
-							android:layout_marginEnd="10dp"
-							android:layout_marginBottom="10dp"/>
-					<TextView
-							android:layout_alignStart="@+id/commentsTextView"
-							android:layout_below="@+id/commentsTextView"
-							android:text="2"
-							android:layout_alignEnd="@+id/commentsTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/commentsCountTextView"/>
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:text="@string/comments"
+								android:textSize="20sp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/commentsTextView"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"/>
+						<TextView
+								android:layout_alignStart="@+id/commentsTextView"
+								android:layout_below="@+id/commentsTextView"
+								android:layout_alignEnd="@+id/commentsTextView"
+								android:gravity="center"
+								android:textSize="38sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/commentsCountTextView"/>
 
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-			<androidx.cardview.widget.CardView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/saleStatsCardView"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:layout_margin="5dp">
-				<RelativeLayout
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:layout_alignEnd="@+id/saleDeadlineTextView"
-							android:gravity="center"
-							android:text="@string/sale"
-							android:textSize="20sp"
+						android:layout_height="wrap_content"
+						android:id="@+id/saleStatsCardView"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:layout_margin="5dp">
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/saleTextView"
-							android:layout_marginTop="10dp" android:layout_marginStart="10dp"
-							android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
-					<TextView
-							android:layout_alignStart="@+id/saleTextView"
-							android:layout_below="@+id/saleTextView"
-							android:text="2"
-							android:layout_alignEnd="@+id/saleTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/saleCountTextView"/>
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentEnd="true"
-							android:layout_below="@+id/saleCountTextView"
-							android:text="@string/deadline"
-							android:gravity="center"
-							android:textSize="14sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/saleDeadlineTextView"/>
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:layout_alignEnd="@+id/saleDeadlineTextView"
+								android:gravity="center"
+								android:text="@string/sale"
+								android:textSize="20sp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/saleTextView"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"/>
+						<TextView
+								android:layout_alignStart="@+id/saleTextView"
+								android:layout_below="@+id/saleTextView"
+								android:layout_alignEnd="@+id/saleTextView"
+								android:gravity="center"
+								android:textSize="18sp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/saleCountTextView"/>
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentEnd="true"
+								android:layout_below="@+id/saleCountTextView"
+								android:text="@string/deadline"
+								android:gravity="center"
+								android:textSize="14sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/saleDeadlineTextView"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"/>
 
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-		</LinearLayout>
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+			</LinearLayout>
+		</HorizontalScrollView>
 		<TextView
+				android:textColor="@color/light_blue"
 				android:layout_width="wrap_content"
 				android:text="@string/count_of_free_order_by_car_class"
 				app:layout_constraintStart_toStartOf="parent"
@@ -179,157 +190,175 @@
 				android:gravity="center"
 				android:textSize="22sp"
 				android:id="@+id/freeOrderTextView"
-				app:layout_constraintTop_toBottomOf="@+id/bonusesStatsLinearLayout"
+				app:layout_constraintTop_toBottomOf="@+id/bonusesStatsScrollView"
 				android:layout_height="wrap_content"/>
-		<LinearLayout
-				android:layout_width="0dp"
+		<HorizontalScrollView
+				android:id="@+id/freeOrderByClassStatsScrollView"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:gravity="center"
 				android:orientation="horizontal"
 				app:layout_constraintTop_toBottomOf="@+id/freeOrderTextView"
 				app:layout_constraintStart_toStartOf="parent"
-				android:id="@+id/freeOrderByClassStatsLinearLayout"
-				android:padding="10dp"
-				app:layout_constraintEnd_toEndOf="parent">
-			<androidx.cardview.widget.CardView
-					android:layout_width="wrap_content"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.0">
+			<LinearLayout
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:id="@+id/standardClassStatsCardView"
-					android:layout_margin="5dp"
-			>
-				<RelativeLayout
+					android:gravity="center"
+					android:orientation="horizontal"
+					android:id="@+id/freeOrderByClassStatsLinearLayout"
+					android:padding="10dp">
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:text="@string/standard"
-							android:textSize="20sp"
-							android:gravity="center"
+						android:layout_height="wrap_content"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:id="@+id/standardClassStatsCardView"
+						android:layout_margin="5dp"
+				>
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/standardClassTextView"
-							android:layout_marginTop="10dp" android:layout_marginStart="10dp"
-							android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
-					<TextView
-							android:layout_alignStart="@+id/standardClassTextView"
-							android:layout_below="@+id/standardClassTextView"
-							android:text="2"
-							android:layout_alignEnd="@+id/standardClassTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/standardFreeOrderCountTextView"/>
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignEnd="@+id/standardClassTextView"
-							android:layout_below="@+id/standardFreeOrderCountTextView"
-							android:text="@string/deadline"
-							android:gravity="center"
-							android:textSize="14sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/standardDeadlineTextView"/>
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-			<androidx.cardview.widget.CardView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:id="@+id/comfortClassStatsCardView"
-					android:layout_margin="5dp"
-			>
-				<RelativeLayout
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:layout_alignEnd="@+id/standardDeadlineTextView"
+								android:text="@string/standard"
+								android:textSize="20sp"
+								android:gravity="center"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/standardClassTextView"
+								android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+						<TextView
+								android:layout_alignStart="@+id/standardClassTextView"
+								android:layout_below="@+id/standardClassTextView"
+								android:layout_alignEnd="@+id/standardClassTextView"
+								android:gravity="center"
+								android:textSize="38sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/standardFreeOrderCountTextView"/>
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentEnd="true"
+								android:layout_below="@+id/standardFreeOrderCountTextView"
+								android:text="@string/deadline"
+								android:gravity="center"
+								android:textSize="14sp"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/standardDeadlineTextView"/>
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:text="@string/comfort"
-							android:gravity="center"
-							android:textSize="20sp"
+						android:layout_height="wrap_content"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:id="@+id/comfortClassStatsCardView"
+						android:layout_margin="5dp"
+				>
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/comfortClassTextView" android:layout_marginTop="10dp"
-							android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
-							android:layout_marginBottom="10dp"/>
-					<TextView
-							android:layout_alignStart="@+id/comfortClassTextView"
-							android:layout_below="@+id/comfortClassTextView"
-							android:layout_alignEnd="@+id/comfortClassTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/comfortFreeOrderCountTextView"/>
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignEnd="@+id/comfortClassTextView"
-							android:layout_below="@+id/comfortFreeOrderCountTextView"
-							android:text="@string/deadline"
-							android:gravity="center"
-							android:textSize="14sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/comfortDeadlineTextView"/>
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-			<androidx.cardview.widget.CardView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:id="@+id/eliteClassStatsCardView"
-					app:cardElevation="5dp"
-					app:cardCornerRadius="15dp"
-					android:layout_margin="5dp">
-				<RelativeLayout
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:layout_alignEnd="@+id/comfortDeadlineTextView"
+								android:text="@string/comfort"
+								android:gravity="center"
+								android:textSize="20sp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/comfortClassTextView" android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"/>
+						<TextView
+								android:layout_alignStart="@+id/comfortClassTextView"
+								android:layout_below="@+id/comfortClassTextView"
+								android:layout_alignEnd="@+id/comfortClassTextView"
+								android:gravity="center"
+								android:textSize="38sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/comfortFreeOrderCountTextView"/>
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentEnd="true"
+								android:layout_below="@+id/comfortFreeOrderCountTextView"
+								android:text="@string/deadline"
+								android:gravity="center"
+								android:textSize="14sp"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/comfortDeadlineTextView"/>
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+				<androidx.cardview.widget.CardView
 						android:layout_width="wrap_content"
-						android:layout_height="wrap_content">
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentTop="true"
-							android:layout_alignEnd="@+id/eliteDeadlineTextView"
-							android:text="@string/elite"
-							android:textSize="20sp"
-							android:gravity="center"
+						android:layout_height="wrap_content"
+						android:id="@+id/eliteClassStatsCardView"
+						app:cardElevation="5dp"
+						app:cardCornerRadius="15dp"
+						android:layout_margin="5dp">
+					<RelativeLayout
 							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/eliteClassTextView"
-							android:layout_marginTop="10dp" android:layout_marginStart="10dp"
-							android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
-					<TextView
-							android:layout_alignStart="@+id/eliteClassTextView"
-							android:layout_below="@+id/eliteClassTextView"
-							android:text="2"
-							android:layout_alignEnd="@+id/eliteClassTextView"
-							android:gravity="center"
-							android:textSize="38sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:id="@+id/eliteFreeOrderCountTextView"/>
-					<TextView
-							android:layout_alignParentStart="true"
-							android:layout_alignParentEnd="true"
-							android:layout_below="@+id/eliteFreeOrderCountTextView"
-							android:text="@string/deadline"
-							android:gravity="center"
-							android:textSize="14sp"
-							android:layout_marginBottom="10dp"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
+							android:layout_height="wrap_content">
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentTop="true"
+								android:layout_alignEnd="@+id/eliteDeadlineTextView"
+								android:text="@string/elite"
+								android:textSize="20sp"
+								android:gravity="center"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/eliteClassTextView"
+								android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+						<TextView
+								android:layout_alignStart="@+id/eliteClassTextView"
+								android:layout_below="@+id/eliteClassTextView"
+								android:layout_alignEnd="@+id/eliteClassTextView"
+								android:gravity="center"
+								android:textSize="38sp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:id="@+id/eliteFreeOrderCountTextView"/>
+						<TextView
+								android:layout_alignParentStart="true"
+								android:layout_alignParentEnd="true"
+								android:layout_below="@+id/eliteFreeOrderCountTextView"
+								android:text="@string/deadline"
+								android:gravity="center"
+								android:textSize="14sp"
+								android:layout_marginTop="10dp"
+								android:layout_marginStart="10dp"
+								android:layout_marginEnd="10dp"
+								android:layout_marginBottom="10dp"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
 								android:id="@+id/eliteDeadlineTextView"/>
-				</RelativeLayout>
-			</androidx.cardview.widget.CardView>
-		</LinearLayout>
+					</RelativeLayout>
+				</androidx.cardview.widget.CardView>
+			</LinearLayout>
+		</HorizontalScrollView>
+
 		<TextView
+				android:textColor="@color/light_blue"
 				android:text="@string/military_bonuses"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -338,7 +367,7 @@
 				android:layout_margin="10dp"
 				android:textSize="22sp"
 				android:gravity="center"
-				app:layout_constraintTop_toBottomOf="@+id/freeOrderByClassStatsLinearLayout"
+				app:layout_constraintTop_toBottomOf="@+id/freeOrderByClassStatsScrollView"
 				android:id="@+id/militaryBonusesTextView"/>
 
 		<LinearLayout
@@ -365,7 +394,6 @@
 						android:layout_height="match_parent">
 
 					<TextView
-							android:text="fdwff"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_alignParentStart="true"
@@ -374,7 +402,8 @@
 							android:textSize="20sp"
 							android:gravity="center"
 							android:id="@+id/militaryBonusesInfoText"
-							android:layout_margin="5dp"/>
+							android:layout_marginTop="5dp" android:layout_marginStart="5dp"
+							android:layout_marginEnd="5dp" android:layout_marginBottom="5dp"/>
 					<Button
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
@@ -389,6 +418,7 @@
 			</androidx.cardview.widget.CardView>
 		</LinearLayout>
 		<TextView
+				android:textColor="@color/light_blue"
 				android:layout_width="wrap_content"
 				android:text="@string/bonuses_info"
 				app:layout_constraintStart_toStartOf="parent"

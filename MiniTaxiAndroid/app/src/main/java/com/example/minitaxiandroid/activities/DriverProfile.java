@@ -9,8 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.document.DriverProfileInfo;
-import com.example.minitaxiandroid.retrofit.MiniTaxiApi;
-import com.example.minitaxiandroid.retrofit.RetrofitService;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,7 +90,7 @@ public class DriverProfile extends AppCompatActivity {
 
     public void goDriverMenu(Bundle savedInstanceState){
         Intent intent = new Intent(this, DriverMenuActivity.class);
-        intent.putExtra("userId", getDate(savedInstanceState, "driverId"));
+        intent.putExtra("driverId", getDate(savedInstanceState, "driverId"));
         startActivity(intent);
     }
 }

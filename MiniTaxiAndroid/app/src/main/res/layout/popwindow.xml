@@ -6,24 +6,34 @@
 	<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" android:gravity="center" android:textAlignment="center"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:textAlignment="center"
+			android:layout_margin="5dp"
+			android:background="@drawable/card_view_border_reverse"
 			android:layout_centerInParent="true">
 		<TextView
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:id="@+id/driverNameCustomerText"
-				android:textAlignment="center" android:textSize="34sp"/>
+				android:textAlignment="center"
+				android:layout_margin="5dp"
+				android:textSize="34sp"/>
 		<TextView
+				android:layout_margin="5dp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:id="@+id/driverAddressCustomerText"
-				android:textAlignment="center" android:textSize="34sp"/>
+				android:textAlignment="center"
+				android:textSize="34sp"/>
 		<TextView
+				android:layout_margin="5dp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:id="@+id/driverAddressDeliveryText"
 				android:textAlignment="center" android:textSize="34sp"/>
 		<TextView
+				android:layout_margin="5dp"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:id="@+id/driverTelephoneCustomerText"
@@ -33,14 +43,20 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:layout_gravity="center">
 			<Button
-					android:text="Accept"
+					android:text="@string/accept"
+					android:textColor="@color/light_blue"
+					android:background="@drawable/roundcorner_button"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
 					android:id="@+id/acceptButton"/>
 			<Button
-					android:text="Cancel"
-					android:layout_width="wrap_content"
+					android:text="@string/cancel"
+					android:textColor="@color/light_blue"
+					android:background="@drawable/roundcorner_button"
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
 					android:id="@+id/cancelButton" android:layout_weight="1"/>
 		</LinearLayout>
 	</LinearLayout>

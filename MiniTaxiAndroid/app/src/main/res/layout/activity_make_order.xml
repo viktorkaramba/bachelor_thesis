@@ -4,6 +4,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
+        android:background="@color/dark_blue"
               android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +23,7 @@
             android:text="@string/pick_car_class"
             android:textSize="24sp"
             android:layout_margin="10dp"
+            android:textColor="@color/light_blue"
             android:id="@+id/makeOrderCarClassTextView"
             app:layout_constraintTop_toTopOf="parent"
     />
@@ -50,7 +52,7 @@
                     app:srcCompat="@drawable/standard_car_icon"
                     android:id="@+id/standardIconImageView"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_alignParentTop="true"/>
             <TextView
                     android:layout_width="wrap_content"
@@ -58,7 +60,7 @@
                     android:text="@string/standard"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textSize="18sp"
                     android:layout_toEndOf="@+id/standardIconImageView"
                     android:layout_above="@+id/priceStandardTextView"/>
@@ -105,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/comfortIconImageView"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     app:srcCompat="@drawable/comfort_car_icon"/>
             <TextView
                     android:layout_width="wrap_content"
@@ -113,7 +115,7 @@
                     android:text="@string/comfort"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textSize="18sp"
                     android:layout_toEndOf="@+id/comfortIconImageView"
                     android:layout_above="@+id/priceComfortTextView"/>
@@ -159,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/elite_car_icon"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:id="@+id/eliteIconImageView"/>
             <TextView
                     android:layout_width="wrap_content"
@@ -167,7 +169,7 @@
                     android:text="@string/elite"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textSize="18sp"
                     android:layout_toEndOf="@+id/eliteIconImageView"
                     android:layout_above="@+id/priceEliteTextView"/>
@@ -199,6 +201,9 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:hint="@string/your_name"
+            android:textColor="@color/light_blue"
+            android:textColorHint="@color/light_blue"
+            app:backgroundTint="@color/light_blue"
             android:ems="10"
             android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -213,6 +218,9 @@
             android:inputType="phone"
             android:hint="@string/your_phone"
             android:ems="10"
+            android:textColor="@color/light_blue"
+            android:textColorHint="@color/light_blue"
+            app:backgroundTint="@color/light_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEditTextTextPersonName"
@@ -225,6 +233,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/sale_bonus"
+            android:textColor="@color/light_blue"
             android:textSize="24sp"
             android:visibility="gone"
             android:layout_margin="10dp"
@@ -247,10 +256,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
                       android:layout_alignParentStart="true"
+                      android:layout_height="wrap_content"
+                      android:layout_toStartOf="@+id/saleRadioButton"
                       android:layout_alignParentTop="true"
                       android:text="@string/user_sale_order"
+                      android:textColor="@color/dark_blue"
                       android:id="@+id/saleBonusesTextView"
                       android:gravity="center"
                       android:textSize="20sp"
@@ -288,6 +299,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@string/free_order_bonus"
+                android:textColor="@color/light_blue"
                 android:textSize="24sp"
                 android:visibility="gone"
                 android:layout_margin="10dp"
@@ -300,24 +312,28 @@
                 android:id="@+id/standardBonusesCardView"
                 app:cardElevation="5dp"
                 app:cardCornerRadius="20dp"
-                android:layout_margin="10dp"
                 android:visibility="gone"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/light_blue">
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentStart="true"
-                          android:layout_alignParentTop="true"
-                          android:text="@string/user_free_order_on_standard"
-                          android:id="@+id/standardBonusesTextView"
-                          android:gravity="center"
-                          android:textSize="20sp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginStart="10dp"
-                          android:layout_marginEnd="10dp"
-                          android:layout_alignBottom="@+id/standardFreeOrdersRadioButton"
+                    android:layout_height="match_parent"
+                    android:id="@+id/standardBonusesRelativeLayout"
+            >
+                <TextView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/standardFreeOrdersRadioButton"
+                        android:layout_alignTop="@+id/standardFreeOrdersRadioButton"
+                        android:text="@string/user_free_order_on_standard"
+                        android:id="@+id/standardBonusesTextView"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                 />
                 <RadioButton
                         android:layout_width="wrap_content"
@@ -327,8 +343,10 @@
                         android:buttonTint="@color/dark_blue"
                         android:id="@+id/standardFreeOrdersRadioButton"
                         android:minWidth="48dp"
-                        android:layout_marginTop="10dp" android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"/>
             </RelativeLayout>
 
 
@@ -341,22 +359,25 @@
                 app:cardCornerRadius="20dp"
                 android:layout_margin="10dp"
                 android:visibility="gone"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/light_blue">
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentStart="true"
-                          android:layout_alignParentTop="true"
-                          android:text="@string/user_free_order_on_comfort"
-                          android:id="@+id/comfortBonusesTextView"
-                          android:gravity="center"
-                          android:textSize="20sp"
-                          android:layout_marginTop="10dp"
-                          android:layout_marginStart="10dp"
-                          android:layout_marginEnd="10dp"
-                          android:layout_alignBottom="@+id/comfortFreeOrdersRadioButton"
+                <TextView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/comfortFreeOrdersRadioButton"
+                        android:layout_alignTop="@id/comfortFreeOrdersRadioButton"
+                       android:text="@string/user_free_order_on_comfort"
+                        android:id="@+id/comfortBonusesTextView"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                 />
                 <RadioButton
                         android:layout_width="wrap_content"
@@ -378,24 +399,26 @@
                 android:id="@+id/eliteBonusesCardView"
                 app:cardElevation="5dp"
                 app:cardCornerRadius="20dp"
-                android:layout_margin="10dp"
                 android:visibility="gone"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/light_blue">
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <TextView android:layout_width="wrap_content"
+                <TextView
+                        android:layout_alignParentStart="true"
+                        android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:layout_alignParentStart="true"
-                          android:layout_alignParentTop="true"
-                          android:text="@string/user_free_order_on_elite"
-                          android:id="@+id/eliteBonusesTextView"
+                          android:layout_toStartOf="@id/eliteFreeOrdersRadioButton"
+                          android:layout_alignTop="@id/eliteFreeOrdersRadioButton"
+                        android:text="@string/user_free_order_on_elite"
+                        android:id="@+id/eliteBonusesTextView"
                           android:gravity="center"
                           android:textSize="20sp"
-                          android:layout_marginTop="10dp"
+                          android:layout_marginTop="3dp"
                           android:layout_marginStart="10dp"
                           android:layout_marginEnd="10dp"
-                          android:layout_alignBottom="@+id/eliteFreeOrdersRadioButton"
                 />
                 <RadioButton
                         android:layout_width="wrap_content"

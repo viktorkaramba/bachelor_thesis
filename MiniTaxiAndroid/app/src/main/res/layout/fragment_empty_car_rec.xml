@@ -3,10 +3,12 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:background="@drawable/card_view_border_reverse"
              tools:context=".fragments.EmptyCarRecFragment">
 	<TextView
-			android:text="No Recommendations"
+			android:text="@string/no_recommendations"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" android:id="@+id/noCarText" android:gravity="center"
+			android:layout_height="match_parent"
+			android:id="@+id/noCarText" android:gravity="center"
 			android:textSize="24sp" android:textStyle="bold"/>
 </FrameLayout>

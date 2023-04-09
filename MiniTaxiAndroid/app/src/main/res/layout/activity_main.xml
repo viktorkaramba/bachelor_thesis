@@ -11,18 +11,17 @@
                                            tools:openDrawer="start"
                                            android:windowSoftInputMode="adjustPan"
                                            android:background="@color/light_blue">
-
 	<com.google.android.material.navigation.NavigationView
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:id="@+id/nav_views"
 			app:headerLayout="@layout/header"
-			app:menu="@menu/main_menu_user"
 			android:layout_gravity="start"
 			android:background="@drawable/knpp_backgroung"
 			app:itemTextColor="@color/white"
-			app:itemIconTint="@color/white"
-	>
+			android:fitsSystemWindows="true"
+			app:menu="@menu/main_menu_user"
+			app:itemIconTint="@color/white">
 
 	</com.google.android.material.navigation.NavigationView>
 
@@ -54,7 +53,7 @@
 				android:name="com.google.android.gms.maps.SupportMapFragment"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="0.0"/>
+		/>
 		<androidx.fragment.app.FragmentContainerView
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
@@ -64,7 +63,7 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				android:visibility="visible"
-		/>
+				tools:layout="@layout/favourite_addresses_search_fragment"/>
 
 
 	</androidx.constraintlayout.widget.ConstraintLayout>

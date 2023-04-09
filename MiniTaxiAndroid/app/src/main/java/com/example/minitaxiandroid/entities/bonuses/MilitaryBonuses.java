@@ -13,7 +13,7 @@ public class MilitaryBonuses {
     private int militaryBonusesId;
     private int userId;
     private byte[] documentPhotoByteArray;
-    private MILITARY_BONUS_STATUS MILITARYBONUSEStatus;
+    private MILITARY_BONUS_STATUS militaryBonusStatus;
     private float saleValue;
     private Timestamp date;
 }

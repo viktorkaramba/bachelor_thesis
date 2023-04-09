@@ -4,8 +4,8 @@ package com.unicyb.minitaxi.database.dao.bonuses;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
+import com.unicyb.minitaxi.entities.bonuses.MILITARY_BONUS_STATUS;
 import com.unicyb.minitaxi.entities.bonuses.MilitaryBonuses;
-import com.unicyb.minitaxi.entities.indicators.STATUS;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,7 +23,7 @@ public class MilitaryBonusesDAOImpl  implements DAO<MilitaryBonuses> {
             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_MILITARY_BONUSES);
             preparedStatement.setInt(1, militaryBonuses.getUserId());
             preparedStatement.setBlob(2, photo);
-            preparedStatement.setString(3, militaryBonuses.getStatus().name());
+            preparedStatement.setString(3, militaryBonuses.getMilitaryBonusStatus().name());
             preparedStatement.setFloat(4, militaryBonuses.getSaleValue());
             preparedStatement.setTimestamp(5, militaryBonuses.getDate());
             preparedStatement.executeUpdate();
@@ -57,13 +57,13 @@ public class MilitaryBonusesDAOImpl  implements DAO<MilitaryBonuses> {
         Blob blob  = resultSet.getBlob(3);
         byte[] photo = blob.getBytes(1l, (int)blob.length());
         return new MilitaryBonuses(resultSet.getInt(1), resultSet.getInt(2), photo,
-                STATUS.valueOf(resultSet.getString(4)), resultSet.getFloat(5),
+                MILITARY_BONUS_STATUS.valueOf(resultSet.getString(4)), resultSet.getFloat(5),
                 resultSet.getTimestamp(6));
     }
 
     private MilitaryBonuses getMilitaryWithoutPhoto(ResultSet resultSet) throws SQLException {
         return new MilitaryBonuses(resultSet.getInt(1), resultSet.getInt(2), null,
-                STATUS.valueOf(resultSet.getString(3)), resultSet.getFloat(4),
+                MILITARY_BONUS_STATUS.valueOf(resultSet.getString(3)), resultSet.getFloat(4),
                 resultSet.getTimestamp(5));
     }
 
@@ -113,7 +113,7 @@ public class MilitaryBonusesDAOImpl  implements DAO<MilitaryBonuses> {
             PreparedStatement statement = con.prepareStatement(SQLQuery.UPDATE_MILITARY_BONUSES);
             statement.setInt(1, militaryBonuses.getUserId());
             statement.setBlob(2,photo);
-            statement.setString(3, militaryBonuses.getStatus().name());
+            statement.setString(3, militaryBonuses.getMilitaryBonusStatus().name());
             statement.setFloat(4, militaryBonuses.getSaleValue());
             statement.setTimestamp(5, militaryBonuses.getDate());
             statement.setInt(6, militaryBonuses.getMilitaryBonusesId());
