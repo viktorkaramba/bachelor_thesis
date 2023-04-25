@@ -3,6 +3,7 @@ package com.unicyb.minitaxi.database.dao.indicators;
 import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
+import com.unicyb.minitaxi.entities.documents.CAR_CLASSES;
 import com.unicyb.minitaxi.entities.indicators.Order;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.Report;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.UserOrderInfo;
@@ -31,6 +32,8 @@ public class OrderDAOImpl implements DAO<Order> {
             preparedStatement.setString(9, order.getCustomerName());
             preparedStatement.setInt(10, order.getUserId());
             preparedStatement.setString(11, order.getUserComment());
+            preparedStatement.setString(12, String.valueOf(order.isUseSale()));
+            preparedStatement.setString(13, order.getIsUseFreeOrder().name());
             preparedStatement.executeUpdate();
             connection.close();
             return true;
@@ -100,10 +103,11 @@ public class OrderDAOImpl implements DAO<Order> {
 
     private Order getOrder(ResultSet resultSet) throws SQLException {
         return new Order(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3),
-                resultSet.getString(4), resultSet.getString(5),
-                resultSet.getFloat(6), resultSet.getTimestamp(7),
-                resultSet.getFloat(8), resultSet.getFloat(9),
-                resultSet.getString(10), resultSet.getInt(11), resultSet.getString(12));
+                resultSet.getString(4), resultSet.getString(5), resultSet.getFloat(6),
+                resultSet.getTimestamp(7), resultSet.getFloat(8), resultSet.getFloat(9),
+                resultSet.getString(10), resultSet.getInt(11),
+                Boolean.valueOf(resultSet.getString(12)), CAR_CLASSES.valueOf(resultSet.getString(13)),
+                resultSet.getString(14));
     }
 
     private UserOrderInfo getUserOrderInfo(ResultSet resultSet) throws SQLException {

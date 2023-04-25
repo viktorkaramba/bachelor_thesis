@@ -3,7 +3,7 @@ package com.unicyb.minitaxi.controller.bonuses;
 import com.unicyb.minitaxi.database.dao.bonuses.MilitaryBonusesDAOImpl;
 import com.unicyb.minitaxi.entities.bonuses.MILITARY_BONUS_STATUS;
 import com.unicyb.minitaxi.entities.bonuses.MilitaryBonuses;
-import com.unicyb.minitaxi.entities.userinterfaceenteties.Message;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.MyMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ import java.util.Date;
 public class MilitaryBonusesController {
     private MilitaryBonusesDAOImpl militaryBonusesDAO;
 
-    @GetMapping("/military-bonuses")
+    @GetMapping("/api/v1/bonuses/military-bonuses")
     public ResponseEntity getMilitaryBonuses(){
         try {
             militaryBonusesDAO = new MilitaryBonusesDAOImpl();
@@ -26,7 +26,7 @@ public class MilitaryBonusesController {
         }
     }
 
-    @GetMapping("/military-bonuses/{userId}")
+    @GetMapping("/api/v1/bonuses/military-bonuses/{userId}")
     public ResponseEntity getMilitaryBonusesByUserId(@PathVariable("userId") Integer userId){
         try {
             militaryBonusesDAO = new MilitaryBonusesDAOImpl();
@@ -45,31 +45,31 @@ public class MilitaryBonusesController {
         }
     }
 
-    @PostMapping("/military-bonuses")
+    @PostMapping("/api/v1/bonuses/military-bonuses")
     public ResponseEntity save(@RequestBody MilitaryBonuses militaryBonuses){
         try {
             militaryBonuses.setDate(new Timestamp(new Date().getTime()));
             militaryBonusesDAO = new MilitaryBonusesDAOImpl();
             militaryBonusesDAO.add(militaryBonuses);
-            return ResponseEntity.ok(new Message("success"));
+            return ResponseEntity.ok(new MyMessage("success"));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to add military bonuses");
         }
     }
 
-    @PutMapping("/military-bonuses")
+    @PutMapping("/api/v1/bonuses/military-bonuses")
     public void update(@RequestBody MilitaryBonuses militaryBonuses){
         militaryBonusesDAO = new MilitaryBonusesDAOImpl();
         militaryBonusesDAO.update(militaryBonuses);
     }
 
-    @DeleteMapping("/military-bonuses/{id}")
+    @DeleteMapping("/api/v1/bonuses/military-bonuses/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id){
         try {
             militaryBonusesDAO = new MilitaryBonusesDAOImpl();
             militaryBonusesDAO.delete(id);
-            return ResponseEntity.ok(new Message("success"));
+            return ResponseEntity.ok(new MyMessage("success"));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to delete military bonuses");

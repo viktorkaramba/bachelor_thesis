@@ -2,6 +2,8 @@ package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,12 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.entities.messages.UserSendDate;
 import com.example.minitaxiandroid.websocket.WebSocketClient;
-import org.springframework.messaging.simp.stomp.StompFrameHandler;
-import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
@@ -53,9 +52,12 @@ public class CurrentOrderActivity extends AppCompatActivity {
         customerAddress.setText(userSendDate.getAddressCustomer());
         deliveryAddress.setText(userSendDate.getAddressDelivery());
         telephoneNumber.setText(userSendDate.getTelephoneNumber());
-        completeButton.setOnClickListener(view -> {
-            completeOrder();
-        });
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            completeButton.setOnClickListener(view -> {
+                completeOrder();
+            });
+        }, 5000);
+
     }
 
     public String getDate(Bundle savedInstanceState, String key){
@@ -80,31 +82,14 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 WebSocketClient userClient = new WebSocketClient();
                 ListenableFuture<StompSession> f = userClient.connect();
                 stompSession = f.get();
-                subscribe(userSendDate.getUserId());
                 sendUserDateMessage();
+                stompSession.disconnect();
                 Intent intent = new Intent(CurrentOrderActivity.this, DriverMenuActivity.class);
-                System.out.println("CurrentOrder userId " + userSendDate.getDriverId());
-                intent.putExtra("userId", String.valueOf(userSendDate.getDriverId()));
                 startActivity(intent);
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-
-    }
-
-    public void subscribe(int userID) throws ExecutionException, InterruptedException {
-        stompSession.subscribe("/user/" + userID + "/order-message", new StompFrameHandler() {
-            @Override
-            public Type getPayloadType(StompHeaders headers) {
-                return byte[].class;
-            }
-
-            @Override
-            public void handleFrame(StompHeaders headers, Object o) {
-                Log.d("Received ", new String((byte[]) o));
-            }
-        });
     }
 
     public void sendUserDateMessage() {

@@ -1,11 +1,6 @@
 package com.unicyb.minitaxi.controller.documents;
 
-import com.unicyb.minitaxi.database.dao.documents.CarClassDAOImpl;
-import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
-import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.MaintenanceCostsCarsDAOImpl;
-import com.unicyb.minitaxi.entities.documents.CarClass;
-import com.unicyb.minitaxi.entities.documents.FullName;
 import com.unicyb.minitaxi.entities.documents.MaintenanceCostsCars;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +13,7 @@ import java.util.Date;
 public class MaintenanceCostsCarsController {
     private MaintenanceCostsCarsDAOImpl maintenanceCostsCarsDAO;
 
-    @GetMapping("/maintenance-costs-cars")
+    @GetMapping("/api/v1/documents/maintenance-costs-cars")
     public ResponseEntity getMaintenanceCostsCars(){
         try {
             maintenanceCostsCarsDAO = new MaintenanceCostsCarsDAOImpl();
@@ -29,21 +24,21 @@ public class MaintenanceCostsCarsController {
         }
     }
 
-    @PostMapping("/maintenance-costs-cars")
+    @PostMapping("/api/v1/documents/maintenance-costs-cars")
     public void save(@RequestBody MaintenanceCostsCars maintenanceCostsCars){
         maintenanceCostsCarsDAO = new MaintenanceCostsCarsDAOImpl();
         maintenanceCostsCars.setDate(new Timestamp(new Date().getTime()));
         maintenanceCostsCarsDAO.add(maintenanceCostsCars);
     }
 
-    @PutMapping("/maintenance-costs-cars")
+    @PutMapping("/api/v1/documents/maintenance-costs-cars")
     public void delete(@RequestBody MaintenanceCostsCars maintenanceCostsCars){
         System.out.println("maintenance-costs-cars: " + maintenanceCostsCars);
         maintenanceCostsCarsDAO = new MaintenanceCostsCarsDAOImpl();
         maintenanceCostsCarsDAO.update(maintenanceCostsCars);
     }
 
-    @DeleteMapping("/maintenance-costs-cars/{id}")
+    @DeleteMapping("/api/v1/documents/maintenance-costs-cars/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
         maintenanceCostsCarsDAO = new MaintenanceCostsCarsDAOImpl();

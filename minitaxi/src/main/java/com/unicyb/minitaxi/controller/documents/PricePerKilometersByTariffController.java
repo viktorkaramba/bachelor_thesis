@@ -1,8 +1,6 @@
 package com.unicyb.minitaxi.controller.documents;
 
-import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.PricePerKilometersByTariffDAOImpl;
-import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.PricePerKilometersByTariff;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class PricePerKilometersByTariffController {
     private PricePerKilometersByTariffDAOImpl pricePerKilometersByTariffDAO;
 
-    @GetMapping("/price-per-kilometer-by-tariff")
+    @GetMapping("/api/v1/documents/price-per-kilometer-by-tariff")
     public ResponseEntity getPricePerKilometersByTariff(){
         try {
             pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();
@@ -23,20 +21,20 @@ public class PricePerKilometersByTariffController {
         }
     }
 
-    @PostMapping("/price-per-kilometer-by-tariff")
+    @PostMapping("/api/v1/documents/price-per-kilometer-by-tariff")
     public void save(@RequestBody PricePerKilometersByTariff pricePerKilometersByTariff){
         pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();
         pricePerKilometersByTariffDAO.add(pricePerKilometersByTariff);
     }
 
-    @PutMapping("/price-per-kilometer-by-tariff")
+    @PutMapping("/api/v1/documents/price-per-kilometer-by-tariff")
     public void delete(@RequestBody PricePerKilometersByTariff pricePerKilometersByTariff){
         System.out.println("pricePerKilometersByTariff: " + pricePerKilometersByTariff);
         pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();
         pricePerKilometersByTariffDAO.update(pricePerKilometersByTariff);
     }
 
-    @DeleteMapping("/price-per-kilometer-by-tariff/{id}")
+    @DeleteMapping("/api/v1/documents/price-per-kilometer-by-tariff/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
         pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();

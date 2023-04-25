@@ -2,6 +2,7 @@ package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -9,21 +10,25 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import com.example.minitaxiandroid.R;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
+import com.example.minitaxiandroid.entities.document.CAR_CLASSES;
 import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
-import com.example.minitaxiandroid.entities.messages.PriceByClass;
+import com.example.minitaxiandroid.entities.messages.PriceByClassRequest;
+import com.example.minitaxiandroid.entities.messages.PriceByClassResponse;
 import com.example.minitaxiandroid.entities.messages.ResponseMessage;
 import com.example.minitaxiandroid.entities.messages.UserSendDate;
 import com.example.minitaxiandroid.entities.ranks.Rank;
 import com.example.minitaxiandroid.entities.ranks.UserEliteRankAchievementInfo;
 import com.example.minitaxiandroid.entities.ranks.UserRankAchievementInfo;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
-import com.example.minitaxiandroid.api.MiniTaxiApi;
-import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.services.GFG;
-import com.example.minitaxiandroid.services.UserLoginInfoService;
+import com.example.minitaxiandroid.services.UserInfoService;
 import com.example.minitaxiandroid.websocket.WebSocketClient;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
@@ -35,10 +40,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.example.minitaxiandroid.services.ObjectParserService.parseResponseMessageFromString;
 
@@ -48,15 +57,20 @@ public class MakeOrderActivity extends AppCompatActivity {
     private TextView priceStandardTextView, priceComfortTextView, priceEliteTextView, makeOrderBonusesTextView,
             saleBonusesTextView, freeOrderBonusesTextView;
     private EditText nameEditText, phoneEditText;
-    private CardView saleBonusesCardView, standardBonusesCardView, comfortBonusesCardView, eliteBonusesCardView;
+    private CardView standardCardView, comfortCardView, eliteCardView, saleBonusesCardView,
+            standardBonusesCardView, comfortBonusesCardView, eliteBonusesCardView;
     private RadioButton standardRadioButton, comfortRadioButton, eliteRadioButton, saleRadioButton,
             standardFreeOrdersRadioButton, comfortFreeOrdersRadioButton, eliteFreeOrdersRadioButton;
-    private DriverResponseDialog dialog;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
     private String userId, userAddressFrom, userAddressTo, latitude, longitude;
     private Rank userRank;
-    private int driverId;
-    private float distance;
-    private int classId;
+    private int favouriteDriverId, currentDriverId = 0;
+    private List<Integer> noAnswerDrivers;
+    private boolean isGetAnswer = false, isFavouriteDriver = false;
+    private CAR_CLASSES carClass = null;
+    private PriceByClassResponse priceByClassResponse;
+    private float distance, priceStandard, priceComfort, priceElite, currentPrice;
     private StompSession stompSession;
     private DatabaseReference databaseReference;
 
@@ -67,8 +81,11 @@ public class MakeOrderActivity extends AppCompatActivity {
         makeOrderButton = findViewById(R.id.makeOrderButton);
         cancelMakeOrderButton = findViewById(R.id.cancelMakeOrderButton);
         priceStandardTextView = findViewById(R.id.priceStandardTextView);
+        standardCardView = findViewById(R.id.standardCardView);
         priceComfortTextView = findViewById(R.id.priceComfortTextView);
+        comfortCardView = findViewById(R.id.comfortCardView);
         priceEliteTextView = findViewById(R.id.priceEliteTextView);
+        eliteCardView = findViewById(R.id.eliteCardView);
         makeOrderBonusesTextView = findViewById(R.id.makeOrderBonusesTextView);
         nameEditText = findViewById(R.id.userEditTextTextPersonName);
         phoneEditText = findViewById(R.id.userEditTextPhone);
@@ -78,20 +95,20 @@ public class MakeOrderActivity extends AppCompatActivity {
         standardBonusesCardView = findViewById(R.id.standardBonusesCardView);
         comfortBonusesCardView = findViewById(R.id.comfortBonusesCardView);
         eliteBonusesCardView = findViewById(R.id.eliteBonusesCardView);
+        noAnswerDrivers = new ArrayList<>();
         initializeRadioButtons();
         userAddressFrom = getDate(savedInstanceState, "userAddressFrom");
         userAddressTo = getDate(savedInstanceState, "userAddressTo");
         latitude = getDate(savedInstanceState, "latitude");
         longitude = getDate(savedInstanceState, "longitude");
-        driverId = Integer.parseInt(getDate(savedInstanceState, "driverId"));
+        favouriteDriverId = Integer.parseInt(getDate(savedInstanceState, "driverId"));
         distance = Float.parseFloat(getDate(savedInstanceState, "distance"));
-        UserLoginInfoService.init(MakeOrderActivity.this);
-        UserLoginInfoService.addProperty("userId", "1");
-        UserLoginInfoService.addProperty("rankId", "6");
+        carClass = CAR_CLASSES.valueOf(getDate(savedInstanceState, "carClass"));
+        UserInfoService.init(MakeOrderActivity.this);
+        setCarClass();
         getRanksInfoRequest();
         getUserOrderPriceByClass();
-        userId = UserLoginInfoService.getProperty("userId");
-        dialog = new DriverResponseDialog();
+        userId = UserInfoService.getProperty("userId");
         makeOrderButton.setOnClickListener(view -> {
             makeOrder();
         });
@@ -101,11 +118,42 @@ public class MakeOrderActivity extends AppCompatActivity {
         cancelMakeOrderButton.setOnClickListener(view -> goMain());
     }
 
+    private void setCarClass() {
+        if(carClass.equals(CAR_CLASSES.STANDARD)){
+            standardRadioButton.setSelected(true);
+            standardRadioButton.setChecked(true);
+            standardRadioButton.setClickable(false);
+            currentPrice = priceStandard;
+            comfortCardView.setVisibility(View.GONE);
+            eliteCardView.setVisibility(View.GONE);
+        }
+        else if(carClass.equals(CAR_CLASSES.COMFORT)){
+            comfortRadioButton.setSelected(true);
+            comfortRadioButton.setChecked(true);
+            comfortRadioButton.setClickable(false);
+            currentPrice = priceComfort;
+            standardCardView.setVisibility(View.GONE);
+            eliteCardView.setVisibility(View.GONE);
+        }
+        else if(carClass.equals(CAR_CLASSES.ELITE)) {
+            eliteRadioButton.setSelected(true);
+            eliteRadioButton.setChecked(true);
+            eliteRadioButton.setClickable(false);
+            currentPrice = priceElite;
+            standardCardView.setVisibility(View.GONE);
+            comfortCardView.setVisibility(View.GONE);
+        }
+    }
+
     public void makeOrder() {
         if(isValidUserInformation()) {
-            if(driverId > 0){
-                subscribeAndSendDataToDriver(driverId);
+            isGetAnswer = false;
+            if(favouriteDriverId > 0){
+                isFavouriteDriver = true;
+                currentDriverId = favouriteDriverId;
+                subscribeAndSendDataToDriver(favouriteDriverId);
                 showWaitForDriverResponse();
+                setTimer(favouriteDriverId);
             }
             else {
                 DatabaseReference uidRef = databaseReference.child("drivers-info");
@@ -113,22 +161,43 @@ public class MakeOrderActivity extends AppCompatActivity {
                 ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        DataSnapshot firstDriver = dataSnapshot.getChildren().iterator().next();
-                        DriverInfo nearestDriver = firstDriver.getValue(DriverInfo.class);
-                        double minDistance = GFG.distance(nearestDriver.getLatitude(), Double.parseDouble(latitude),
-                                nearestDriver.getLongitude(), Double.parseDouble(longitude));
-                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            DriverInfo driverInfo = ds.getValue(DriverInfo.class);
-                            double currentDistance = GFG.distance(driverInfo.getLatitude(),
-                                    Double.parseDouble(latitude), driverInfo.getLongitude(),
-                                    Double.parseDouble(longitude));
-                            if (minDistance > currentDistance) {
-                                minDistance = currentDistance;
-                                nearestDriver = driverInfo;
+                        System.out.println(dataSnapshot.exists());
+                        if(dataSnapshot.getChildren().iterator().hasNext()){
+                            DataSnapshot firstSnapShot = dataSnapshot.getChildren().iterator().next();
+                            DriverInfo firstDriver = firstSnapShot.getValue(DriverInfo.class);
+                            DriverInfo nearestDriver = null;
+                            double minDistance = GFG.distance(firstDriver.getLatitude(), Double.parseDouble(latitude),
+                                    firstDriver.getLongitude(), Double.parseDouble(longitude));
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                DriverInfo driverInfo = ds.getValue(DriverInfo.class);
+                                if(isNoAnswerDriver(driverInfo) && driverInfo.getCarClass().equals(carClass)) {
+                                    System.out.println(driverInfo);
+                                    double currentDistance = GFG.distance(driverInfo.getLatitude(),
+                                            Double.parseDouble(latitude), driverInfo.getLongitude(),
+                                            Double.parseDouble(longitude));
+                                    if (minDistance >= currentDistance) {
+                                        minDistance = currentDistance;
+                                        nearestDriver = driverInfo;
+                                    }
+                                }
+                            }
+                            System.out.println(nearestDriver);
+                            if(nearestDriver != null) {
+                                isFavouriteDriver = false;
+                                currentDriverId = nearestDriver.getDriverId();
+                                subscribeAndSendDataToDriver(nearestDriver.getDriverId());
+                                showWaitForDriverResponse();
+                                setTimer(nearestDriver.getDriverId());
+                            }
+                            else{
+                                Toast.makeText(MakeOrderActivity.this,
+                                        getResources().getString(R.string.no_driver), Toast.LENGTH_SHORT).show();
                             }
                         }
-                        subscribeAndSendDataToDriver(nearestDriver.getDriverId());
-                        showWaitForDriverResponse();
+                        else {
+                            Toast.makeText(MakeOrderActivity.this,
+                                    getResources().getString(R.string.no_driver), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -145,12 +214,47 @@ public class MakeOrderActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isNoAnswerDriver(DriverInfo driverInfo) {
+        for(Integer id: noAnswerDrivers){
+            if(id == driverInfo.getDriverId()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void setTimer(int driverId){
+        new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if(isGetAnswer){
+                    this.cancel();
+                }
+            }
+            public void onFinish() {
+                noAnswerDrivers.add(driverId);
+                dialog.cancel();
+                new Thread(() -> stompSession.disconnect()).start();
+            }
+        }.start();
+    }
+
     public boolean isValidUserInformation(){
+        if(carClass == null){
+            Toast.makeText(MakeOrderActivity.this,
+                    getResources().getString(R.string.pleas_select_class), Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if(nameEditText.getText().toString().isEmpty()){
-            nameEditText.setText(UserLoginInfoService.getProperty("username"));
+            nameEditText.setText(UserInfoService.getProperty("username"));
         }
         if(phoneEditText.getText().toString().isEmpty()){
             phoneEditText.setError(getResources().getString(R.string.please_enter_phone));
+            return false;
+        }
+        Pattern pattern = Pattern.compile("[+]380\\d{9}");
+        Matcher matcher = pattern.matcher(phoneEditText.getText().toString());
+        if(!matcher.matches()){
+            phoneEditText.setError(getResources().getString(R.string.driver_telephone_invalid));
             return false;
         }
         else {
@@ -178,13 +282,21 @@ public class MakeOrderActivity extends AppCompatActivity {
         standardRadioButton = findViewById(R.id.standardRadioButton);
         standardRadioButton.setOnClickListener(view ->  {
             if (standardRadioButton.isSelected()) {
+                currentPrice = 0;
+                carClass = null;
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 saleRadioButton.setSelected(false);
                 saleRadioButton.setChecked(false);
 
             } else {
-                classId = standardRadioButton.getId();
+                if(saleRadioButton.isSelected()) {
+                    currentPrice = (priceStandard - (priceStandard * (userRank.getSaleValue() / 100)));
+                }
+                else{
+                    currentPrice = priceStandard;
+                }
+                carClass = CAR_CLASSES.STANDARD;
                 standardRadioButton.setSelected(true);
                 standardRadioButton.setChecked(true);
                 comfortRadioButton.setSelected(false);
@@ -202,15 +314,23 @@ public class MakeOrderActivity extends AppCompatActivity {
         comfortRadioButton = findViewById(R.id.comfortRadioButton);
         comfortRadioButton.setOnClickListener(view -> {
             if(comfortRadioButton.isSelected()){
+                currentPrice = 0;
+                carClass = null;
                 comfortRadioButton.setSelected(false);
                 comfortRadioButton.setChecked(false);
                 saleRadioButton.setSelected(false);
                 saleRadioButton.setChecked(false);
             }
             else{
-                classId = comfortRadioButton.getId();
+                if(saleRadioButton.isSelected()) {
+                    currentPrice = (priceComfort - (priceComfort * (userRank.getSaleValue() / 100)));
+                }
+                else{
+                    currentPrice = priceComfort;
+                }
+                carClass = CAR_CLASSES.COMFORT;
                 comfortRadioButton.setSelected(true);
-                comfortRadioButton.setSelected(true);
+                comfortRadioButton.setChecked(true);
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 eliteRadioButton.setSelected(false);
@@ -226,13 +346,21 @@ public class MakeOrderActivity extends AppCompatActivity {
         eliteRadioButton = findViewById(R.id.eliteRadioButton);
         eliteRadioButton.setOnClickListener(view -> {
             if(eliteRadioButton.isSelected()){
+                currentPrice = 0;
+                carClass = null;
                 eliteRadioButton.setSelected(false);
                 eliteRadioButton.setChecked(false);
                 saleRadioButton.setSelected(false);
                 saleRadioButton.setChecked(false);
             }
             else{
-                classId = eliteRadioButton.getId();
+                if(saleRadioButton.isSelected()) {
+                    currentPrice = (priceElite - (priceElite * (userRank.getSaleValue() / 100)));
+                }
+                else{
+                    currentPrice = priceElite;
+                }
+                carClass = CAR_CLASSES.ELITE;
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 comfortRadioButton.setSelected(false);
@@ -250,12 +378,41 @@ public class MakeOrderActivity extends AppCompatActivity {
         saleRadioButton = findViewById(R.id.saleRadioButton);
         saleRadioButton.setOnClickListener(view -> {
             if(saleRadioButton.isSelected()){
+                String militaryBonus = "";
+                if(priceByClassResponse.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + priceStandard + militaryBonus;
+                String str2 = "PRICE: " + priceComfort + militaryBonus;
+                String str3 = "PRICE: " + priceElite + militaryBonus;
+                priceStandardTextView.setText(str1);
+                priceComfortTextView.setText(str2);
+                priceEliteTextView.setText(str3);
                 saleRadioButton.setSelected(false);
                 saleRadioButton.setChecked(false);
             }
             else{
                 saleRadioButton.setSelected(true);
                 saleRadioButton.setChecked(true);
+                String militaryBonus = "";
+                if(priceByClassResponse.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + (priceStandard - (priceStandard * (userRank.getSaleValue() / 100))) + militaryBonus;
+                String str2 = "PRICE: " + (priceComfort - (priceComfort * (userRank.getSaleValue() / 100))) + militaryBonus;
+                String str3 = "PRICE: " + (priceElite - (priceElite * (userRank.getSaleValue() / 100))) + militaryBonus;
+                priceStandardTextView.setText(str1);
+                priceComfortTextView.setText(str2);
+                priceEliteTextView.setText(str3);
+                if(standardRadioButton.isSelected()){
+                    currentPrice = (priceStandard - (priceStandard * (userRank.getSaleValue() / 100)));
+                }
+                if(comfortRadioButton.isSelected()){
+                    currentPrice = (priceComfort - (priceComfort * (userRank.getSaleValue() / 100)));
+                }
+                if(eliteRadioButton.isSelected()){
+                    currentPrice = (priceElite - (priceElite * (userRank.getSaleValue() / 100)));
+                }
                 standardFreeOrdersRadioButton.setSelected(false);
                 standardFreeOrdersRadioButton.setChecked(false);
                 comfortFreeOrdersRadioButton.setSelected(false);
@@ -267,11 +424,24 @@ public class MakeOrderActivity extends AppCompatActivity {
         standardFreeOrdersRadioButton = findViewById(R.id.standardFreeOrdersRadioButton);
         standardFreeOrdersRadioButton.setOnClickListener(view -> {
             if(standardFreeOrdersRadioButton.isSelected()){
+                currentPrice = 0;
+                carClass = null;
                 standardFreeOrdersRadioButton.setSelected(false);
                 standardFreeOrdersRadioButton.setChecked(false);
             }
             else{
-                classId = standardFreeOrdersRadioButton.getId();
+                String militaryBonus = "";
+                if(priceByClassResponse.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + priceStandard + militaryBonus;
+                String str2 = "PRICE: " + priceComfort + militaryBonus;
+                String str3 = "PRICE: " + priceElite + militaryBonus;
+                priceStandardTextView.setText(str1);
+                priceComfortTextView.setText(str2);
+                priceEliteTextView.setText(str3);
+                currentPrice = 0;
+                carClass = CAR_CLASSES.STANDARD;
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 comfortRadioButton.setSelected(false);
@@ -291,11 +461,24 @@ public class MakeOrderActivity extends AppCompatActivity {
         comfortFreeOrdersRadioButton = findViewById(R.id.comfortFreeOrdersRadioButton);
         comfortFreeOrdersRadioButton.setOnClickListener(view -> {
             if(comfortFreeOrdersRadioButton.isSelected()){
+                currentPrice = 0;
+                carClass = null;
                 comfortFreeOrdersRadioButton.setSelected(false);
                 comfortFreeOrdersRadioButton.setChecked(false);
             }
             else{
-                classId = comfortFreeOrdersRadioButton.getId();
+                String militaryBonus = "";
+                if(priceByClassResponse.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + priceStandard + militaryBonus;
+                String str2 = "PRICE: " + priceComfort + militaryBonus;
+                String str3 = "PRICE: " + priceElite + militaryBonus;
+                priceStandardTextView.setText(str1);
+                priceComfortTextView.setText(str2);
+                priceEliteTextView.setText(str3);
+                carClass = CAR_CLASSES.COMFORT;
+                currentPrice = 0;
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 comfortRadioButton.setSelected(false);
@@ -315,11 +498,23 @@ public class MakeOrderActivity extends AppCompatActivity {
         eliteFreeOrdersRadioButton = findViewById(R.id.eliteFreeOrdersRadioButton);
         eliteFreeOrdersRadioButton.setOnClickListener(view -> {
             if(eliteFreeOrdersRadioButton.isSelected()){
+                carClass = null;
                 eliteFreeOrdersRadioButton.setSelected(false);
                 eliteFreeOrdersRadioButton.setChecked(false);
             }
             else{
-                classId = eliteFreeOrdersRadioButton.getId();
+                String militaryBonus = "";
+                if(priceByClassResponse.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + priceStandard + militaryBonus;
+                String str2 = "PRICE: " + priceComfort + militaryBonus;
+                String str3 = "PRICE: " + priceElite + militaryBonus;
+                priceStandardTextView.setText(str1);
+                priceComfortTextView.setText(str2);
+                priceEliteTextView.setText(str3);
+                carClass = CAR_CLASSES.ELITE;
+                currentPrice = 0;
                 standardRadioButton.setSelected(false);
                 standardRadioButton.setChecked(false);
                 comfortRadioButton.setSelected(false);
@@ -341,24 +536,44 @@ public class MakeOrderActivity extends AppCompatActivity {
     public void getRanksInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getRankInfo().enqueue(new Callback<List<Rank>>() {
+        rankInfoApi.getRankInfo("Bearer " + UserInfoService.getProperty("access_token")).enqueue(new Callback<List<Rank>>() {
             @Override
             public void onResponse(Call<List<Rank>> call, Response<List<Rank>> response) {
-                getRanksInfo(response.body());
-                getRanksStats();
+                if(response.body()!=null) {
+                    try {
+                        if(response.errorBody() != null){
+                            if(response.errorBody().string().contains(getResources()
+                                    .getString(R.string.token_expired))){
+                                refreshToken();
+                            }
+                        }
+                        else{
+                            getRanksInfo(response.body());
+                            getRanksStats();
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
             }
 
             @Override
             public void onFailure(Call<List<Rank>> call, Throwable t) {
-                Toast.makeText(MakeOrderActivity.this, "Failed to load ranks info",
-                        Toast.LENGTH_SHORT).show();
+                MakeOrderActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(MakeOrderActivity.this, "Failed to load ranks info",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
     }
 
     private void getRanksInfo(List<Rank> rankList){
         for(Rank rank: rankList){
-            if(rank.getRankId() == Integer.parseInt(UserLoginInfoService.getProperty("rankId"))){
+            if(rank.getRankId() == Integer.parseInt(UserInfoService.getProperty("rankId"))){
                 this.userRank = rank;
                 break;
             }
@@ -366,10 +581,10 @@ public class MakeOrderActivity extends AppCompatActivity {
     }
 
     private void getRanksStats(){
-        if(Integer.parseInt(UserLoginInfoService.getProperty("rankId")) > 1){
+        if(Integer.parseInt(UserInfoService.getProperty("rankId")) > 1){
             getBaseRankUserStatsRequest();
-            if(Integer.parseInt(UserLoginInfoService.getProperty("rankId"))>4){
-                if(driverId > 0){
+            if(Integer.parseInt(UserInfoService.getProperty("rankId")) > 4){
+                if(favouriteDriverId > 0){
                     getEliteRankUserStatsRequestByDriver();
                 }
                 else {
@@ -382,21 +597,40 @@ public class MakeOrderActivity extends AppCompatActivity {
     private void getEliteRankUserStatsRequestByDriver(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserEliteRankAchievementsInfoByDriver(Integer.parseInt(UserLoginInfoService.getProperty("userId")),
-                        Integer.parseInt(UserLoginInfoService.getProperty("rankId")), driverId)
+        rankInfoApi.getUserEliteRankAchievementsInfoByDriver("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")),
+                        Integer.parseInt(UserInfoService.getProperty("rankId")), favouriteDriverId)
                 .enqueue(new Callback<List<UserEliteRankAchievementInfo>>() {
 
                     @Override
                     public void onResponse(Call<List<UserEliteRankAchievementInfo>> call,
                                            Response<List<UserEliteRankAchievementInfo>> response) {
-                        setEliteRanksStats(response.body());
+                        if(response.body()!=null) {
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    setEliteRanksStats(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<List<UserEliteRankAchievementInfo>> call, Throwable t) {
-                        Toast.makeText(MakeOrderActivity.this,
-                                getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                Toast.LENGTH_SHORT).show();
+                        MakeOrderActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MakeOrderActivity.this,
+                                        getResources().getString(R.string.error_to_get_base_rank_user_info),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }
@@ -404,20 +638,36 @@ public class MakeOrderActivity extends AppCompatActivity {
     private void getBaseRankUserStatsRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserRankAchievementsInfo(Integer.parseInt(UserLoginInfoService.getProperty("userId")),
-                        Integer.parseInt(UserLoginInfoService.getProperty("rankId")))
+        rankInfoApi.getUserRankAchievementsInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")),
+                        Integer.parseInt(UserInfoService.getProperty("rankId")))
                 .enqueue(new Callback<UserRankAchievementInfo>() {
 
                     @Override
                     public void onResponse(Call<UserRankAchievementInfo> call, Response<UserRankAchievementInfo> response) {
-                        setBaseRankStats(response.body());
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    setBaseRankStats(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<UserRankAchievementInfo> call, Throwable t) {
-                        Toast.makeText(MakeOrderActivity.this,
+                        MakeOrderActivity.this.runOnUiThread(() -> Toast.makeText(MakeOrderActivity.this,
                                 getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show());
+
                     }
                 });
     }
@@ -435,26 +685,44 @@ public class MakeOrderActivity extends AppCompatActivity {
     public void getEliteRankUserStatsRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserEliteRankAchievementsInfo(Integer.parseInt(UserLoginInfoService.getProperty("userId")),
-                        Integer.parseInt(UserLoginInfoService.getProperty("rankId")))
+        rankInfoApi.getUserEliteRankAchievementsInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")),
+                        Integer.parseInt(UserInfoService.getProperty("rankId")))
                 .enqueue(new Callback<List<UserEliteRankAchievementInfo>>() {
 
                     @Override
                     public void onResponse(Call<List<UserEliteRankAchievementInfo>> call,
                                            Response<List<UserEliteRankAchievementInfo>> response) {
-                        setEliteRanksStats(response.body());
+                        Log.d("ElRk", response.body().toString());
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    setEliteRanksStats(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<List<UserEliteRankAchievementInfo>> call, Throwable t) {
-                        Toast.makeText(MakeOrderActivity.this,
+                        MakeOrderActivity.this.runOnUiThread(() -> Toast.makeText(MakeOrderActivity.this,
                                 getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show());
+
                     }
                 });
     }
 
     private void setEliteRanksStats(List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList){
+        System.out.println(userEliteRankAchievementInfoList);
         if(userEliteRankAchievementInfoList.size() == 1
                 && userEliteRankAchievementInfoList.get(0).getNumberOfUsesFreeOrder() != 0){
             freeOrderBonusesTextView.setVisibility(View.VISIBLE);
@@ -508,41 +776,54 @@ public class MakeOrderActivity extends AppCompatActivity {
     private void getUserOrderPriceByClass(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserOrderPriceByClass(userAddressFrom, userAddressTo).enqueue(new Callback<PriceByClass>() {
+        PriceByClassRequest priceByClassRequest = new PriceByClassRequest(
+                Integer.parseInt(UserInfoService.getProperty("userId")), userAddressFrom, userAddressTo, distance);
+        rankInfoApi.getUserOrderPriceByClass("Bearer " + UserInfoService.getProperty("access_token"),
+                priceByClassRequest).enqueue(new Callback<PriceByClassResponse>() {
 
                     @Override
-                    public void onResponse(Call<PriceByClass> call, Response<PriceByClass> response) {
-                        setTextPrice(response.body());
+                    public void onResponse(Call<PriceByClassResponse> call, Response<PriceByClassResponse> response) {
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    setTextPrice(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<PriceByClass> call, Throwable t) {
-                        Toast.makeText(MakeOrderActivity.this,
-                                getResources().getString(R.string.error_to_get_user_order_price_by_class),
-                                Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<PriceByClassResponse> call, Throwable t) {
+                        MakeOrderActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MakeOrderActivity.this,
+                                        getResources().getString(R.string.error_to_get_user_order_price_by_class),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }
 
     private void showWaitForDriverResponse() {
-        dialog.setLayout(R.layout.user_wait_response);
-        dialog.setCancelable(false);
-        dialog.show(getSupportFragmentManager(),"wait response");
+        dialogBuilder = new AlertDialog.Builder(MakeOrderActivity.this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.user_wait_response, null);
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
+        dialog.show();
     }
 
     public void subscribeUser(int userID) throws ExecutionException, InterruptedException {
-        stompSession.subscribe("/user/" + userID + "/driver", new StompFrameHandler() {
-            @NotNull
-            @Override
-            public Type getPayloadType(@NotNull StompHeaders headers) {
-                return byte[].class;
-            }
-
-            @Override
-            public void handleFrame(@NotNull StompHeaders headers, Object o) {
-                Log.d("\"Make Order Received ", new String((byte[]) o));
-            }
-        });
 
         stompSession.subscribe("/user/" + userID + "/order-accept", new StompFrameHandler() {
             @NotNull
@@ -562,7 +843,10 @@ public class MakeOrderActivity extends AppCompatActivity {
                     }
                     else {
                         showRejectDriverResponse();
+                        noAnswerDrivers.add(currentDriverId);
                     }
+                    isGetAnswer = true;
+                    new Thread(() -> stompSession.disconnect()).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -570,13 +854,21 @@ public class MakeOrderActivity extends AppCompatActivity {
         });
     }
 
-    private void setTextPrice(PriceByClass response) {
+    private void setTextPrice(PriceByClassResponse response) {
+        priceByClassResponse = response;
         runOnUiThread(() -> {
             try {
                 System.out.println(response.getPriceByClass().get(0));
-                String str1 = "PRICE: " + response.getPriceByClass().get(0);
-                String str2 = "PRICE: " + response.getPriceByClass().get(1);
-                String str3 = "PRICE: " + response.getPriceByClass().get(2);
+                String militaryBonus = "";
+                if(response.isMilitaryBonus()){
+                    militaryBonus = " with military bonus";
+                }
+                String str1 = "PRICE: " + response.getPriceByClass().get(0) + militaryBonus;
+                priceStandard = response.getPriceByClass().get(0);
+                String str2 = "PRICE: " + response.getPriceByClass().get(1) + militaryBonus;
+                priceComfort = response.getPriceByClass().get(1);
+                String str3 = "PRICE: " + response.getPriceByClass().get(2) + militaryBonus;
+                priceElite = response.getPriceByClass().get(2);
                 priceStandardTextView.setText(str1);
                 priceComfortTextView.setText(str2);
                 priceEliteTextView.setText(str3);
@@ -587,25 +879,45 @@ public class MakeOrderActivity extends AppCompatActivity {
     }
 
     private void showAcceptDriverResponse() {
-        dialog.dismiss();
-        dialog.setLayout(R.layout.user_accept_response);
-        dialog.show(getSupportFragmentManager(), "wait response");
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-//            dialog.dismiss();
-            finish();
-        }, 5000);
-        Intent intent = new Intent(MakeOrderActivity.this, SetRatingActivity.class);
-        startActivity(intent);
+        runOnUiThread(() -> {
+            dialog.cancel();
+            dialogBuilder = new AlertDialog.Builder(MakeOrderActivity.this);
+            final View contactPopupView = getLayoutInflater().inflate(R.layout.user_accept_response, null);
+            dialogBuilder.setView(contactPopupView);
+            dialog = dialogBuilder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
+            dialog.show();
+            Intent intent = new Intent(MakeOrderActivity.this, SetRatingActivity.class);
+            intent.putExtra("price", String.valueOf(currentPrice));
+            intent.putExtra("isUseSale",  String.valueOf(saleRadioButton.isSelected()));
+            intent.putExtra("carClass", carClass.name());
+            intent.putExtra("distance", String.valueOf(distance));
+            intent.putExtra("isFavouriteDriver",  String.valueOf(isFavouriteDriver));
+            intent.putExtra("rankId",  String.valueOf(userRank.getRankId()));
+            intent.putExtra("currentDriverId",  String.valueOf(currentDriverId));
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                dialog.dismiss();
+                startActivity(intent);
+            }, 5000);
+        });
     }
 
     private void showRejectDriverResponse() {
-        dialog.dismiss();
-        dialog.setLayout(R.layout.user_reject_response);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            dialog.show(getSupportFragmentManager(), "wait response");
-//            dialog.dismiss();
-            finish();
-        }, 5000);
+        runOnUiThread(() -> {
+            dialog.cancel();
+            dialogBuilder = new AlertDialog.Builder(MakeOrderActivity.this);
+            final View contactPopupView = getLayoutInflater().inflate(R.layout.user_reject_response, null);
+            dialogBuilder.setView(contactPopupView);
+            dialog = dialogBuilder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
+            dialog.show();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                dialog.dismiss();
+            }, 5000);
+        });
+
     }
 
     public void sendUserDateMessage(StompSession stompSession, UserSendDate userSendDate) {
@@ -622,6 +934,56 @@ public class MakeOrderActivity extends AppCompatActivity {
 
     public void goMain(){
         Intent intent = new Intent(this, MainActivity.class);
+        if(stompSession!=null) {
+            new Thread(() -> stompSession.disconnect()).start();
+        }
+        startActivity(intent);
+    }
+
+
+    private void refreshToken() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.refreshToken("Bearer " + UserInfoService.getProperty("refresh_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if(response.body() != null){
+                            RegisterResponse registerResponse = response.body();
+                            if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.token_expired))){
+                                goLogin();
+                            }
+                            else if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.username_not_found))){
+                                goLogin();
+                            }
+                            else {
+                                UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                if(stompSession!=null) {
+                                    new Thread(() -> stompSession.disconnect()).start();
+                                }
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        MakeOrderActivity.this.runOnUiThread(() -> Toast.makeText(MakeOrderActivity.this,
+                                getResources().getString(R.string.distance_is_to_short),
+                                Toast.LENGTH_SHORT).show());
+                    }
+                });
+    }
+
+    private void goLogin() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        if(stompSession!=null) {
+            new Thread(() -> stompSession.disconnect()).start();
+        }
         startActivity(intent);
     }
 }

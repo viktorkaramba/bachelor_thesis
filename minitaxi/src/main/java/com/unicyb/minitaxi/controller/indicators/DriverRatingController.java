@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class DriverRatingController {
     private DriverRatingDAOImpl driverRatingDAO;
 
-    @GetMapping("/drivers-ratings")
+    @GetMapping("/api/v1/indicators/drivers-ratings")
     public ResponseEntity getDriversRatings(){
         try {
             driverRatingDAO = new DriverRatingDAOImpl();
@@ -21,7 +21,7 @@ public class DriverRatingController {
         }
     }
 
-    @PostMapping("/drivers-ratings-report")
+    @PostMapping("/api/v1/indicators/drivers-ratings-report")
     public ResponseEntity getReportDriversRatings(@RequestBody Report report){
         System.out.println(report);
         try {
@@ -33,7 +33,7 @@ public class DriverRatingController {
         }
     }
 
-    @PostMapping("/drivers-ratings-report-by-id")
+    @PostMapping("/api/v1/indicators/drivers-ratings-report-by-id")
     public ResponseEntity getReportDriversRatingsById(@RequestBody Report report){
         try {
             driverRatingDAO = new DriverRatingDAOImpl();

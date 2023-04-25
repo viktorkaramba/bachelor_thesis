@@ -42,10 +42,11 @@ public class RankSystem {
         rankDAO = new RankDAOImpl();
         List<Rank> rankList = rankDAO.getAll();
         int result = userStats.getRankId();
-        for (int i = 0; i < rankList.size(); i++){
-            if(userStats.getCountOrders() > rankList.get(i).getMinOrders() &&
-                    userStats.getCountComments() > rankList.get(i).getMinComments() && i != rankList.size()-1){
-                result = rankList.get(i + 1).getRankId();
+        System.out.println("ranks: " + rankList);
+        for (int i = 1; i < rankList.size(); i++){
+            if(userStats.getCountOrders() >= rankList.get(i).getMinOrders() &&
+                    userStats.getCountComments() >= rankList.get(i).getMinComments()){
+                result = rankList.get(i).getRankId();
             }
         }
         return result;
@@ -83,33 +84,6 @@ public class RankSystem {
         userRankAchievementInfoDAO.update(userRankAchievementInfo);
     }
 
-    public void updateEliteRank(List<EliteRank> eliteRanksList){
-        Timestamp currenDate = new Timestamp(new Date().getTime());
-        List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList =
-                userEliteRankAchievementInfoDAO.getOneByUserId(user.getUserId());
-        for(EliteRank eliteRank: eliteRanksList){
-            boolean isExist = false;
-            for(UserEliteRankAchievementInfo userEliteRankAchievementInfo: userEliteRankAchievementInfoList){
-                if(userEliteRankAchievementInfo.getCarClassId() == eliteRank.getCcId()){
-                    isExist = true;
-                    userEliteRankAchievementInfo.setEliteRanksId(eliteRank.getEliteRankId());
-                    userEliteRankAchievementInfo.setDateUerai(currenDate);
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(userEliteRankAchievementInfo.getDeadlineDateFreeOrder());
-                    cal.add(Calendar.DATE, (int) eliteRank.getPeriod());
-                    Timestamp freeOrderDeadLine = new Timestamp(cal.getTime().getTime());
-                    userEliteRankAchievementInfo.setDeadlineDateFreeOrder(freeOrderDeadLine);
-                    userEliteRankAchievementInfo.setNumberOfUsesFreeOrder(
-                            userEliteRankAchievementInfo.getNumberOfUsesFreeOrder() + eliteRank.getFreeOrders());
-                    userEliteRankAchievementInfoDAO.update(userEliteRankAchievementInfo);
-                }
-            }
-            if (!isExist){
-                addNewEliteRank(currenDate, eliteRank);
-            }
-        }
-    }
-
     private void addNewEliteRank(Timestamp currenDate, EliteRank eliteRank) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(currenDate);
@@ -118,35 +92,40 @@ public class RankSystem {
         UserEliteRankAchievementInfo userEliteRankAchievementInfo = new UserEliteRankAchievementInfo(-1,
                 currenDate, user.getUserId(), eliteRank.getEliteRankId(), eliteRank.getFreeOrders(),
                 freeOrderDeadLine, eliteRank.getCcId());
+        System.out.println("userEliteRankAchievementInfo: " + userEliteRankAchievementInfo);
         userEliteRankAchievementInfoDAO.add(userEliteRankAchievementInfo);
     }
 
     public void updateUserRank(){
-        Rank rank = rankDAO.getOne(user.getRankId());
-        if (userRankAchievementInfoDAO.checkIfUserExist(user.getUserId())){
-            if(checkIfNewRank(userStats.getRankId(), rank.getRankId())){
+        if (checkIfNewRank()){
+            Rank rank = rankDAO.getOne(user.getRankId());
+            if(userRankAchievementInfoDAO.checkIfUserExist(user.getUserId())){
                 if(rank.getIsElite() == 1){
                     List<EliteRank> eliteRankList = eliteRankDAO.getAllByRankId(rank.getRankId());
-                    if(userEliteRankAchievementInfoDAO.checkIfUserExist(user.getUserId())){
-                        updateBaseRank(rank.getSalePeriod());
-                        updateEliteRank(eliteRankList);
-                    }
-                    else{
-                        updateBaseRank(rank.getSalePeriod());
-                        addEliteRank(eliteRankList);
-                    }
+                    System.out.println("elite ranks: " + eliteRankList);
+                    addEliteRank(eliteRankList);
+                    updateBaseRank(rank.getSalePeriod());
                 }
                 else {
                     updateBaseRank(rank.getSalePeriod());
                 }
             }
-        }
-        else {
-            addNewBaseRank(rank.getSalePeriod());
+            else {
+                addNewBaseRank(rank.getSalePeriod());
+            }
         }
     }
 
-    public boolean checkIfNewRank(int rank1, int rank2){
-        return rank1 != rank2;
+    public boolean checkIfNewRank(){
+        int newRank = getNewRank();
+        System.out.println(newRank);
+        if (newRank != user.getRankId()){
+            user.setRankId(newRank);
+            userDAO.update(user);
+            return true;
+        }
+        else {
+           return false;
+        }
     }
 }

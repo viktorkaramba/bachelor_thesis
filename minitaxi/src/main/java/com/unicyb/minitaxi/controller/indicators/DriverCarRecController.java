@@ -26,7 +26,7 @@ public class DriverCarRecController {
     private CarClassDAOImpl carClassDAO;
     private DriverDAOImpl driverDAO;
 
-    @GetMapping("/drivers-cars-recommendations")
+    @GetMapping("/api/v1/indicators/drivers-cars-recommendations")
     public ResponseEntity getDriverCarRec(){
         try {
             driverCarRecDAO = new DriverCarRecommendationsDAOImpl();
@@ -37,7 +37,7 @@ public class DriverCarRecController {
         }
     }
 
-    @PostMapping("/drivers-cars-recommendations-report")
+    @PostMapping("/api/v1/indicators/drivers-cars-recommendations-report")
     public ResponseEntity getReportDriverCarRec(@RequestBody Report report){
         try {
             driverCarRecDAO = new DriverCarRecommendationsDAOImpl();
@@ -48,7 +48,7 @@ public class DriverCarRecController {
         }
     }
 
-    @PostMapping("/drivers-cars-recommendations-report-by-id")
+    @PostMapping("/api/v1/indicators/drivers-cars-recommendations-report-by-id")
     public ResponseEntity getReportByIdDriverCarRec(@RequestBody Report report){
         try {
             driverCarRecDAO = new DriverCarRecommendationsDAOImpl();
@@ -59,7 +59,7 @@ public class DriverCarRecController {
         }
     }
 
-    @GetMapping("/drivers-cars-recommendations/{id}")
+    @GetMapping("/api/v1/driver-app/drivers-cars-recommendations/{id}")
     public ResponseEntity getCarRecommendationInfoDriver(@PathVariable String id){
         try {
             driverCarRecDAO = new DriverCarRecommendationsDAOImpl();
@@ -67,13 +67,11 @@ public class DriverCarRecController {
             carsDAO = new CarsDAOImpl();
             carClassDAO = new CarClassDAOImpl();
             DriverCarRecommendations driverCarRecommendations = driverCarRecDAO.getOneByDriverId(Integer.parseInt(id));
-            System.out.println(driverCarRecommendations);
-            CarRecommendationInfo carRecommendationInfo = null;
             int driverId = driverCarRecommendations.getDriverId();
             Driver driver = driverDAO.getOne(driverId);
             Car car = carsDAO.getOne(driverCarRecommendations.getCarId());
             CarClass carClass = carClassDAO.getOne(car.getCcID());
-            carRecommendationInfo = new CarRecommendationInfo(driverCarRecommendations.getDcrId(), driverId, car.getCarId(), car.getProducer(),
+            CarRecommendationInfo carRecommendationInfo = new CarRecommendationInfo(driverCarRecommendations.getDcrId(), driverId, car.getCarId(), car.getProducer(),
                     car.getBrand(), carClass.getPrice(), carClass.getName(), SalaryService.getNewSalary(driver.getSalary()));
             return ResponseEntity.ok(carRecommendationInfo);
         }
@@ -82,8 +80,8 @@ public class DriverCarRecController {
         }
     }
 
-    @PostMapping("/drivers-cars-recommendations-driver-answer")
-    public Message addDriverAnswer(@RequestBody DriverRecAnswer driverRecAnswer){
+    @PostMapping("/api/v1/driver-app/drivers-cars-recommendations-driver-answer")
+    public MyMessage addDriverAnswer(@RequestBody DriverRecAnswer driverRecAnswer){
         DriverCarRecommendations driverCarRecommendations = null;
         driverCarRecDAO = new DriverCarRecommendationsDAOImpl();
         driverDAO = new DriverDAOImpl();
@@ -110,6 +108,6 @@ public class DriverCarRecController {
                     STATUS.REJECT);
             driverCarRecDAO.update(driverCarRecommendations);
         }
-        return new Message("Successfully update");
+        return new MyMessage("Successfully update");
     }
 }

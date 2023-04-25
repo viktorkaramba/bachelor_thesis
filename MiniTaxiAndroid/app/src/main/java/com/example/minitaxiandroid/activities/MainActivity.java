@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -31,19 +32,21 @@ import androidx.fragment.app.FragmentContainerView;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.api.MiniTaxiApi;
 import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
 import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteAddressesUserInfo;
 import com.example.minitaxiandroid.entities.userinfo.FavouriteDriverUserInfo;
 import com.example.minitaxiandroid.fragments.SearchAddressOnMapFragment;
 import com.example.minitaxiandroid.fragments.SearchAddressesFragment;
+import com.example.minitaxiandroid.services.UserInfoService;
 import com.example.minitaxiandroid.services.UserLocationService;
-import com.example.minitaxiandroid.services.UserLoginInfoService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.*;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.*;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ImageView logoutToolbarImageView;
     private FragmentContainerView fragmentContainerView;
     private GoogleMap mMap;
     private Fragment fragment;
@@ -86,14 +90,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},
-                PackageManager.PERMISSION_GRANTED);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_views);
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.mainToolbar);
+        logoutToolbarImageView = findViewById(R.id.logoutToolbarImageView);
+        logoutToolbarImageView.setOnClickListener(view -> logout());
         fragmentContainerView = findViewById(R.id.fragmentContainerView);
+        UserInfoService.init(MainActivity.this);
         setSupportActionBar(toolbar);
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -101,27 +104,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         setFragment();
-        UserLoginInfoService.init(MainActivity.this);
-        //TODO
-        UserLoginInfoService.addProperty("isLogin",  "True");
-        UserLoginInfoService.addProperty("userId", "1");
-        UserLoginInfoService.addProperty("username", "viktor2002");
-        UserLoginInfoService.addProperty("password", "driver");
-        UserLoginInfoService.addProperty("rankId", "1");
-        UserLoginInfoService.init(MainActivity.this);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView header = headerView.findViewById(R.id.headerProfileName);
-        header.setText(UserLoginInfoService.getProperty("username"));
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        header.setText(UserInfoService.getProperty("username"));
+        FloatingActionButton userProfilefloatingActionButton =  headerView.findViewById(R.id.userProfileButton);
+        userProfilefloatingActionButton.setOnClickListener(view -> goUserProfile());
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mapFragment.getView().setClickable(false);
         driverMarkerMap = new HashMap<>();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
         databaseReference = firebaseDatabase.getReference();
         getFavouriteDriverUserInfoRequest();
+    }
 
+    private void logout() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.logout("Bearer " + UserInfoService.getProperty("access_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(@NotNull Call<RegisterResponse> call,
+                                           @NotNull Response<RegisterResponse> response) {
+                        System.out.println("logout: " + response.body());
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    UserInfoService.clear();
+                                    goLogin();
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<RegisterResponse> call, Throwable t) {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(MainActivity.this, "Failed to logout",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                });
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorId){
@@ -138,15 +173,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getFavouriteDriverUserInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteDriversApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        String userId = UserLoginInfoService.getProperty("userId");
-        favouriteDriversApi.getFavouriteDriverUserInfo(Integer.valueOf(userId))
+        String userId = UserInfoService.getProperty("userId");
+        favouriteDriversApi.getFavouriteDriverUserInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.valueOf(userId))
                 .enqueue(new Callback<List<FavouriteDriverUserInfo>>() {
                     @Override
-                    public void onResponse(Call<List<FavouriteDriverUserInfo>> call, Response<List<FavouriteDriverUserInfo>> response) {
-                        favouriteDriverUserInfoList = response.body();
-                        getDriverLocation();
-                        setDriverLocationListener();
-                        getFavouritesAddressesRequest();
+                    public void onResponse(@NotNull Call<List<FavouriteDriverUserInfo>> call,
+                                           @NotNull Response<List<FavouriteDriverUserInfo>> response) {
+                        if(response.body() != null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    favouriteDriverUserInfoList = response.body();
+                                    System.out.println(favouriteDriverUserInfoList);
+                                    getDriverLocation();
+                                    setDriverLocationListener();
+                                    getFavouritesAddressesRequest();
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
@@ -214,19 +266,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
-
     private void setDriverOnMap(DriverInfo driverInfo){
         System.out.println("add marker");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                boolean isFavourite = checkIsFavouriteDriver(driverInfo);
-                addMarker(driverInfo, isFavourite);
-            }
+        runOnUiThread(() -> {
+            boolean isFavourite = checkIsFavouriteDriver(driverInfo);
+            addDriverMarker(driverInfo, isFavourite);
         });
     }
-
     private boolean checkIsFavouriteDriver(DriverInfo driverInfo){
         for(FavouriteDriverUserInfo favouriteDriverUserInfo: favouriteDriverUserInfoList){
             if(favouriteDriverUserInfo.getDriverId() == driverInfo.getDriverId()){
@@ -235,7 +281,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return false;
     }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
         switch (menuItem.getItemId()){
@@ -262,7 +307,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -345,7 +389,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         mMap.setOnMarkerClickListener(marker -> {
             if (!mapFragment.getView().isClickable()) {
-                System.out.println("Yes");
                 if (driverMarkerMap.containsKey(marker)) {
                     DriverInfo driverInfo = driverMarkerMap.get(marker);
                     if (!driverInfo.getStatus().equals(DRIVER_STATUS.IN_ORDER)) {
@@ -399,7 +442,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "in setLike fragment not SearchAddressOnMapFragment");
         }
     }
-
     private void setLikeVisible() {
         if (fragment instanceof SearchAddressOnMapFragment){
             SearchAddressOnMapFragment searchAddressOnMapFragment = (SearchAddressOnMapFragment)fragment;
@@ -410,11 +452,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "in setLikeVisible fragment not SearchAddressOnMapFragment");
         }
     }
-
     public void setFragment(){
         fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
     }
-
     private void addText(String addressName) {
         if (fragment instanceof SearchAddressOnMapFragment){
             SearchAddressOnMapFragment searchAddressOnMapFragment = (SearchAddressOnMapFragment)fragment;
@@ -425,7 +465,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "in addText fragment not SearchAddressOnMapFragment");
         }
     }
-
     public String getAddressName(LatLng location){
         Geocoder geocoder;
         List<Address> addresses;
@@ -450,7 +489,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
 
-    public void addMarker(DriverInfo driverInfo, boolean isFavourite){
+    public void addDriverMarker(DriverInfo driverInfo, boolean isFavourite){
         LatLng newLatLng = new LatLng(driverInfo.getLatitude(), driverInfo.getLongitude());
         String driverName = driverInfo.getDriverFirstName() + " " + driverInfo.getDriverSurName();
         if(!driverMarkerMap.isEmpty()){
@@ -503,21 +542,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             markerForAddressPick.remove();
         }
     }
-
     public void setMapMarkerVisible(boolean value){
         mapFragment.getView().setClickable(value);
     }
-
     public void getFavouritesAddressesRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteAddressApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        favouriteAddressApi.getFavouriteAddressesUserInfo(Integer.valueOf(UserLoginInfoService.getProperty("userId")))
+        favouriteAddressApi.getFavouriteAddressesUserInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.valueOf(UserInfoService.getProperty("userId")))
                 .enqueue(new Callback<List<FavouriteAddressesUserInfo>>() {
                     @Override
                     public void onResponse(@NotNull Call<List<FavouriteAddressesUserInfo>> call,
                                            @NotNull Response<List<FavouriteAddressesUserInfo>> response) {
-                        assert response.body() != null;
-                        parseFavouriteAddressesList(response.body());
+                       Log.d("Fav Add", response.body().toString());
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    parseFavouriteAddressesList(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
@@ -528,15 +580,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
     }
-
     public ArrayList<String> getFavouriteAddressesList() {
         return favouriteAddressesList;
     }
-
     private void parseFavouriteAddressesList(List<FavouriteAddressesUserInfo> body) {
         favouriteAddressesList = new ArrayList<>();
         for(FavouriteAddressesUserInfo info: body){
             favouriteAddressesList.add(info.getAddress());
         }
+        System.out.println("fav addresses list: " + favouriteAddressesList);
+    }
+    private void refreshToken() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.refreshToken("Bearer " + UserInfoService.getProperty("refresh_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if(response.body() != null){
+                            RegisterResponse registerResponse = response.body();
+                            if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.token_expired))){
+                                goLogin();
+                            }
+                            else if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.username_not_found))){
+                                goLogin();
+                            }
+                            else {
+                                UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        MainActivity.this.runOnUiThread(() ->
+                                Toast.makeText(MainActivity.this, "Failed to check user authentication",
+                                Toast.LENGTH_SHORT).show());
+                    }
+                });
+    }
+    private void goLogin() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+    }
+    private void goUserProfile() {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void addNewAddressToList(String address){
+        favouriteAddressesList.add(address);
+        System.out.println(favouriteAddressesList);
     }
 }

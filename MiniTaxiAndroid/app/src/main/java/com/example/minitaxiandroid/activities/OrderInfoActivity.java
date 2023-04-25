@@ -2,7 +2,6 @@ package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,18 +32,14 @@ public class OrderInfoActivity extends AppCompatActivity {
         orderInfoRatingEditText = findViewById(R.id.orderInfoRatingEditText);
         orderInfoNumberOfKilometersEditText = findViewById(R.id.orderInfoNumberOfKilometersEditText);
         backButton = findViewById(R.id.orderInfoBackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goDriverMenu(savedInstanceState);
-            }
-        });
+        backButton.setOnClickListener(view -> goDriverMenu(savedInstanceState));
         setDate(savedInstanceState);
     }
 
     public void goDriverMenu(Bundle savedInstanceState){
         Intent intent = new Intent(this, DriverMenuActivity.class);
         intent.putExtra("userId", getDate(savedInstanceState, "driverId"));
+        intent.putExtra("isOnline", getDate(savedInstanceState, "isOnline"));
         startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 package com.example.minitaxiandroid.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,16 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import com.example.minitaxiandroid.R;
-import com.example.minitaxiandroid.entities.document.DriverRecAnswer;
-import com.example.minitaxiandroid.entities.messages.CarRecommendationInfo;
-import com.example.minitaxiandroid.entities.messages.Message;
+import com.example.minitaxiandroid.activities.UserLoginActivity;
 import com.example.minitaxiandroid.api.MiniTaxiApi;
 import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
+import com.example.minitaxiandroid.entities.document.DriverRecAnswer;
+import com.example.minitaxiandroid.entities.messages.CarRecommendationInfo;
+import com.example.minitaxiandroid.entities.messages.MyMessage;
+import com.example.minitaxiandroid.services.DriverInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.IOException;
 
 public class CarRecFragment extends Fragment {
 
@@ -38,18 +45,8 @@ public class CarRecFragment extends Fragment {
         salary = view.findViewById(R.id.salaryDriveCarRecEditText);
         accept = view.findViewById(R.id.acceptDriveCarRecButton);
         reject = view.findViewById(R.id.rejectDriveCarRecButton);
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                accept();
-            }
-        });
-        reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reject();
-            }
-        });
+        accept.setOnClickListener(view12 -> accept());
+        reject.setOnClickListener(view1 -> reject());
         carRecommendationInfo = new CarRecommendationInfo();
         carRecommendationInfo.setDriverCarRecId(Integer.parseInt(getArguments().getString("driverCarRecId")));
         carRecommendationInfo.setDriverId(Integer.parseInt(getArguments().getString("driverId")));
@@ -59,18 +56,17 @@ public class CarRecFragment extends Fragment {
         carRecommendationInfo.setPricePerKilometer(Float.parseFloat(getArguments().getString("pricePerKilometer")));
         carRecommendationInfo.setCarClass(getArguments().getString("carClass"));
         carRecommendationInfo.setNewSalary(Float.parseFloat(getArguments().getString("newSalary")));
+        DriverInfoService.init(CarRecFragment.this.getContext());
         setDate();
         return view;
     }
 
     private void accept() {
         setAnswer("Yes");
-        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void reject() {
         setAnswer("No");
-        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void setAnswer(String answer){
@@ -78,23 +74,90 @@ public class CarRecFragment extends Fragment {
         MiniTaxiApi driverAnswer = retrofitService.getRetrofit().create(MiniTaxiApi.class);
         DriverRecAnswer driverRecAnswer = new DriverRecAnswer(carRecommendationInfo.getDriverCarRecId(),
                 carRecommendationInfo.getNewSalary(), carRecommendationInfo.getCarId(), carRecommendationInfo.getDriverId(), answer);
-        driverAnswer.getAnswer(driverRecAnswer).enqueue(new Callback<Message>() {
+        driverAnswer.getAnswer("Bearer " + DriverInfoService.getProperty("access_token"),
+                driverRecAnswer).enqueue(new Callback<MyMessage>() {
             @Override
-            public void onResponse(Call<Message> call, Response<Message> response) {
-                Log.d("response ok", response.body().getContent());
+            public void onResponse(Call<MyMessage> call, Response<MyMessage> response) {
+                if(response.body()!=null){
+                    try {
+                        if(response.errorBody() != null){
+                            if(response.errorBody().string().contains(getResources()
+                                    .getString(R.string.token_expired))){
+                                refreshToken();
+                            }
+                        }
+                        else{
+                            replaceFragment();
+                            Log.d("response ok", response.body().getContent());
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
             }
 
             @Override
-            public void onFailure(Call<Message> call, Throwable t) {
+            public void onFailure(Call<MyMessage> call, Throwable t) {
+                CarRecFragment.this.getActivity().runOnUiThread(() ->
+                        Toast.makeText(CarRecFragment.this.getContext(),
+                        "Failed to set answer",
+                        Toast.LENGTH_SHORT).show());
                 Log.d("response fail", call.toString());
             }
         });
     }
+
+    private void replaceFragment() {
+        EmptyCarRecFragment emptyCarRecFragment = new EmptyCarRecFragment();
+        this.getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, emptyCarRecFragment).commit();
+    }
+
     public void setDate(){
         String carText = carRecommendationInfo.getCarProducer() + " " + carRecommendationInfo.getCarBrand();
         car.setText(carText);
         carClass.setText(carRecommendationInfo.getCarClass());
         pricePerKilometer.setText(String.valueOf(carRecommendationInfo.getPricePerKilometer()));
         salary.setText(String.valueOf(carRecommendationInfo.getNewSalary()));
+    }
+
+    private void refreshToken() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.refreshToken("Bearer " + DriverInfoService.getProperty("refresh_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if(response.body() != null){
+                            RegisterResponse registerResponse = response.body();
+                            if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.token_expired))){
+                                goLogin();
+                            }
+                            else if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.username_not_found))){
+                                goLogin();
+                            }
+                            else {
+                                DriverInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                DriverInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                requireActivity().getSupportFragmentManager().popBackStack();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        CarRecFragment.this.getActivity().runOnUiThread(() ->
+                                Toast.makeText(CarRecFragment.this.getContext(), "Failed to check user authentication",
+                                Toast.LENGTH_SHORT).show());
+
+                    }
+                });
+    }
+    private void goLogin() {
+        Intent intent = new Intent(this.getContext(), UserLoginActivity.class);
+        startActivity(intent);
     }
 }

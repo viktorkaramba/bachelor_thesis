@@ -11,7 +11,7 @@ public class DriverController {
 
     private DriverDAOImpl driverDAO;
 
-    @GetMapping("/drivers")
+    @GetMapping("/api/v1/documents/drivers")
     public ResponseEntity getDrivers(){
         try {
             driverDAO = new DriverDAOImpl();
@@ -22,7 +22,7 @@ public class DriverController {
         }
     }
 
-    @PostMapping("/drivers")
+    @PostMapping("/api/v1/documents/drivers")
     public ResponseEntity save(@RequestBody Driver driver){
         try {
             driverDAO = new DriverDAOImpl();
@@ -34,7 +34,7 @@ public class DriverController {
         }
     }
 
-    @PutMapping("/drivers")
+    @PutMapping("/api/v1/documents/drivers")
     public void delete(@RequestBody Driver driver){
         System.out.println("car: " + driver);
         driverDAO = new DriverDAOImpl();
@@ -42,7 +42,7 @@ public class DriverController {
     }
 
 
-    @DeleteMapping("/drivers/{id}")
+    @DeleteMapping("/api/v1/documents/drivers/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
         driverDAO = new DriverDAOImpl();

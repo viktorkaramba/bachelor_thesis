@@ -82,6 +82,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_below="@+id/searchFromTextInputLayout"
+					android:layout_alignParentStart="true"
 					android:layout_toStartOf="@+id/favouriteAddressesToImageButton"
 					android:layout_marginTop="10dp"
 					android:layout_marginEnd="5dp"
@@ -95,7 +96,8 @@
 					map:hintTextColor="@color/dark_blue"
 					map:startIconTint="@color/dark_blue"
 					map:endIconTint="@color/dark_blue"
-					android:id="@+id/searchToTextInputLayout">
+					android:id="@+id/searchToTextInputLayout"
+			>
 				<com.google.android.material.textfield.TextInputEditText
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"

@@ -5,6 +5,7 @@ import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.documents.ROLE;
 import com.unicyb.minitaxi.entities.documents.User;
+import com.unicyb.minitaxi.entities.usersinfo.UserProfileInfo;
 import com.unicyb.minitaxi.entities.usersinfo.UserStats;
 
 import java.sql.Connection;
@@ -21,7 +22,7 @@ public class UserDAOImpl implements DAO<User> {
         try {
             Connection connection = DatabaseConnection.initializeDatabase();
             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_USER);
-            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getRole().name());
             preparedStatement.setInt(4, user.getRankId());
@@ -29,7 +30,6 @@ public class UserDAOImpl implements DAO<User> {
             connection.close();
             return true;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -39,7 +39,7 @@ public class UserDAOImpl implements DAO<User> {
             Connection connection = DatabaseConnection.initializeDatabase();
             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_USER_WITH_ID);
             preparedStatement.setInt(1, ID);
-            preparedStatement.setString(2, user.getUserName());
+            preparedStatement.setString(2, user.getUsername());
             preparedStatement.setString(3, user.getPassword());
             preparedStatement.setString(4, user.getRole().name());
             preparedStatement.setInt(5, user.getRankId());
@@ -72,7 +72,21 @@ public class UserDAOImpl implements DAO<User> {
 
     @Override
     public User getOne(int ID) {
-        return null;
+        User user = null;
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_BY_ID);
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                user = getUser(resultSet);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return user;
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
@@ -126,14 +140,32 @@ public class UserDAOImpl implements DAO<User> {
         return user;
     }
 
+    public UserProfileInfo getUserProfileInfo(int ID) {
+        UserProfileInfo userProfileInfo = null;
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_PROFILE_INFO);
+            statement.setInt(1, ID);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                userProfileInfo = new UserProfileInfo(resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3));
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return userProfileInfo;
+    }
 
     @Override
     public boolean update(User user) {
-
         try {
             Connection con = DatabaseConnection.initializeDatabase();
             PreparedStatement statement = con.prepareStatement(SQLQuery.UPDATE_USER);
-            statement.setString(1, user.getUserName());
+            statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getRole().name());
             statement.setInt(4, user.getRankId());

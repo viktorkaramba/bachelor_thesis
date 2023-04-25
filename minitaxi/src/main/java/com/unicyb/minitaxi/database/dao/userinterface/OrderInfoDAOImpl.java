@@ -4,7 +4,6 @@ import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.OrderInfo;
-import com.unicyb.minitaxi.entities.userinterfaceenteties.UserPickCar;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

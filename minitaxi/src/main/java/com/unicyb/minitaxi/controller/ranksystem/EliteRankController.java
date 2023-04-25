@@ -11,7 +11,7 @@ public class EliteRankController {
 
     private EliteRankDAOImpl eliteRankDAO;
 
-    @GetMapping("/elite-ranks")
+    @GetMapping("/api/v1/bonuses/elite-ranks")
     public ResponseEntity getEliteRanks(){
         try {
             eliteRankDAO = new EliteRankDAOImpl();
@@ -22,7 +22,7 @@ public class EliteRankController {
         }
     }
 
-    @GetMapping("/elite-ranks-user-info")
+    @GetMapping("/api/v1/bonuses/elite-ranks-user-info")
     public ResponseEntity getEliteRanksUserInfo(){
         try {
             eliteRankDAO = new EliteRankDAOImpl();
@@ -33,19 +33,19 @@ public class EliteRankController {
         }
     }
 
-    @PostMapping("/elite-ranks")
+    @PostMapping("/api/v1/bonuses/elite-ranks")
     public void save(@RequestBody EliteRank eliteRank){
         eliteRankDAO = new EliteRankDAOImpl();
         eliteRankDAO.add(eliteRank);
     }
 
-    @PutMapping("/elite-ranks")
+    @PutMapping("/api/v1/bonuses/elite-ranks")
     public void update(@RequestBody EliteRank eliteRank){
         eliteRankDAO = new EliteRankDAOImpl();
         eliteRankDAO.update(eliteRank);
     }
 
-    @DeleteMapping("/elite-ranks/{id}")
+    @DeleteMapping("/api/v1/bonuses/elite-ranks/{id}")
     public void delete(@PathVariable("id") int id){
         eliteRankDAO = new EliteRankDAOImpl();
         eliteRankDAO.delete(id);

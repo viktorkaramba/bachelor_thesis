@@ -1,5 +1,6 @@
 package com.example.minitaxiandroid.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,16 +13,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.activities.MainActivity;
-import com.example.minitaxiandroid.entities.messages.Message;
-import com.example.minitaxiandroid.entities.userinfo.FavouriteAddress;
+import com.example.minitaxiandroid.activities.UserLoginActivity;
 import com.example.minitaxiandroid.api.MiniTaxiApi;
 import com.example.minitaxiandroid.api.RetrofitService;
-import com.example.minitaxiandroid.services.UserLoginInfoService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
+import com.example.minitaxiandroid.entities.messages.MyMessage;
+import com.example.minitaxiandroid.entities.userinfo.FavouriteAddress;
+import com.example.minitaxiandroid.services.UserInfoService;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.io.IOException;
 
 
 public class SearchAddressOnMapFragment extends Fragment {
@@ -31,9 +36,7 @@ public class SearchAddressOnMapFragment extends Fragment {
     private Button backAddressOnMapButton;
     private LikeButton addressMapLikeButton;
     private MainActivity activity;
-    private String message;
-    private String otherAddress = "";
-    private String favouriteDriver = "";
+    private String side, fromAddress, toAddress, favouriteDriver = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,21 +46,18 @@ public class SearchAddressOnMapFragment extends Fragment {
                 container, false);
         activity = (MainActivity) getActivity();
         activity.setMapMarkerVisible(true);
+        UserInfoService.init(SearchAddressOnMapFragment.this.getContext());
         if (getArguments()!=null) {
-            message = getArguments().getString("messageFrom");
-            otherAddress = getArguments().getString("otherAddress");
+            side = getArguments().getString("side");
+            fromAddress = getArguments().getString("fromAddress");
+            toAddress = getArguments().getString("toAddress");
             favouriteDriver = getArguments().getString("favouriteDriver");
         }
         selectedAddressOnMapText = view.findViewById(R.id.selectedAddressOnMapText);
         applyAddressOnMapButton = view.findViewById(R.id.applyAddressOnMapButton);
         backAddressOnMapButton = view.findViewById(R.id.backAddressOnMapButton);
         addressMapLikeButton = view.findViewById(R.id.addressMapLikeButton);
-        backAddressOnMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                back();
-            }
-        });
+        backAddressOnMapButton.setOnClickListener(view12 -> back());
         addressMapLikeButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -69,16 +69,13 @@ public class SearchAddressOnMapFragment extends Fragment {
 
             }
         });
-        applyAddressOnMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(selectedAddressOnMapText.getText().equals(getResources().
-                        getString(R.string.click_tos_select_address_map))){
-                    Toast.makeText(activity.getApplicationContext(), "You dont select a address", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    applyAddress();
-                }
+        applyAddressOnMapButton.setOnClickListener(view1 -> {
+            if(selectedAddressOnMapText.getText().equals(getResources().
+                    getString(R.string.click_tos_select_address_map))){
+                Toast.makeText(activity.getApplicationContext(), "You dont select a address", Toast.LENGTH_LONG).show();
+            }
+            else {
+                applyAddress();
             }
         });
         return view;
@@ -91,6 +88,7 @@ public class SearchAddressOnMapFragment extends Fragment {
         }
         else {
             addressMapLikeButton.setEnabled(false);
+            addressMapLikeButton.setLiked(true);
             addAddress();
         }
     }
@@ -102,23 +100,47 @@ public class SearchAddressOnMapFragment extends Fragment {
 
     private void addAddress() {
         FavouriteAddress favouriteAddress = new FavouriteAddress();
-        favouriteAddress.setUserId(Integer.parseInt(UserLoginInfoService.getProperty("userId")));
+        favouriteAddress.setUserId(Integer.parseInt(UserInfoService.getProperty("userId")));
         favouriteAddress.setAddress(selectedAddressOnMapText.getText().toString());
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi favouriteAddressApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        favouriteAddressApi.addFavouriteAddressesUserInfo(favouriteAddress)
-                .enqueue(new Callback<Message>() {
+        favouriteAddressApi.addFavouriteAddressesUserInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        favouriteAddress)
+                .enqueue(new Callback<MyMessage>() {
                     @Override
-                    public void onResponse(Call<Message> call, Response<Message> response) {
-                        Toast.makeText(SearchAddressOnMapFragment.this.getContext(), "Added new favourite driver",
-                                Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<MyMessage> call, Response<MyMessage> response) {
+                        if(response.body() != null) {
+                            try {
+                                if (response.errorBody() != null) {
+                                    if (response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))) {
+                                        refreshToken();
+                                    }
+                                } else {
+                                    if (response.body().getContent().equals("Successfully added favourite address")) {
+                                        activity.addNewAddressToList(selectedAddressOnMapText.getText().toString());
+                                        Toast.makeText(activity,
+                                                "Successfully delete favourite address",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(activity,
+                                                "Error added favourite address",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Message> call, Throwable t) {
+                    public void onFailure(Call<MyMessage> call, Throwable t) {
                         addressMapLikeButton.setLiked(false);
-                        Toast.makeText(SearchAddressOnMapFragment.this.getContext(), "Failed to add favourite drivers info",
-                                Toast.LENGTH_SHORT).show();
+                        activity.runOnUiThread(() ->
+                                Toast.makeText(SearchAddressOnMapFragment.this.getContext(),
+                                        "Failed to add favourite address",
+                                Toast.LENGTH_SHORT).show());
                     }
                 });
     }
@@ -136,10 +158,16 @@ public class SearchAddressOnMapFragment extends Fragment {
         activity.setMapMarkerVisible(false);
         activity.removeMarker();
         Bundle bundle = new Bundle();
-        bundle.putString("messageTo", message);
-        bundle.putString("otherAddress", otherAddress);
+        if(side.equals("From")){
+            fromAddress = selectedAddressOnMapText.getText().toString();
+        }
+        else {
+            toAddress = selectedAddressOnMapText.getText().toString();
+        }
+        System.out.println(toAddress);
+        bundle.putString("fromAddress", fromAddress);
+        bundle.putString("toAddress", toAddress);
         bundle.putString("favouriteDriver", favouriteDriver);
-        bundle.putString("address", selectedAddressOnMapText.getText().toString());
         SearchAddressesFragment searchAddressesFragment = new SearchAddressesFragment();
         searchAddressesFragment.setArguments(bundle);
         replaceFragment(searchAddressesFragment);
@@ -149,8 +177,8 @@ public class SearchAddressOnMapFragment extends Fragment {
         activity.setMapMarkerVisible(false);
         activity.removeMarker();
         Bundle bundle = new Bundle();
-        bundle.putString("messageTo", message);
-        bundle.putString("otherAddress", otherAddress);
+        bundle.putString("fromAddress", fromAddress);
+        bundle.putString("toAddress", toAddress);
         bundle.putString("favouriteDriver", favouriteDriver);
         SearchAddressesFragment searchAddressesFragment = new SearchAddressesFragment();
         searchAddressesFragment.setArguments(bundle);
@@ -161,5 +189,47 @@ public class SearchAddressOnMapFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView, searchAddressesFragment);
         fragmentTransaction.commit();
+    }
+
+    private void goLogin() {
+        Intent intent = new Intent(this.getContext(), UserLoginActivity.class);
+        startActivity(intent);
+    }
+    private void refreshToken() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.refreshToken("Bearer " + UserInfoService.getProperty("refresh_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if(response.body() != null){
+                            RegisterResponse registerResponse = response.body();
+                            if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.token_expired))){
+                                goLogin();
+                            }
+                            else if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.username_not_found))){
+                                goLogin();
+                            }
+                            else {
+                                UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                back();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        SearchAddressOnMapFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(SearchAddressOnMapFragment.this.getContext(),
+                                        "Failed to check user authentication",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
     }
 }

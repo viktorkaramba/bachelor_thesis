@@ -5,10 +5,7 @@ import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.ranksystem.UserEliteRankAchievementInfo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +133,24 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
             preparedStatement.setTimestamp(5, userEliteRankAchievementInfo.getDeadlineDateFreeOrder());
             preparedStatement.setInt(6, userEliteRankAchievementInfo.getCarClassId());
             preparedStatement.setInt(7, userEliteRankAchievementInfo.getUeraiId());
+            preparedStatement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateByDeadline(int numberOfOrders, Timestamp currentDate, Timestamp newFreeOrderDeadLine, int erId) {
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_DEADLINE);
+            preparedStatement.setInt(1, numberOfOrders);
+            preparedStatement.setTimestamp(2, newFreeOrderDeadLine);
+            preparedStatement.setTimestamp(3,currentDate);
+            preparedStatement.setInt(4, erId);
             preparedStatement.executeUpdate();
             con.close();
             return true;

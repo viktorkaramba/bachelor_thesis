@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DriverProfileInfo {
     private DriverProfileInfoDAOImpl driverProfileInfoDAO;
 
-    @GetMapping("/driver-profile/{id}")
+    @GetMapping("/api/v1/driver-app/driver-profile/{id}")
     public ResponseEntity getDriverProfile(@PathVariable String id){
         try {
             System.out.println(id);

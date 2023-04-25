@@ -3,34 +3,33 @@ package com.example.minitaxiandroid.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.minitaxiandroid.R;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
 import com.example.minitaxiandroid.entities.bonuses.MILITARY_BONUS_STATUS;
 import com.example.minitaxiandroid.entities.bonuses.MilitaryBonuses;
-import com.example.minitaxiandroid.entities.messages.Message;
+import com.example.minitaxiandroid.entities.messages.MyMessage;
 import com.example.minitaxiandroid.entities.ranks.EliteRankUserInfo;
 import com.example.minitaxiandroid.entities.ranks.Rank;
 import com.example.minitaxiandroid.entities.ranks.UserEliteRankAchievementInfo;
 import com.example.minitaxiandroid.entities.ranks.UserRankAchievementInfo;
 import com.example.minitaxiandroid.entities.userinfo.UserStats;
-import com.example.minitaxiandroid.api.MiniTaxiApi;
-import com.example.minitaxiandroid.api.RetrofitService;
-import com.example.minitaxiandroid.services.UserLoginInfoService;
+import com.example.minitaxiandroid.services.UserInfoService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -59,6 +58,7 @@ public class RanksInfoActivity extends AppCompatActivity {
     private MilitaryBonuses militaryBonuses;
     private Button militaryBonusesButton;
     private Button backButton;
+    private Rank userRank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,22 +67,17 @@ public class RanksInfoActivity extends AppCompatActivity {
         backButton = findViewById(R.id.ranksBackButton);
         militaryBonusesButton = findViewById(R.id.militaryBonusesButton);
         militaryBonusesInfoText = findViewById(R.id.militaryBonusesInfoText);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goHome();
-            }
-        });
+        backButton.setOnClickListener(view -> goHome());
+        UserInfoService.init(RanksInfoActivity.this);
         loadImageActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        try {
+                result -> {
+                    try {
+                        if(result != null) {
                             InputStream is = getContentResolver().openInputStream(result);
                             Bitmap bitmap = BitmapFactory.decodeStream(is);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.JPEG,80,stream);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                             byte[] byteArray = stream.toByteArray();
                             sendMilitaryBonusesDocumentPhoto(byteArray);
                             StringBuilder newString = new StringBuilder(getResources().
@@ -90,9 +85,10 @@ public class RanksInfoActivity extends AppCompatActivity {
                             newString.append(" ").append(militaryBonuses.getSaleValue()).append("%");
                             militaryBonusesButton.setText(getResources().getString(R.string.military_bonuses_delete_button));
                             militaryBonusesInfoText.setText(newString);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            isMilitaryBonusesSend = true;
                         }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
         );
@@ -100,7 +96,6 @@ public class RanksInfoActivity extends AppCompatActivity {
         textViewStatsInfoInitialize();
         getMilitaryBonusesInfoRequest();
         militaryBonusesButton.setOnClickListener(view -> {
-            System.out.println(isMilitaryBonusesSend);
             if(isMilitaryBonusesSend){
                 deleteMilitaryBonusesRequest();
             }
@@ -123,28 +118,48 @@ public class RanksInfoActivity extends AppCompatActivity {
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
         MilitaryBonuses militaryBonuses = new MilitaryBonuses(-1,
-                Integer.parseInt(UserLoginInfoService.getProperty("userId")),
+                Integer.parseInt(UserInfoService.getProperty("userId")),
                 photo,
                 MILITARY_BONUS_STATUS.WAITING,
                 -1,
                 null
                 );
-        rankInfoApi.addMilitaryBonuses(militaryBonuses)
-                .enqueue(new Callback<Message>() {
+        rankInfoApi.addMilitaryBonuses("Bearer " + UserInfoService.getProperty("access_token"),
+                        militaryBonuses)
+                .enqueue(new Callback<MyMessage>() {
 
                     @Override
-                    public void onResponse(Call<Message> call, Response<Message> response) {
-                        if(response.body().equals("success")) {
-                            militaryBonusesButton.setText(getResources().getString(R.string.military_bonuses_delete_button));
-                            isMilitaryBonusesSend = true;
+                    public void onResponse(Call<MyMessage> call, Response<MyMessage> response) {
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    if (response.body().getContent().equals("success")) {
+                                        militaryBonusesButton.setText(getResources().getString(R.string.military_bonuses_delete_button));
+                                        isMilitaryBonusesSend = true;
+                                    }
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Message> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this,
-                                getResources().getString(R.string.error_to_get_user_stats),
-                                Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<MyMessage> call, Throwable t) {
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        getResources().getString(R.string.error_to_get_user_stats),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 });
     }
@@ -152,34 +167,47 @@ public class RanksInfoActivity extends AppCompatActivity {
     private void setUserStats(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserStats(Integer.parseInt(UserLoginInfoService.getProperty("userId")))
+        rankInfoApi.getUserStats("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")))
                 .enqueue(new Callback<UserStats>() {
 
                     @Override
                     public void onResponse(Call<UserStats> call, Response<UserStats> response) {
-                        orderCountTextView.setText(String.valueOf(response.body().getCountOrders()));
-                        commentsCountTextView.setText(String.valueOf(response.body().getCountComments()));
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    orderCountTextView.setText(String.valueOf(response.body().getCountOrders()));
+                                    commentsCountTextView.setText(String.valueOf(response.body().getCountComments()));
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<UserStats> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this,
-                                getResources().getString(R.string.error_to_get_user_stats),
-                                Toast.LENGTH_SHORT).show();
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        getResources().getString(R.string.error_to_get_user_stats),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 });
     }
 
     private void setRanksStats(){
-        UserLoginInfoService.addProperty("rankId", "6");
-        if(Integer.parseInt(UserLoginInfoService.getProperty("rankId")) == 1){
+        if(Integer.parseInt(UserInfoService.getProperty("rankId")) == 1){
           setBasicStats();
-        }
-        else {
-            getBaseRankUserStatsRequest();
-            if(Integer.parseInt(UserLoginInfoService.getProperty("rankId"))>4){
-                getEliteRankUserStatsRequest();
-            }
         }
     }
 
@@ -197,27 +225,46 @@ public class RanksInfoActivity extends AppCompatActivity {
     public void getBaseRankUserStatsRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserRankAchievementsInfo(Integer.parseInt(UserLoginInfoService.getProperty("userId")),
-                        Integer.parseInt(UserLoginInfoService.getProperty("rankId")))
+        rankInfoApi.getUserRankAchievementsInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")),
+                        Integer.parseInt(UserInfoService.getProperty("rankId")))
                 .enqueue(new Callback<UserRankAchievementInfo>() {
 
                     @Override
                     public void onResponse(Call<UserRankAchievementInfo> call, Response<UserRankAchievementInfo> response) {
-                        setBaseRankStats(response.body());
+                        if(response.body()!=null) {
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                } else {
+                                    setBaseRankStats(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<UserRankAchievementInfo> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this,
-                                getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                Toast.LENGTH_SHORT).show();
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        getResources().getString(R.string.error_to_get_base_rank_user_info),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }
 
     private void setBaseRankStats(UserRankAchievementInfo response){
         int countOfSaleOrders = response.getNumberOfUsesSale();
-        saleCountTextView.setText(String.valueOf(countOfSaleOrders));
+        String sale = countOfSaleOrders + " (" + userRank.getSaleValue() + "%)";
+        saleCountTextView.setText(sale);
         String message;
         LocalDate date = Instant.ofEpochMilli(response.getDeadlineDateSale().getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         if(countOfSaleOrders == 0){
@@ -229,33 +276,54 @@ public class RanksInfoActivity extends AppCompatActivity {
                     date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
         saleDeadlineTextView.setText(message);
-        String deadlineText = getResources().getString(R.string.deadline) + " None";
-        standardFreeOrderCountTextView.setText("0");
-        comfortFreeOrderCountTextView.setText("0");
-        eliteFreeOrderCountTextView.setText("0");
-        standardDeadlineTextView.setText(deadlineText);
-        comfortDeadlineTextView.setText(deadlineText);
-        eliteDeadlineTextView.setText(deadlineText);
+        if(Integer.parseInt(UserInfoService.getProperty("rankId")) < 5) {
+            String deadlineText = getResources().getString(R.string.deadline) + " None";
+            standardFreeOrderCountTextView.setText("0");
+            comfortFreeOrderCountTextView.setText("0");
+            eliteFreeOrderCountTextView.setText("0");
+            standardDeadlineTextView.setText(deadlineText);
+            comfortDeadlineTextView.setText(deadlineText);
+            eliteDeadlineTextView.setText(deadlineText);
+        }
     }
 
     public void getEliteRankUserStatsRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getUserEliteRankAchievementsInfo(Integer.parseInt(UserLoginInfoService.getProperty("userId")),
-                        Integer.parseInt(UserLoginInfoService.getProperty("rankId")))
+        rankInfoApi.getUserEliteRankAchievementsInfo("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId")),
+                        Integer.parseInt(UserInfoService.getProperty("rankId")))
                 .enqueue(new Callback<List<UserEliteRankAchievementInfo>>() {
 
                     @Override
                     public void onResponse(Call<List<UserEliteRankAchievementInfo>> call,
                                            Response<List<UserEliteRankAchievementInfo>> response) {
-                        setEliteRanksStats(response.body());
+                        if(response.body()!=null){
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    setEliteRanksStats(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<List<UserEliteRankAchievementInfo>> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this,
-                                getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                Toast.LENGTH_SHORT).show();
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        getResources().getString(R.string.error_to_get_base_rank_user_info),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
     }
@@ -287,11 +355,11 @@ public class RanksInfoActivity extends AppCompatActivity {
             comfortFreeOrderCountTextView.setText(String.valueOf(eliteRanksStats.get(1).getNumberOfUsesFreeOrder()));
             eliteFreeOrderCountTextView.setText(String.valueOf(eliteRanksStats.get(2).getNumberOfUsesFreeOrder()));
             String deadlineStandardText = setDeadlineText(eliteRanksStats.get(0).getNumberOfUsesFreeOrder(),
-                    eliteRanksStats.get(1).getDeadlineDateFreeOrder());
+                    eliteRanksStats.get(0).getDeadlineDateFreeOrder());
             String deadlineComfortText = setDeadlineText(eliteRanksStats.get(0).getNumberOfUsesFreeOrder(),
-                    eliteRanksStats.get(2).getDeadlineDateFreeOrder());
+                    eliteRanksStats.get(1).getDeadlineDateFreeOrder());
             String deadlineEliteText = setDeadlineText(eliteRanksStats.get(0).getNumberOfUsesFreeOrder(),
-                    eliteRanksStats.get(3).getDeadlineDateFreeOrder());
+                    eliteRanksStats.get(2).getDeadlineDateFreeOrder());
             standardDeadlineTextView.setText(deadlineStandardText);
             comfortDeadlineTextView.setText(deadlineComfortText);
             eliteDeadlineTextView.setText(deadlineEliteText);
@@ -315,10 +383,29 @@ public class RanksInfoActivity extends AppCompatActivity {
     public void getRanksInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getRankInfo().enqueue(new Callback<List<Rank>>() {
+        rankInfoApi.getRankInfo("Bearer " + UserInfoService.getProperty("access_token")).enqueue(new Callback<List<Rank>>() {
             @Override
             public void onResponse(Call<List<Rank>> call, Response<List<Rank>> response) {
-                getRanksInfo(response.body());
+                if(response.body() != null) {
+                    try {
+                        if (response.errorBody() != null) {
+                            if (response.errorBody().string().contains(getResources()
+                                    .getString(R.string.token_expired))) {
+                                refreshToken();
+                            }
+                        } else {
+                            getRanksInfo(response.body());
+                            if (Integer.parseInt(UserInfoService.getProperty("rankId")) != 1) {
+                                getBaseRankUserStatsRequest();
+                            }
+                            if(Integer.parseInt(UserInfoService.getProperty("rankId"))>4){
+                                getEliteRankUserStatsRequest();
+                            }
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
 
             @Override
@@ -330,6 +417,11 @@ public class RanksInfoActivity extends AppCompatActivity {
     }
 
     private void getRanksInfo(List<Rank> rankList){
+        for(Rank rank: rankList){
+            if(rank.getRankId() == Integer.parseInt(UserInfoService.getProperty("rankId"))){
+                userRank = rank;
+            }
+        }
         setRank(rankList);
     }
 
@@ -357,16 +449,32 @@ public class RanksInfoActivity extends AppCompatActivity {
     public void getEliteRanksInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        rankInfoApi.getEliteRanksInfo().enqueue(new Callback<List<EliteRankUserInfo>>() {
+        rankInfoApi.getEliteRanksInfo("Bearer " + UserInfoService.getProperty("access_token")).
+                enqueue(new Callback<List<EliteRankUserInfo>>() {
             @Override
             public void onResponse(Call<List<EliteRankUserInfo>> call, Response<List<EliteRankUserInfo>> response) {
-                getEliteRanksInfo(response.body());
+                if(response.body()!=null) {
+                    try {
+                        if(response.errorBody() != null){
+                            if(response.errorBody().string().contains(getResources()
+                                    .getString(R.string.token_expired))){
+                                refreshToken();
+                            }
+                        }else {
+                            getEliteRanksInfo(response.body());
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<List<EliteRankUserInfo>> call, Throwable t) {
-                Toast.makeText(RanksInfoActivity.this, "Failed to load elite ranks info",
-                        Toast.LENGTH_SHORT).show();
+                RanksInfoActivity.this.runOnUiThread(() ->
+                        Toast.makeText(RanksInfoActivity.this, "Failed to load elite ranks info",
+                        Toast.LENGTH_SHORT).show());
+
             }
         });
     }
@@ -411,19 +519,38 @@ public class RanksInfoActivity extends AppCompatActivity {
     public void getMilitaryBonusesInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi militaryBonusesApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        militaryBonusesApi.getMilitaryBonuses(Integer.parseInt(UserLoginInfoService.getProperty("userId"))).
+        militaryBonusesApi.getMilitaryBonuses("Bearer " + UserInfoService.getProperty("access_token"),
+                        Integer.parseInt(UserInfoService.getProperty("userId"))).
                 enqueue(new Callback<MilitaryBonuses>() {
                     @Override
                     public void onResponse(Call<MilitaryBonuses> call, Response<MilitaryBonuses> response) {
                         if(response.body()!=null) {
-                            getMilitaryBonusesInfo(response.body());
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }
+                                else{
+                                    getMilitaryBonusesInfo(response.body());
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<MilitaryBonuses> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this, getResources().getString(R.string.failed_get_military_bonuses),
-                                Toast.LENGTH_SHORT).show();
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        getResources().getString(R.string.failed_get_military_bonuses),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 });
     }
@@ -460,24 +587,44 @@ public class RanksInfoActivity extends AppCompatActivity {
     public void deleteMilitaryBonusesRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi militaryBonusesApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
-        militaryBonusesApi.deleteMilitaryBonuses(militaryBonuses.getMilitaryBonusesId()).
-                enqueue(new Callback<Message>() {
+        militaryBonusesApi.deleteMilitaryBonuses("Bearer " + UserInfoService.getProperty("access_token"),
+                        militaryBonuses.getMilitaryBonusesId()).
+                enqueue(new Callback<MyMessage>() {
                     @Override
-                    public void onResponse(Call<Message> call, Response<Message> response) {
-                        isMilitaryBonusesSend = false;
-                        StringBuilder newString = new StringBuilder(getResources().
-                                getString(R.string.military_bonuses_notice));
-                        newString.append(" ").append(militaryBonuses.getSaleValue());
-                        militaryBonusesInfoText.setText(newString);
-                        militaryBonusesButton.setText(getResources().getString(R.string.load_document));
-                        Toast.makeText(RanksInfoActivity.this, getResources().getString(R.string.military_bonuses_delete_notice),
-                                Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<MyMessage> call, Response<MyMessage> response) {
+                        if(response.body()!=null) {
+                            try {
+                                if(response.errorBody() != null){
+                                    if(response.errorBody().string().contains(getResources()
+                                            .getString(R.string.token_expired))){
+                                        refreshToken();
+                                    }
+                                }else {
+                                    isMilitaryBonusesSend = false;
+                                    StringBuilder newString = new StringBuilder(getResources().
+                                            getString(R.string.military_bonuses_notice));
+                                    newString.append(" ").append(militaryBonuses.getSaleValue());
+                                    militaryBonusesInfoText.setText(newString);
+                                    militaryBonusesButton.setText(getResources().getString(R.string.load_document));
+                                    Toast.makeText(RanksInfoActivity.this, getResources().getString(R.string.military_bonuses_delete_notice),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Message> call, Throwable t) {
-                        Toast.makeText(RanksInfoActivity.this, "Failed to delete your document",
-                                Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<MyMessage> call, Throwable t) {
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this,
+                                        "Failed to delete your document",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 });
     }
@@ -537,5 +684,48 @@ public class RanksInfoActivity extends AppCompatActivity {
         eliteRankList.add(hetmanConditionsInfoTextView);
         hetmanBonusesInfoTextView = findViewById(R.id.hetmanBonusesInfoTextView);
         eliteRankList.add(hetmanBonusesInfoTextView);
+    }
+
+    private void refreshToken() {
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi api = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        api.refreshToken("Bearer " + UserInfoService.getProperty("refresh_token"))
+                .enqueue(new Callback<RegisterResponse>() {
+                    @Override
+                    public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                        if(response.body() != null){
+                            RegisterResponse registerResponse = response.body();
+                            if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.token_expired))){
+                                goLogin();
+                            }
+                            else if(registerResponse.getAccessToken().equals(getResources()
+                                    .getString(R.string.username_not_found))){
+                                goLogin();
+                            }
+                            else {
+                                UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                        RanksInfoActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(RanksInfoActivity.this, "Failed to check user authentication",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+    }
+
+    private void goLogin() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.minitaxiandroid.entities.userinfo;
 
+import com.example.minitaxiandroid.entities.document.CAR_CLASSES;
 import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.google.firebase.database.Exclude;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class DriverInfo {
     private String driverSurName;
     private String carProducer;
     private String carBrand;
+    private CAR_CLASSES carClass;
     private double latitude;
     private double longitude;
     private DRIVER_STATUS status;

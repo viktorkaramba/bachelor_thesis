@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class IncomeCarsController {
     private IncomeCarsDAOImpl incomeCarsDAO;
 
-    @GetMapping("/income-cars")
+    @GetMapping("/api/v1/indicators/income-cars")
     public ResponseEntity getIncomeCars(){
         try {
             incomeCarsDAO = new IncomeCarsDAOImpl();
@@ -21,7 +21,7 @@ public class IncomeCarsController {
         }
     }
 
-    @PostMapping("/income-cars-report")
+    @PostMapping("/api/v1/indicators/income-cars-report")
     public ResponseEntity getReportIncomeCars(@RequestBody Report report){
         try {
             incomeCarsDAO = new IncomeCarsDAOImpl();
@@ -32,7 +32,7 @@ public class IncomeCarsController {
         }
     }
 
-    @PostMapping("/income-cars-report-by-id")
+    @PostMapping("/api/v1/indicators/income-cars-report-by-id")
     public ResponseEntity getReportByIdIncomeCars(@RequestBody Report report){
         try {
             incomeCarsDAO = new IncomeCarsDAOImpl();

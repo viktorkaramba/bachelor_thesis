@@ -11,7 +11,7 @@ public class RankController {
 
     private RankDAOImpl rankDAO;
 
-    @GetMapping("/ranks")
+    @GetMapping("/api/v1/bonuses/ranks")
     public ResponseEntity getRanks(){
         try {
             rankDAO = new RankDAOImpl();
@@ -22,19 +22,19 @@ public class RankController {
         }
     }
 
-    @PostMapping("/ranks")
+    @PostMapping("/api/v1/bonuses/ranks")
     public void save(@RequestBody Rank rank){
         rankDAO = new RankDAOImpl();
         rankDAO.add(rank);
     }
 
-    @PutMapping("/ranks")
+    @PutMapping("/api/v1/bonuses/ranks")
     public void update(@RequestBody Rank rank){
         rankDAO = new RankDAOImpl();
         rankDAO.update(rank);
     }
 
-    @DeleteMapping("/ranks/{id}")
+    @DeleteMapping("/api/v1/bonuses/ranks/{id}")
     public void delete(@PathVariable("id") int id){
         rankDAO = new RankDAOImpl();
         rankDAO.delete(id);

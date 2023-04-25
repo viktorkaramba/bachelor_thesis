@@ -5,10 +5,7 @@ import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.ranksystem.UserRankAchievementInfo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +107,38 @@ public class UserRankAchievementInfoDAOImpl implements DAO<UserRankAchievementIn
             preparedStatement.setInt(4, userRankAchievementInfo.getNumberOfUsesSale());
             preparedStatement.setTimestamp(5, userRankAchievementInfo.getDeadlineDateSale());
             preparedStatement.setInt(6, userRankAchievementInfo.getUriId());
+            preparedStatement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateNumbersOfUsesSales(int ID) {
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USER_RANK_ACHIEVEMENT_INFO_BY_USER_ID);
+            preparedStatement.setInt(1, ID);
+            preparedStatement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateByDeadline(Timestamp currentDate, Timestamp newDeadlineDate, int rankId) {
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USER_RANK_ACHIEVEMENT_INFO_BY_DEADLINE);
+            preparedStatement.setTimestamp(1, newDeadlineDate);
+            preparedStatement.setTimestamp(2, currentDate);
+            preparedStatement.setInt(3, rankId);
             preparedStatement.executeUpdate();
             con.close();
             return true;

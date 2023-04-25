@@ -101,6 +101,16 @@
 				android:layout_margin="10dp"
 				android:id="@+id/registryLoginButton"
 		/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:textSize="18sp"
+				android:textColor="@color/light_blue"
+				android:gravity="center"
+				android:text="@string/already_register"
+				android:id="@+id/registerRegisterTextView"
+		/>
 	</LinearLayout>
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class NumberOfKilometersController {
     private NumberOfKilometersDAOImpl numberOfKilometersDAO;
 
-    @GetMapping("/number-of-kilometers")
+    @GetMapping("/api/v1/indicators/number-of-kilometers")
     public ResponseEntity getNumberOfKilometersDAOImpl(){
         try {
             numberOfKilometersDAO = new NumberOfKilometersDAOImpl();
@@ -21,7 +21,7 @@ public class NumberOfKilometersController {
         }
     }
 
-    @PostMapping("/number-of-kilometers-report")
+    @PostMapping("/api/v1/indicators/number-of-kilometers-report")
     public ResponseEntity getNumberOfKilometersReport(@RequestBody Report report){
         try {
             numberOfKilometersDAO = new NumberOfKilometersDAOImpl();
@@ -32,7 +32,7 @@ public class NumberOfKilometersController {
         }
     }
 
-    @PostMapping("/number-of-kilometers-report-by-id")
+    @PostMapping("/api/v1/indicators/number-of-kilometers-report-by-id")
     public ResponseEntity getNumberOfKilometersReportById(@RequestBody Report report){
         try {
             numberOfKilometersDAO = new NumberOfKilometersDAOImpl();

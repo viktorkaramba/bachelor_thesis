@@ -35,7 +35,8 @@ public class DriverRecommendationService {
                     driverKilometers>= classClassList.get(i).getMinNumberOfKilometers()){
                 List<Car> approachCars = carsDAO.getAllByCarClass(classClassList.get(i).getCcId());
                 if(approachCars.size() != 0){
-                    driverCarRecommendationsDAO.add(new DriverCarRecommendations(date, driver.getDriverId(), approachCars.get(0).getCarId(), STATUS.WAITING));
+                    driverCarRecommendationsDAO.add(new DriverCarRecommendations(date, driver.getDriverId(),
+                            approachCars.get(0).getCarId(), STATUS.WAITING));
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.unicyb.minitaxi.entities.indicators;
 
+import com.unicyb.minitaxi.entities.documents.CAR_CLASSES;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,13 @@ public class Order {
     private float numberOfKilometers;
     private String customerName;
     private int userId;
+    private boolean isUseSale;
+    private CAR_CLASSES isUseFreeOrder;
     private String userComment;
 
     public Order(int driverId, String addressCustomer, String addressDelivery, String telephoneCustomer, float price,
-                 Timestamp date, float rating, float numberOfKilometers, String customerName, int userId, String userComment) {
+                 Timestamp date, float rating, float numberOfKilometers, String customerName, int userId,
+                 boolean isUseSale, CAR_CLASSES isUseFreeOrder, String userComment) {
         this.driverId = driverId;
         this.addressCustomer = addressCustomer;
         this.addressDelivery = addressDelivery;
@@ -35,6 +39,8 @@ public class Order {
         this.numberOfKilometers = numberOfKilometers;
         this.customerName = customerName;
         this.userId = userId;
+        this.isUseSale = isUseSale;
+        this.isUseFreeOrder = isUseFreeOrder;
         this.userComment = userComment;
     }
 }

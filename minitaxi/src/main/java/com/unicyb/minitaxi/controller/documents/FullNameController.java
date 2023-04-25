@@ -1,10 +1,6 @@
 package com.unicyb.minitaxi.controller.documents;
 
-import com.unicyb.minitaxi.database.dao.documents.CarsDAOImpl;
-import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.FullNameDAOImpl;
-import com.unicyb.minitaxi.entities.documents.Car;
-import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.FullName;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class FullNameController {
     private FullNameDAOImpl fullNameDAO;
 
-    @GetMapping("/fullnames")
+    @GetMapping("/api/v1/documents/fullnames")
     public ResponseEntity getFullNames(){
         try {
             fullNameDAO = new FullNameDAOImpl();
@@ -25,7 +21,7 @@ public class FullNameController {
         }
     }
 
-    @PostMapping("/fullnames")
+    @PostMapping("/api/v1/documents/fullnames")
     public ResponseEntity save(@RequestBody FullName fullName){
         try {
             fullNameDAO = new FullNameDAOImpl();
@@ -37,14 +33,14 @@ public class FullNameController {
         }
     }
 
-    @PutMapping("/fullnames")
+    @PutMapping("/api/v1/documents/fullnames")
     public void delete(@RequestBody FullName fullName){
         System.out.println("fullName: " + fullName);
         fullNameDAO = new FullNameDAOImpl();
         fullNameDAO.update(fullName);
     }
 
-    @DeleteMapping("/fullnames/{id}")
+    @DeleteMapping("/api/v1/documents/fullnames/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
         fullNameDAO = new FullNameDAOImpl();

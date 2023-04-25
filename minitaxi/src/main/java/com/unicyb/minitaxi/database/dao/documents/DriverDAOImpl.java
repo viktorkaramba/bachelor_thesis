@@ -4,6 +4,7 @@ import com.unicyb.minitaxi.database.DatabaseConnection;
 import com.unicyb.minitaxi.database.SQLQuery;
 import com.unicyb.minitaxi.database.dao.DAO;
 import com.unicyb.minitaxi.entities.documents.Driver;
+import com.unicyb.minitaxi.entities.indicators.STATUS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,6 +26,8 @@ public class DriverDAOImpl implements DAO<Driver> {
             preparedStatement.setFloat(4, driver.getExperience());
             preparedStatement.setFloat(5, driver.getSalary());
             preparedStatement.setTimestamp(6, driver.getDate());
+            preparedStatement.setString(7, driver.getResumeStatus().name());
+            preparedStatement.setString(8, driver.getDriverUserName());
             preparedStatement.executeUpdate();
             connection.close();
             return true;
@@ -55,7 +58,8 @@ public class DriverDAOImpl implements DAO<Driver> {
     private Driver getDriver(ResultSet resultSet) throws SQLException {
         return new Driver(resultSet.getInt(1),  resultSet.getTimestamp(7), resultSet.getInt(2),
                 resultSet.getInt(3), resultSet.getString(4), resultSet.getInt(5),
-                resultSet.getFloat(6));
+                resultSet.getFloat(6), STATUS.valueOf(resultSet.getString(8)),
+                resultSet.getString(9));
     }
 
     @Override
@@ -88,7 +92,26 @@ public class DriverDAOImpl implements DAO<Driver> {
             statement.setString(3, driver.getTelephoneNumber());
             statement.setFloat(4, driver.getExperience());
             statement.setFloat(5, driver.getSalary());
-            statement.setFloat(6, driver.getDriverId());
+            statement.setTimestamp(6, driver.getDate());
+            statement.setString(7, driver.getResumeStatus().name());
+            statement.setString(8, driver.getDriverUserName());
+            statement.setFloat(9, driver.getDriverId());
+            statement.executeUpdate();
+            con.close();
+            return true;
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateByUsername(String oldUserName, String newUserName) {
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.UPDATE_DRIVER_BY_USERNAME);
+            statement.setString(1, newUserName);
+            statement.setString(2, oldUserName);
             statement.executeUpdate();
             con.close();
             return true;
@@ -113,5 +136,23 @@ public class DriverDAOImpl implements DAO<Driver> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Driver getByDriverUserName(String username){
+        Driver driver = null;
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_ALL_DRIVER_BY_USER_NAME);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                driver = getDriver(resultSet);
+            }
+            con.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return driver;
     }
 }

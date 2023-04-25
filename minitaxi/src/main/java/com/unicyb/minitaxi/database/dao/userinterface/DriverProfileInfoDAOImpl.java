@@ -40,9 +40,10 @@ public class DriverProfileInfoDAOImpl implements DAO<DriverProfileInfo> {
     }
 
     private DriverProfileInfo getDriverProfileInfo(ResultSet resultSet) throws SQLException {
-        return new DriverProfileInfo(resultSet.getInt(1),resultSet.getString(2),
+        return new DriverProfileInfo(resultSet.getInt(1), resultSet.getString(2),
                 resultSet.getString(3), resultSet.getString(4), resultSet.getString(5),
-                resultSet.getString(6), resultSet.getFloat(7), resultSet.getFloat(8));
+                resultSet.getString(6), resultSet.getString(7), resultSet.getFloat(8),
+                resultSet.getFloat(9));
     }
 
     @Override

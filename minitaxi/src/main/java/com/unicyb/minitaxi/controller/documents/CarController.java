@@ -13,7 +13,7 @@ import java.util.Date;
 public class CarController {
 
     private CarsDAOImpl carsDAO;
-    @GetMapping("/cars")
+    @GetMapping("/api/v1/documents/cars")
     public ResponseEntity getCars(){
         try {
             carsDAO = new CarsDAOImpl();
@@ -24,7 +24,7 @@ public class CarController {
         }
     }
 
-    @PostMapping("/cars")
+    @PostMapping("/api/v1/documents/cars")
     public void save(@RequestBody Car car){
         carsDAO = new CarsDAOImpl();
         car.setDate(new Timestamp(new Date().getTime()));
@@ -32,14 +32,14 @@ public class CarController {
         carsDAO.add(car);
     }
 
-    @PutMapping("/cars")
+    @PutMapping("/api/v1/documents/cars")
     public void update(@RequestBody Car car){
         System.out.println("car: " + car);
         carsDAO = new CarsDAOImpl();
         carsDAO.update(car);
     }
 
-    @DeleteMapping("/cars/{id}")
+    @DeleteMapping("/api/v1/documents/cars/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
         carsDAO = new CarsDAOImpl();

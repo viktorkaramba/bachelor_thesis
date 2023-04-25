@@ -20,8 +20,8 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
         try {
             Connection connection = DatabaseConnection.initializeDatabase();
             PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_FAVOURITE_DRIVERS);
-            preparedStatement.setInt(1, favouriteDriver.getUserId());
-            preparedStatement.setInt(2, favouriteDriver.getDriverId());
+            preparedStatement.setInt(1, favouriteDriver.getDriverId());
+            preparedStatement.setInt(2, favouriteDriver.getUserId());
             preparedStatement.executeUpdate();
             connection.close();
             return true;
@@ -38,6 +38,10 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
                 resultSet.getString(6), resultSet.getString(7));
     }
 
+    private FavouriteDriver getFavouriteDriver(ResultSet resultSet) throws SQLException {
+        return new FavouriteDriver(resultSet.getInt(1), resultSet.getInt(2),
+                resultSet.getInt(3));
+    }
     public List<FavouriteDriverUserInfo> getAllByUserId(int userId){
         List<FavouriteDriverUserInfo> favouriteDriverUserInfoList = new ArrayList<>();
         try {
@@ -58,7 +62,20 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
 
     @Override
     public List<FavouriteDriver> getAll() {
-        return null;
+        List<FavouriteDriver> favouriteDriverList = new ArrayList<>();
+        try {
+            Connection connection = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_ALL_FAVOURITE_DRIVERS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                FavouriteDriver favouriteDriver = getFavouriteDriver(resultSet);
+                favouriteDriverList.add(favouriteDriver);
+            }
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return favouriteDriverList;
     }
 
     @Override
@@ -105,7 +122,7 @@ public class FavouriteDriverDAOImpl implements DAO<FavouriteDriver> {
             Connection con = DatabaseConnection.initializeDatabase();
             PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_FAVOURITE_DRIVERS_BY_DRIVER_ID_USER_ID);
             statement.setInt(1, driverId);
-            statement.setInt(1, userId);
+            statement.setInt(2, userId);
             statement.executeUpdate();
             con.close();
             return true;

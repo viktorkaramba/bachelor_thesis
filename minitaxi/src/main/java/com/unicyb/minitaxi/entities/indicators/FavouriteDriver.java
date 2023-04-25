@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavouriteDriver {
-    private int favouriteDriverId;
+    private int favouriteDriverId = 0;
     private int driverId;
     private int userId;
 }

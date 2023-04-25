@@ -1,6 +1,6 @@
 package com.unicyb.minitaxi.controller.documents;
 
-import com.unicyb.minitaxi.entities.userinterfaceenteties.Message;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.MyMessage;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.UserSendDate;
 import com.unicyb.minitaxi.services.WSService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ public class WSController {
     private WSService wsService;
 
     @PostMapping("/send-message")
-    public void sendMessage(@RequestBody final Message message){
-        wsService.notifyFrontend(message.getContent());
+    public void sendMessage(@RequestBody final MyMessage myMessage){
+        wsService.notifyFrontend(myMessage.getContent());
     }
 
     @PostMapping("/send-driver-message")

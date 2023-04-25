@@ -1,6 +1,5 @@
 package com.unicyb.minitaxi.controller.indicators;
 
-import com.unicyb.minitaxi.database.dao.documents.CarsDAOImpl;
 import com.unicyb.minitaxi.database.dao.indicators.AddressDAOImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/addresses")
+@RequestMapping("/api/v1/indicators/addresses")
 public class AddressController {
     private AddressDAOImpl addressDAO;
 

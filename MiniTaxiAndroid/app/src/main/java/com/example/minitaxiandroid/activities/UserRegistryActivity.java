@@ -2,34 +2,27 @@ package com.example.minitaxiandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.minitaxiandroid.R;
-import com.example.minitaxiandroid.entities.ROLE;
-import com.example.minitaxiandroid.entities.User;
-import com.example.minitaxiandroid.entities.messages.Message;
-import com.example.minitaxiandroid.websocket.WebSocketClient;
-import org.springframework.messaging.simp.stomp.StompFrameHandler;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.util.concurrent.ListenableFuture;
-
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutionException;
-
-import static com.example.minitaxiandroid.services.ObjectParserService.parseMessageFromString;
+import com.example.minitaxiandroid.api.MiniTaxiApi;
+import com.example.minitaxiandroid.api.RetrofitService;
+import com.example.minitaxiandroid.entities.auth.RegisterResponse;
+import com.example.minitaxiandroid.entities.auth.UserRequest;
+import com.example.minitaxiandroid.services.UserInfoService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserRegistryActivity extends AppCompatActivity {
 
     private EditText userName;
     private EditText password;
     private Button registry;
-    private StompSession stompSession;
-    private  User user;
+    private TextView registerRegisterTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,68 +30,79 @@ public class UserRegistryActivity extends AppCompatActivity {
         userName = findViewById(R.id.userNameUserRegistryEditText);
         password = findViewById(R.id.passwordUserRegistryEditText);
         registry = findViewById(R.id.registryLoginButton);
+        registerRegisterTextView = findViewById(R.id.registerRegisterTextView);
+        registerRegisterTextView.setOnClickListener(view -> goLogin());
+        UserInfoService.init(UserRegistryActivity.this);
         registry.setOnClickListener(view -> registry());
     }
 
     public void registry(){
-        new Thread(() -> {
-            try {
-                Log.d("MakeOrder", "Run");
-                WebSocketClient userClient = new WebSocketClient();
-                ListenableFuture<StompSession> f = userClient.connect();
-                stompSession = f.get();
-                subscribeAuthorization(stompSession);
-                user = new User(-1, userName.getText().toString(), password.getText().toString(), ROLE.USER, 1);
-                sendUserRegistryMessage(stompSession, user);
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
+        UserInfoService.addProperty("username", userName.getText().toString());
+        RetrofitService retrofitService = new RetrofitService();
+        MiniTaxiApi userRegisterApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
+        if(isValidInfo()){
+            UserRequest userRequest = new UserRequest(userName.getText().toString(), password.getText().toString());
+            userRegisterApi.userRegister(userRequest)
+                    .enqueue(new Callback<RegisterResponse>() {
+                        @Override
+                        public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                            if(response.body() != null){
+                                RegisterResponse registerResponse = response.body();
+                                if(registerResponse.getAccessToken().equals("error")
+                                        && registerResponse.getRefreshToken().equals("error")){
+                                    userName.setError(getResources().getString(R.string.user_already_exist));
+                                }
+                                else {
+                                    UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
+                                    UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
+                                    UserInfoService.addProperty("userId", String.valueOf(registerResponse.getUserId()));
+                                    UserInfoService.addProperty("rankId", "1");
+                                    goMain();
+                                }
+                            }
+                        }
 
-    public void subscribeAuthorization(StompSession stompSession) throws ExecutionException, InterruptedException {
-        stompSession.subscribe("/user/" + user.getUserName() + "/registration", new StompFrameHandler() {
-            public Type getPayloadType(StompHeaders stompHeaders) {
-                return byte[].class;
-            }
+                        @Override
+                        public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                            UserRegistryActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(UserRegistryActivity.this, "Failed to register. Try again later",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-            public void handleFrame(StompHeaders stompHeaders, Object o) {
-                String response = new String((byte[]) o);
-                Message message = null;
-                try {
-                    message = parseMessageFromString(response);
-                    Log.d("Received ", message.getContent());
-                    getResponse(message);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public void sendUserRegistryMessage(StompSession stompSession, User user) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{ \"userId\" : ").append(user.getUserId()).append(",")
-                .append("\"userName\" : \"").append(user.getUserName()).append("\",")
-                .append("\"password\" : \"").append(user.getPassword()).append("\",")
-                .append("\"role\" : \"").append(user.getRole()).append("\" }");
-        stompSession.send("/app/user-registration", stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
-    }
-
-    private void getResponse(Message message) {
-        if(message.getContent().equals("User with this username already exist")){
-            Toast.makeText(UserRegistryActivity.this,
-                    "User with this username already exist, please input another one",
-                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
-        else{
-            try {
-                Intent intent = new Intent(UserRegistryActivity.this, UserOrderHistoryActivity.class);
-                intent.putExtra("userId", message.getContent());
-                startActivity(intent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    }
+
+    private void goMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void goLogin() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+    }
+
+    private boolean isValidInfo(){
+        if(userName.getText().toString().length() < 4 || userName.getText().toString().length() > 16){
+            userName.setError(getResources().getString(R.string.user_name_to_small));
+            return false;
         }
+        if(userName.getText().toString().length() == 0){
+            userName.setError(getResources().getString(R.string.username_empty));
+            return false;
+        }
+        if(password.getText().toString().length() < 8 || userName.getText().toString().length() > 20){
+            password.setError(getResources().getString(R.string.user_password_to_small));
+            return false;
+        }
+        if(password.getText().toString().length() == 0){
+            password.setError(getResources().getString(R.string.user_password_empty));
+            return false;
+        }
+        return true;
     }
 }

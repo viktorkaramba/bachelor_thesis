@@ -6,8 +6,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="center"
-		android:background="@drawable/main_background"
-		tools:context=".activities.DriverProfile">
+		android:background="@color/dark_blue"
+		tools:context=".activities.DriverProfileActivity">
 <ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -39,11 +39,83 @@
 					android:textSize="34sp" android:layout_marginTop="10dp" android:layout_marginStart="10dp"
 					android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
 			<TextView
+					android:text="@string/username"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/driverUserNameProfileText"
+					android:layout_below="@+id/driverProfileText"
+					android:layout_alignParentStart="true"
+					android:layout_alignParentEnd="true"
+					android:textColor="@color/light_blue"
+					android:textSize="24sp"
+					android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+			<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/roundcorner"
+					android:gravity="center"
+					android:textSize="24sp"
+					android:padding="10dp"
+					android:layout_below="@+id/driverUserNameProfileText"
+					android:layout_alignParentStart="true"
+					android:layout_toStartOf="@+id/driverProfileChangeUsername"
+					android:id="@+id/driverProfileUserNameEditText"
+					android:layout_marginTop="10dp"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"/>
+			<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignTop="@+id/driverProfileUserNameEditText"
+					android:layout_alignBottom="@+id/driverProfileUserNameEditText"
+					android:id="@+id/driverProfileChangeUsername"
+					android:layout_marginEnd="10dp"
+					android:src="@drawable/edit_button"/>
+			<TextView
+					android:text="@string/password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:id="@+id/driverProfilePasswordText"
+					android:layout_below="@+id/driverProfileUserNameEditText"
+					android:layout_alignParentStart="true"
+					android:layout_alignParentEnd="true"
+					android:textColor="@color/light_blue"
+					android:textSize="24sp" android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp" android:layout_marginBottom="10dp"/>
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:background="@drawable/roundcorner"
+					android:text="@string/hide_password"
+					android:gravity="center_horizontal"
+					android:textSize="24sp"
+					android:padding="10dp"
+					android:layout_below="@+id/driverProfilePasswordText"
+					android:layout_alignParentStart="true"
+					android:layout_toStartOf="@+id/driverProfileChangePassword"
+					android:id="@+id/driverProfilePasswordEditText"
+					android:layout_marginTop="10dp"
+					android:layout_marginStart="10dp"
+					android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"/>
+			<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignTop="@+id/driverProfilePasswordEditText"
+					android:layout_alignBottom="@+id/driverProfilePasswordEditText"
+					android:id="@+id/driverProfileChangePassword"
+					android:layout_marginEnd="10dp"
+					android:src="@drawable/edit_button"/>
+			<TextView
 					android:text="@string/fullname"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:id="@+id/driverProfileNameText"
-					android:layout_below="@+id/driverProfileText"
+					android:layout_below="@+id/driverProfilePasswordEditText"
 					android:layout_alignParentStart="true"
 					android:layout_alignParentEnd="true"
 					android:textColor="@color/light_blue"

@@ -1,6 +1,8 @@
 package com.example.minitaxiandroid.fragments;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.example.minitaxiandroid.R;
 import com.example.minitaxiandroid.activities.MainActivity;
 import com.example.minitaxiandroid.activities.MakeOrderActivity;
 import com.example.minitaxiandroid.constants.DistanceConstants;
+import com.example.minitaxiandroid.entities.document.CAR_CLASSES;
 import com.example.minitaxiandroid.entities.userinfo.DriverInfo;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -61,11 +64,14 @@ public class SearchAddressesFragment extends Fragment {
     private Button orderMainMenuButton;
     private List<Place.Field> fields;
     private Place placeFrom, placeTo;
+    private LatLng fromLatLng, toLatLng = null;
     private ActivityResultLauncher<Intent> activityResultLauncherFrom, activityResultLauncherTo;
-    private int driverId = 0;
-    private float distance = 0;
+    private String driverId = "0";
+    private CAR_CLASSES carClass = CAR_CLASSES.NO;
+    private String distance = "0";
     private boolean isSearchFrom, isCloseFrom, isCloseTo = false;
     private boolean isPlaceEnable = true;
+    private String fromAddress = "", toAddress = "", favouriteDriver = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,12 +81,9 @@ public class SearchAddressesFragment extends Fragment {
                 container, false);
         activity = (MainActivity) getActivity();
         activity.setFragment();
-        String message = "";
-        String otherAddress = "";
-        String favouriteDriver = "";
         if (getArguments()!=null) {
-            message = getArguments().getString("messageTo");
-            otherAddress = getArguments().getString("otherAddress");
+            fromAddress = getArguments().getString("fromAddress");
+            toAddress = getArguments().getString("toAddress");
             favouriteDriver = getArguments().getString("favouriteDriver");
         }
         searchFromTextInputEditText = view.findViewById(R.id.searchFromTextInputEditText);
@@ -101,7 +104,9 @@ public class SearchAddressesFragment extends Fragment {
                     if(result != null && result.getResultCode() == RESULT_OK){
                        if(result.getData() != null){
                             placeFrom = Autocomplete.getPlaceFromIntent(result.getData());
+                            fromLatLng = placeFrom.getLatLng();
                             searchFromTextInputEditText.setText(placeFrom.getName());
+                            fromAddress = placeFrom.getAddress();
                             setTextEditUntouchable(searchFromTextInputLayout);
                             setCustomEndIconForSearchFrom();
                        }
@@ -118,7 +123,9 @@ public class SearchAddressesFragment extends Fragment {
                     if(result != null && result.getResultCode() == RESULT_OK){
                         if(result.getData() != null){
                             placeTo = Autocomplete.getPlaceFromIntent(result.getData());
+                            toLatLng = placeTo.getLatLng();
                             searchToTextInputEditText.setText(placeTo.getName());
+                            toAddress = placeTo.getAddress();
                             setTextEditUntouchable(searchToTextInputLayout);
                             setCustomEndIconForSearchTo();
                         }
@@ -139,26 +146,20 @@ public class SearchAddressesFragment extends Fragment {
             setTextEditUntouchable(favouriteDriverTextInputLayout);
             setCustomEndIconForFavouriteDriver(favouriteDriverTextInputLayout, favouriteDriverTextInputEditText);
         }
-        if (Objects.equals(message, "From")){
-            searchFromTextInputEditText.setText(getArguments().getString("address"));
+        if(!fromAddress.equals("")){
+            searchFromTextInputEditText.setText(fromAddress);
             setTextEditUntouchable(searchFromTextInputLayout);
             setCustomEndIconForSearchFrom();
-            if(!otherAddress.equals("")){
-                searchToTextInputEditText.setText(otherAddress);
-                setTextEditUntouchable(searchToTextInputLayout);
-                setCustomEndIconForSearchTo();
-            }
+            fromLatLng = getLocationFromAddress(fromAddress);
         }
-        else if (Objects.equals(message, "To")){
-            searchToTextInputEditText.setText(getArguments().getString("address"));
+        System.out.println("fromLL: " + fromLatLng);
+        if(!toAddress.equals("")){
+            searchToTextInputEditText.setText(toAddress);
             setTextEditUntouchable(searchToTextInputLayout);
             setCustomEndIconForSearchTo();
-            if(!otherAddress.equals("")){
-                searchFromTextInputEditText.setText(otherAddress);
-                setTextEditUntouchable(searchFromTextInputLayout);
-                setCustomEndIconForSearchFrom();
-            }
+            toLatLng = getLocationFromAddress(toAddress);
         }
+        System.out.println("toLL: " + toLatLng);
         searchAddressFromButton = view.findViewById(R.id.mapSearchFromImageButton);
         searchAddressToButton = view.findViewById(R.id.mapSearchToImageButton);
         searchAddressFromButton.setOnClickListener(view17 -> getAddressFromMap("From"));
@@ -177,14 +178,24 @@ public class SearchAddressesFragment extends Fragment {
     }
 
     private void order() {
-        if(placeFrom == null){
+        System.out.println(fromAddress);
+        System.out.println(toAddress);
+        if(fromLatLng == null){
+            fromLatLng = getLocationFromAddress(fromAddress);
+        }
+        if(fromAddress.isEmpty()){
             Toast.makeText(SearchAddressesFragment.this.getContext(),
                     getResources().getString(R.string.please_select_address_from_toast_text),
                     Toast.LENGTH_SHORT).show();
         }
-        else if(placeTo == null){
+        else if(toAddress.isEmpty()){
             Toast.makeText(SearchAddressesFragment.this.getContext(),
                     getResources().getString(R.string.please_select_address_to_toast_text),
+                    Toast.LENGTH_SHORT).show();
+        }
+        else if(toAddress.equals(fromAddress)){
+            Toast.makeText(SearchAddressesFragment.this.getContext(),
+                    getResources().getString(R.string.same_addresses),
                     Toast.LENGTH_SHORT).show();
         }
         else{
@@ -192,7 +203,7 @@ public class SearchAddressesFragment extends Fragment {
                     .build();
             Request request = new Request.Builder()
                     .url("https://maps.googleapis.com/maps/api/distancematrix/json?origins=" +
-                            placeFrom.getAddress() + "&destinations=" + placeTo.getAddress() + "&key=" + getResources().getString(R.string.google_maps_key))
+                            fromAddress + "&destinations=" + toAddress + "&key=" + getResources().getString(R.string.google_maps_key))
                     .get()
                     .build();
             client.newCall(request).enqueue(new Callback() {
@@ -207,28 +218,31 @@ public class SearchAddressesFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     if(response.isSuccessful()){
                         try {
-                           distance = Float.parseFloat(convertJson(response.body().string()))/1000;
+                           distance = String.valueOf(Float.parseFloat(convertJson(response.body().string()))/1000);
+                           System.out.println("distance: " + distance);
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }
-                        if(distance < DistanceConstants.MIN_DISTANCE){
-                            Toast.makeText(SearchAddressesFragment.this.getContext(),
+                        if(Float.parseFloat(distance) < DistanceConstants.MIN_DISTANCE){
+                            activity.runOnUiThread(() -> Toast.makeText(SearchAddressesFragment.this.getContext(),
                                     getResources().getString(R.string.distance_is_to_short),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show());
+
                         }
-                        else if(distance > DistanceConstants.MAX_DISTANCE){
-                            Toast.makeText(SearchAddressesFragment.this.getContext(),
+                        else if(Float.parseFloat(distance) > DistanceConstants.MAX_DISTANCE){
+                            activity.runOnUiThread(() -> Toast.makeText(SearchAddressesFragment.this.getContext(),
                                     getResources().getString(R.string.distance_is_to_long),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show());
+
                         }
                         else {
                             goToMakeOrder();
                         }
                     }
                     else {
-                        Toast.makeText(SearchAddressesFragment.this.getContext(),
+                        activity.runOnUiThread(() -> Toast.makeText(SearchAddressesFragment.this.getContext(),
                                 getResources().getString(R.string.error_to_get_distance),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show());
                     }
                 }
             });
@@ -236,41 +250,35 @@ public class SearchAddressesFragment extends Fragment {
     }
 
     private void goToMakeOrder(){
-        Intent intent = new Intent(SearchAddressesFragment.this.getContext(), MakeOrderActivity.class);
-        intent.putExtra("userAddressFrom", placeFrom.getAddress());
-        intent.putExtra("userAddressTo",  placeTo.getAddress());
-        intent.putExtra("latitude",  placeFrom.getLatLng().latitude);
-        intent.putExtra("longitude",  placeFrom.getLatLng().longitude);
+        Intent intent = new Intent(SearchAddressesFragment.this.getActivity(), MakeOrderActivity.class);
+        System.out.println("userAddressFrom: " + fromAddress);
+        System.out.println("userAddressTo: " +  toAddress);
+        System.out.println("latitude: " + String.valueOf(fromLatLng.latitude));
+        System.out.println("longitude: " + String.valueOf(fromLatLng.longitude));
+        System.out.println("driverId: " + driverId);
+        System.out.println("carClass: " + carClass.name());
+        System.out.println("distance: " + distance);
+        intent.putExtra("userAddressFrom", fromAddress);
+        intent.putExtra("userAddressTo",  toAddress);
+        intent.putExtra("latitude",  String.valueOf(fromLatLng.latitude));
+        intent.putExtra("longitude",  String.valueOf(fromLatLng.longitude));
         intent.putExtra("driverId",  driverId);
+        intent.putExtra("carClass",  carClass.name());
         intent.putExtra("distance",  distance);
         startActivity(intent);
     }
 
     private void getAddressFromMap(String message) {
         Bundle bundle = new Bundle();
-        bundle.putString("messageFrom", message);
-        if(driverId != 0){
+        if(Integer.parseInt(driverId) != 0){
             bundle.putString("favouriteDriver", favouriteDriverTextInputEditText.getText().toString());
         }
         else{
             bundle.putString("favouriteDriver", "");
         }
-        if(message.equals("From")){
-            if(!searchToTextInputEditText.getText().toString().equals("")){
-                bundle.putString("otherAddress", searchToTextInputEditText.getText().toString());
-            }
-            else {
-                bundle.putString("otherAddress", "");
-            }
-        }
-        else{
-            if(!searchFromTextInputEditText.getText().toString().equals("")){
-                bundle.putString("otherAddress", searchFromTextInputEditText.getText().toString());
-            }
-            else{
-                bundle.putString("otherAddress", "");
-            }
-        }
+        bundle.putString("side", message);
+        bundle.putString("fromAddress", searchFromTextInputEditText.getText().toString());
+        bundle.putString("toAddress", searchToTextInputEditText.getText().toString());
         SearchAddressOnMapFragment searchAddressOnMapFragment = new SearchAddressOnMapFragment();
         searchAddressOnMapFragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -280,7 +288,7 @@ public class SearchAddressesFragment extends Fragment {
     }
 
     public void createFavouriteAddressesListSearchDialog(){
-        dialogBuilder = new AlertDialog.Builder(SearchAddressesFragment.this.getContext());
+        dialogBuilder = new AlertDialog.Builder(SearchAddressesFragment.this.requireContext());
         final View contactPopUpView = getLayoutInflater().inflate(R.layout.favourite_addresses_search_fragment, null);
         favouriteAddressesListView = contactPopUpView.findViewById(R.id.favouriteAddressesSearchList);
         dialogBuilder.setView(contactPopUpView);
@@ -295,16 +303,21 @@ public class SearchAddressesFragment extends Fragment {
                 android.R.layout.simple_list_item_1, activity.getFavouriteAddressesList());
         favouriteAddressesListView.setAdapter(favouriteAddressesAdapter);
         favouriteAddressesListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            String address = String.valueOf(adapterView.getAdapter().getItem(i));
+            String address = adapterView.getAdapter().getItem(i).toString();
             if (isSearchFrom){
+                fromAddress = address;
                 searchFromTextInputEditText.setText(address);
                 setTextEditUntouchable(searchFromTextInputLayout);
                 setCustomEndIconForSearchFrom();
+                fromLatLng = getLocationFromAddress(fromAddress);
             }
             else {
+                System.out.println(address);
+                toAddress = address;
                 searchToTextInputEditText.setText(address);
                 setTextEditUntouchable(searchToTextInputLayout);
                 setCustomEndIconForSearchTo();
+                toLatLng = getLocationFromAddress(toAddress);
             }
             dialog.dismiss();
         });
@@ -312,7 +325,8 @@ public class SearchAddressesFragment extends Fragment {
 
     public void setFavouriteDriver(DriverInfo driverInfo){
         String name = driverInfo.getDriverFirstName() + " " + driverInfo.getDriverSurName();
-        driverId = driverInfo.getDriverId();
+        driverId = String.valueOf(driverInfo.getDriverId());
+        carClass = driverInfo.getCarClass();
         favouriteDriverTextInputEditText.setText(name);
         favouriteDriverTextInputLayout.setEndIconVisible(true);
         favouriteDriverTextInputLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
@@ -322,8 +336,33 @@ public class SearchAddressesFragment extends Fragment {
 
     public void setAddressUserInSearchForm(String address){
         searchFromTextInputEditText.setText(address);
+        fromAddress = address;
         setTextEditUntouchable(searchFromTextInputLayout);
         setCustomEndIconForSearchFrom();
+    }
+
+    public LatLng getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this.getContext());
+        List<android.location.Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 
     private void setTextEditUntouchable(TextInputLayout textInputLayout){
@@ -342,7 +381,8 @@ public class SearchAddressesFragment extends Fragment {
             textInputLayout.getEditText().clearFocus();
             textInputLayout.setEndIconVisible(false);
             textInputEditText.setTextSize(14);
-            driverId = 0;
+            driverId = "0";
+            carClass = null;
         });
     }
 

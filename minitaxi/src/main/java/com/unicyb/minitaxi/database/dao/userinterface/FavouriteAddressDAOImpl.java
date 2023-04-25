@@ -61,7 +61,20 @@ public class FavouriteAddressDAOImpl implements DAO<FavouriteAddress> {
 
     @Override
     public List<FavouriteAddress> getAll() {
-       return null;
+        List<FavouriteAddress> favouriteAddressList = new ArrayList<>();
+        try {
+            Connection connection = DatabaseConnection.initializeDatabase();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_ALL_FAVOURITE_ADDRESSES);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                FavouriteAddress favouriteAddress = getFavouriteAddress(resultSet);
+                favouriteAddressList.add(favouriteAddress);
+            }
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return favouriteAddressList;
     }
 
     @Override

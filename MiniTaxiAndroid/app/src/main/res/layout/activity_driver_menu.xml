@@ -19,9 +19,9 @@
 				android:layout_height="wrap_content"
 				android:layout_margin="10dp"
 				android:clickable="true"
-				app:srcCompat="@mipmap/ic_profile"
-				android:id="@+id/profileButton"
-				android:backgroundTint="#D5D5D5"
+				app:srcCompat="@mipmap/ic_driver_profile_icon"
+				android:id="@+id/driverProfileButton"
+				android:backgroundTint="@color/light_blue"
 				tools:ignore="SpeakableTextPresentCheck"
 		/>
 		<Switch
@@ -35,6 +35,16 @@
 				android:background="@drawable/roundcorner"
 				android:id="@+id/isOnlineSwitch"
 				tools:ignore="UseSwitchCompatOrMaterialXml"/>
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:clickable="true"
+				app:srcCompat="@drawable/logout_icon"
+				android:id="@+id/driverLogoutButton"
+				android:backgroundTint="@color/light_blue"
+				tools:ignore="SpeakableTextPresentCheck"
+		/>
 	</LinearLayout>
 	<Button
 			android:text="@string/see_car_recommendations"

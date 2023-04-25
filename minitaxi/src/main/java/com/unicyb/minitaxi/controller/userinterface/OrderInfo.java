@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderInfo {
     private OrderInfoDAOImpl orderInfoDAO;
 
-    @GetMapping("/order-info-profile/{id}")
+    @GetMapping("/api/v1/driver-app/order-info-profile/{id}")
     public ResponseEntity getOrderInfo(@PathVariable String id){
         try {
             orderInfoDAO = new OrderInfoDAOImpl();

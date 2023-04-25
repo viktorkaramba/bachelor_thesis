@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DriverProfileInfo {
     private int driverId;
+    private String driverUserName;
     private String driverFirstName;
     private String driverSurName;
     private String driverPatronymic;

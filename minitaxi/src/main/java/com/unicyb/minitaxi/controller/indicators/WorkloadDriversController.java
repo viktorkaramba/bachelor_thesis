@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class WorkloadDriversController {
     private WorkloadDriversDAOImpl workloadDriversDAO;
 
-    @GetMapping("/workloads-drivers")
+    @GetMapping("/api/v1/indicators/workloads-drivers")
     public ResponseEntity getWorkloadDrivers(){
         try {
             workloadDriversDAO = new WorkloadDriversDAOImpl();
@@ -21,7 +21,7 @@ public class WorkloadDriversController {
         }
     }
 
-    @PostMapping("/workloads-drivers-report")
+    @PostMapping("/api/v1/indicators/workloads-drivers-report")
     public ResponseEntity getWorkloadDriversReport(@RequestBody Report report){
         try {
             workloadDriversDAO = new WorkloadDriversDAOImpl();
@@ -32,7 +32,7 @@ public class WorkloadDriversController {
         }
     }
 
-    @PostMapping("/workloads-drivers-report-by-id")
+    @PostMapping("/api/v1/indicators/workloads-drivers-report-by-id")
     public ResponseEntity getWorkloadDriversReportById(@RequestBody Report report){
         try {
             workloadDriversDAO = new WorkloadDriversDAOImpl();
