@@ -15,10 +15,13 @@ import com.example.minitaxiandroid.activities.UserLoginActivity;
 import com.example.minitaxiandroid.api.MiniTaxiApi;
 import com.example.minitaxiandroid.api.RetrofitService;
 import com.example.minitaxiandroid.entities.auth.RegisterResponse;
+import com.example.minitaxiandroid.entities.document.CAR_CLASSES;
 import com.example.minitaxiandroid.entities.document.DriverRecAnswer;
 import com.example.minitaxiandroid.entities.messages.CarRecommendationInfo;
 import com.example.minitaxiandroid.entities.messages.MyMessage;
 import com.example.minitaxiandroid.services.DriverInfoService;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +36,7 @@ public class CarRecFragment extends Fragment {
     private TextView salary;
     private Button accept, reject;
     private CarRecommendationInfo carRecommendationInfo;
+    private DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +51,7 @@ public class CarRecFragment extends Fragment {
         reject = view.findViewById(R.id.rejectDriveCarRecButton);
         accept.setOnClickListener(view12 -> accept());
         reject.setOnClickListener(view1 -> reject());
+        DriverInfoService.init(CarRecFragment.this.getContext());
         carRecommendationInfo = new CarRecommendationInfo();
         carRecommendationInfo.setDriverCarRecId(Integer.parseInt(getArguments().getString("driverCarRecId")));
         carRecommendationInfo.setDriverId(Integer.parseInt(getArguments().getString("driverId")));
@@ -54,15 +59,61 @@ public class CarRecFragment extends Fragment {
         carRecommendationInfo.setCarProducer(getArguments().getString("carProducer"));
         carRecommendationInfo.setCarBrand( getArguments().getString("carBrand"));
         carRecommendationInfo.setPricePerKilometer(Float.parseFloat(getArguments().getString("pricePerKilometer")));
-        carRecommendationInfo.setCarClass(getArguments().getString("carClass"));
+        carRecommendationInfo.setCarClass(CAR_CLASSES.valueOf(getArguments().getString("carClass")));
         carRecommendationInfo.setNewSalary(Float.parseFloat(getArguments().getString("newSalary")));
-        DriverInfoService.init(CarRecFragment.this.getContext());
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
+                "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
+        databaseReference = firebaseDatabase.getReference();
         setDate();
         return view;
     }
 
     private void accept() {
         setAnswer("Yes");
+        changeInFireBase();
+    }
+
+    private void changeInFireBase() {
+        String id = "driver-"+ DriverInfoService.getProperty("driverId");
+        databaseReference.child("drivers-info").child(id).child("carClass").
+                setValue(carRecommendationInfo.getCarClass().name()).addOnCompleteListener(task -> {
+                    if(task.isComplete()){
+                        Log.d("TAG", "Driver status successfully changed");
+                        Toast.makeText(CarRecFragment.this.getContext(), "Driver status successfully changed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d("TAG", "Error to change driver status");
+                        Toast.makeText(CarRecFragment.this.getContext(),
+                                "Error to change driver status", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        databaseReference.child("drivers-info").child(id).child("carBrand").
+                setValue(carRecommendationInfo.getCarBrand()).addOnCompleteListener(task -> {
+                    if(task.isComplete()){
+                        Log.d("TAG", "Driver car brand successfully changed");
+                        Toast.makeText(CarRecFragment.this.getContext(), "Driver car brand successfully changed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d("TAG", "Error to change driver status");
+                        Toast.makeText(CarRecFragment.this.getContext(),
+                                "Error to change driver car brand", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        databaseReference.child("drivers-info").child(id).child("carProducer").
+                setValue(carRecommendationInfo.getCarProducer()).addOnCompleteListener(task -> {
+                    if(task.isComplete()){
+                        Log.d("TAG", "Driver car producer successfully changed");
+                        Toast.makeText(CarRecFragment.this.getContext(), "Driver car producer successfully changed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d("TAG", "Error to change driver status");
+                        Toast.makeText(CarRecFragment.this.getContext(),
+                                "Error to change driver car producer", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void reject() {
@@ -117,7 +168,7 @@ public class CarRecFragment extends Fragment {
     public void setDate(){
         String carText = carRecommendationInfo.getCarProducer() + " " + carRecommendationInfo.getCarBrand();
         car.setText(carText);
-        carClass.setText(carRecommendationInfo.getCarClass());
+        carClass.setText(carRecommendationInfo.getCarClass().name());
         pricePerKilometer.setText(String.valueOf(carRecommendationInfo.getPricePerKilometer()));
         salary.setText(String.valueOf(carRecommendationInfo.getNewSalary()));
     }

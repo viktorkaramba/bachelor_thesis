@@ -10,6 +10,7 @@ import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.documents.User;
 import com.unicyb.minitaxi.entities.indicators.Order;
 import com.unicyb.minitaxi.entities.ranksystem.UserEliteRankAchievementInfo;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.MyMessage;
 import com.unicyb.minitaxi.entities.userinterfaceenteties.SendOrder;
 import com.unicyb.minitaxi.ranksystem.RankSystem;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +31,13 @@ public class OrderService {
     private UserEliteRankAchievementInfoDAOImpl userEliteRankAchievementInfoDAO;
     private RankSystem rankSystem;
 
-    public ResponseEntity<String> completeOrder(SendOrder sendOrder) {
+    public ResponseEntity completeOrder(SendOrder sendOrder) {
         try {
             updateDriverExperience(sendOrder);
             updateUserRankStats(sendOrder);
-            return ResponseEntity.ok("Order successfully complete");
+            return ResponseEntity.ok(new MyMessage("Order successfully complete"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(new MyMessage("Error"));
         }
     }
 

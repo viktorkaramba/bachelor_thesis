@@ -77,11 +77,7 @@ public class SetRatingActivity extends AppCompatActivity {
         likeDriverButton.setEnabled(false);
         evaluate = findViewById(R.id.evaluateRatingButton);
         evaluate.setOnClickListener(view -> {
-            new Thread(() -> {
-                sendOrder();
-                stompSession.disconnect();
-            }).start();
-            goMain();
+            sendOrder();
         });
         boolean isFavouriteDriver = Boolean.parseBoolean(getDate(savedInstanceState, "isFavouriteDriver"));
         if(isFavouriteDriver){
@@ -103,7 +99,7 @@ public class SetRatingActivity extends AppCompatActivity {
             rankId = getDate(savedInstanceState, "rankId");
             try {
                 stompSession = f.get();
-                subscribe(stompSession, Integer.parseInt(userId));
+                subscribe(Integer.parseInt(userId));
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -173,10 +169,12 @@ public class SetRatingActivity extends AppCompatActivity {
                                     likeDriver();
                                 }
                                 else if(isSendOrder == 2){
-                                    new Thread(() -> {
-                                        sendOrder();
-                                        stompSession.disconnect();
-                                    }).start();
+                                    if(stompSession!=null && stompSession.isConnected()) {
+                                        new Thread(() -> {
+                                            sendOrder();
+                                            stompSession.disconnect();
+                                        }).start();
+                                    }
                                 }
                                 else if(isSendOrder == 3){
                                     getFavouritesDrivers();
@@ -195,7 +193,7 @@ public class SetRatingActivity extends AppCompatActivity {
 
     private void goLogin() {
         Intent intent = new Intent(this, UserLoginActivity.class);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
@@ -216,7 +214,7 @@ public class SetRatingActivity extends AppCompatActivity {
         return result;
     }
 
-    public void subscribe(StompSession stompSession, int userID) throws ExecutionException, InterruptedException {
+    public void subscribe(int userID) throws ExecutionException, InterruptedException {
         stompSession.subscribe("/user/" + userID + "/order-message", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -249,7 +247,7 @@ public class SetRatingActivity extends AppCompatActivity {
 
     private void goMain() {
         Intent intent = new Intent(SetRatingActivity.this, MainActivity.class);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
@@ -318,10 +316,10 @@ public class SetRatingActivity extends AppCompatActivity {
                 Float.parseFloat(price), isUseSale, carClass,
                 Float.parseFloat(distance), ratingDriverBar.getRating(), Integer.parseInt(rankId));
         api.completeOrder("Bearer " + UserInfoService.getProperty("access_token"),
-                sendOrder).enqueue(new Callback<String>() {
+                sendOrder).enqueue(new Callback<MyMessage>() {
 
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<MyMessage> call, Response<MyMessage> response) {
                 if(response.body()!=null){
                     try {
                         if(response.errorBody() != null){
@@ -335,6 +333,7 @@ public class SetRatingActivity extends AppCompatActivity {
                                     Toast.makeText(SetRatingActivity.this,
                                     getResources().getString(R.string.successfully_add_order),
                                     Toast.LENGTH_SHORT).show());
+                            goMain();
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -343,7 +342,8 @@ public class SetRatingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<MyMessage> call, Throwable t) {
+                System.out.println("t: " + t.getMessage());
                 SetRatingActivity.this.runOnUiThread(() ->
                         Toast.makeText(SetRatingActivity.this,
                         getResources().getString(R.string.error_to_add_order),

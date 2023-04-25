@@ -125,7 +125,9 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
             else {
                 setDriverStatus(DRIVER_STATUS.OFFLINE);
                 driverLocationService.setDriverStatus(DRIVER_STATUS.OFFLINE);
-                new Thread(() -> stompSession.disconnect()).start();
+                if(stompSession!=null && stompSession.isConnected()) {
+                    new Thread(() -> stompSession.disconnect()).start();
+                }
             }
         });
         getOrders();
@@ -137,8 +139,8 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
             try {
                 WebSocketClient driverClient = new WebSocketClient();
                 ListenableFuture<StompSession> f = driverClient.connect();
-                StompSession newStompSession = f.get();
-                subscribeDriver(newStompSession);
+                stompSession = f.get();
+                subscribeDriver();
             } catch (ExecutionException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -167,7 +169,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         intent.putExtra("driverId", DriverInfoService.getProperty("driverId"));
         intent.putExtra("isOnline", String.valueOf(isOnlineSwitch.isChecked()));
         isOnlineSwitch.setChecked(false);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
@@ -220,13 +222,12 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         intent.putExtra("driverId", DriverInfoService.getProperty("driverId"));
         intent.putExtra("isOnline", String.valueOf(isOnlineSwitch.isChecked()));
         isOnlineSwitch.setChecked(false);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
     }
-    public void subscribeDriver(StompSession newStompSession) throws ExecutionException, InterruptedException {
-        stompSession = newStompSession;
+    public void subscribeDriver() throws ExecutionException, InterruptedException {
         stompSession.subscribe("/user/" + DriverInfoService.getProperty("driverId") + "/driver", new StompFrameHandler() {
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -286,7 +287,9 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         new Thread(() -> {
             ResponseMessage responseMessage = new ResponseMessage(String.valueOf(userSendDate.getUserId()), "Yes");
             sendDriverAcceptMessage(responseMessage);
-            stompSession.disconnect();
+            if(stompSession!=null && stompSession.isConnected()) {
+                new Thread(() -> stompSession.disconnect()).start();
+            }
         }).start();
         runOnUiThread(() -> {
             dialog.cancel();
@@ -304,7 +307,6 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         });
     }
     public void sendDriverAcceptMessage(ResponseMessage responseMessage) {
-        System.out.println(responseMessage);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("{ \"userId\" : \"").append(responseMessage.getUserId()).append("\",")
@@ -325,7 +327,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         Intent intent = new Intent(this, UserLoginActivity.class);
         setDriverStatus(DRIVER_STATUS.OFFLINE);
         isOnlineSwitch.setChecked(false);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
@@ -350,7 +352,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
                             else {
                                 DriverInfoService.addProperty("access_token", registerResponse.getAccessToken());
                                 DriverInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
-                                if(stompSession!=null) {
+                                if(stompSession!=null && stompSession.isConnected()) {
                                     new Thread(() -> stompSession.disconnect()).start();
                                 }
                                 setDriverStatus(DRIVER_STATUS.OFFLINE);
@@ -458,7 +460,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         intent.putExtra("customerName", orderInfo.getCustomerName());
         intent.putExtra("isOnline", String.valueOf(isOnlineSwitch.isChecked()));
         isOnlineSwitch.setChecked(false);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);

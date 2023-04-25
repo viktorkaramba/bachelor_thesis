@@ -218,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DriverInfo driverInfo = dataSnapshot.getValue(DriverInfo.class);
-                    Log.d("TAG", driverInfo.getDriverFirstName());
                     setDriverOnMap(driverInfo);
                 }
             }
@@ -241,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 DriverInfo driverInfo = snapshot.getValue(DriverInfo.class);
-                Log.d("TAG", driverInfo.getDriverFirstName());
                 if(!driverInfo.getStatus().equals(DRIVER_STATUS.OFFLINE)) {
                     setDriverOnMap(driverInfo);
                 }
@@ -267,7 +265,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
     private void setDriverOnMap(DriverInfo driverInfo){
-        System.out.println("add marker");
         runOnUiThread(() -> {
             boolean isFavourite = checkIsFavouriteDriver(driverInfo);
             addDriverMarker(driverInfo, isFavourite);
@@ -554,7 +551,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onResponse(@NotNull Call<List<FavouriteAddressesUserInfo>> call,
                                            @NotNull Response<List<FavouriteAddressesUserInfo>> response) {
-                       Log.d("Fav Add", response.body().toString());
                         if(response.body()!=null){
                             try {
                                 if(response.errorBody() != null){
@@ -588,7 +584,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for(FavouriteAddressesUserInfo info: body){
             favouriteAddressesList.add(info.getAddress());
         }
-        System.out.println("fav addresses list: " + favouriteAddressesList);
     }
     private void refreshToken() {
         RetrofitService retrofitService = new RetrofitService();

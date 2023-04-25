@@ -234,50 +234,51 @@ public class SQLQuery {
     public static final String DELETE_USER_RANK_ACHIEVEMENT_INFO="DELETE * FROM USERS_RANK_ACHIEVEMENT_INFO WHERE URI_ID=?";
     public static final String CHECK_IF_EXIST_USER_RANK="SELECT COUNT(1) FROM USERS_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
 
-    public static final String INSERT_USER_ELITE_RANK_ACHIEVEMENT_INFO="INSERT INTO USER_ELITE_RANK_ACHIEVEMENT_INFO VALUES(" +
+    public static final String INSERT_USERS_ELITE_RANK_ACHIEVEMENT_INFO ="INSERT INTO USERS_ELITE_RANK_ACHIEVEMENT_INFO VALUES(" +
             "USERS_ELITE_RANK_ACHIEVEMENT_INFO_SEQUENCE.nextval, ?, ?, ?, ?, ?, ?)";
-    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO="SELECT * FROM USER_ELITE_RANK_ACHIEVEMENT_INFO";
-    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID="SELECT * FROM USER_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
-    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID="SELECT user_elite_rank_achievement_info.UERAI_ID, \n" +
-            "user_elite_rank_achievement_info.DATE_UERAI, \n" +
-            "user_elite_rank_achievement_info.USERS_ID,\n" +
-            "user_elite_rank_achievement_info.E_R_ID,\n" +
-            "user_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
-            "user_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
-            "user_elite_rank_achievement_info.CC_ID\n" +
-            "FROM user_elite_rank_achievement_info\n" +
+    public static final String SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO ="SELECT * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO";
+    public static final String SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID ="SELECT * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
+    public static final String SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID ="SELECT users_elite_rank_achievement_info.UERAI_ID, \n" +
+            "users_elite_rank_achievement_info.DATE_UERAI, \n" +
+            "users_elite_rank_achievement_info.USERS_ID,\n" +
+            "users_elite_rank_achievement_info.E_R_ID,\n" +
+            "users_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
+            "users_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
+            "users_elite_rank_achievement_info.CC_ID\n" +
+            "FROM users_elite_rank_achievement_info\n" +
             "JOIN USERS\n" +
-            "ON USERS.USERS_ID=user_elite_rank_achievement_info.USERS_ID\n" +
+            "ON USERS.USERS_ID=users_elite_rank_achievement_info.USERS_ID\n" +
             "JOIN ELITE_RANKS\n" +
-            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND user_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
+            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND users_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
             "WHERE USERS.USERS_ID=? AND USERS.RANKS_ID=?";
 
-    public static final String SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID="SELECT user_elite_rank_achievement_info.UERAI_ID,\n" +
-            "user_elite_rank_achievement_info.DATE_UERAI,\n" +
-            "user_elite_rank_achievement_info.USERS_ID,\n" +
-            "user_elite_rank_achievement_info.E_R_ID,\n" +
-            "user_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
-            "user_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
-            "user_elite_rank_achievement_info.CC_ID\n" +
-            "FROM user_elite_rank_achievement_info\n" +
+    public static final String SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID ="SELECT " +
+            "users_elite_rank_achievement_info.UERAI_ID,\n" +
+            "users_elite_rank_achievement_info.DATE_UERAI,\n" +
+            "users_elite_rank_achievement_info.USERS_ID,\n" +
+            "users_elite_rank_achievement_info.E_R_ID,\n" +
+            "users_elite_rank_achievement_info.NUMBER_OF_USES_FREE_ORDER,\n" +
+            "users_elite_rank_achievement_info.DEADLINE_DATE_FREE_ORDER,\n" +
+            "users_elite_rank_achievement_info.CC_ID\n" +
+            "FROM users_elite_rank_achievement_info\n" +
             "JOIN DRIVERS\n" +
             "ON DRIVERS.DRIVERS_ID=DRIVERS_ID\n" +
             "JOIN CARS\n" +
-            "ON CARS.CARS_ID=DRIVERS.CARS_ID AND user_elite_rank_achievement_info.CC_ID=CARS.CC_ID\n" +
+            "ON CARS.CARS_ID=DRIVERS.CARS_ID AND users_elite_rank_achievement_info.CC_ID=CARS.CC_ID\n" +
             "JOIN USERS\n" +
-            "ON USERS.USERS_ID=user_elite_rank_achievement_info.USERS_ID\n" +
+            "ON USERS.USERS_ID=users_elite_rank_achievement_info.USERS_ID\n" +
             "JOIN ELITE_RANKS\n" +
-            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND user_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
+            "ON USERS.RANKS_ID=ELITE_RANKS.RANKS_ID AND users_elite_rank_achievement_info.E_R_ID=ELITE_RANKS.E_R_ID\n" +
             "WHERE USERS.USERS_ID=? AND USERS.RANKS_ID=? AND DRIVERS_ID=?";
-    public static final String UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO="UPDATE USER_ELITE_RANK_ACHIEVEMENT_INFO " +
+    public static final String UPDATE_USERS_ELITE_RANK_ACHIEVEMENT_INFO ="UPDATE USERS_ELITE_RANK_ACHIEVEMENT_INFO " +
             "SET DATE_UERAI=?, USERS_ID=?, E_R_ID=?, NUMBER_OF_USES_FREE_ORDER=?, DEADLINE_DATE_FREE_ORDER=?, CC_ID=? WHERE UERAI_ID=?";
 
-    public static final String UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_DEADLINE="UPDATE USER_ELITE_RANK_ACHIEVEMENT_INFO " +
+    public static final String UPDATE_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_DEADLINE="UPDATE USERS_ELITE_RANK_ACHIEVEMENT_INFO " +
             "SET NUMBER_OF_USES_FREE_ORDER = ?, DEADLINE_DATE_FREE_ORDER=?\n" +
             "WHERE TRUNC(deadline_date_free_order) = TRUNC(CAST(? AS TIMESTAMP)) AND E_R_ID=?";
 
-    public static final String DELETE_USER_ELITE_RANK_ACHIEVEMENT_INFO="DELETE * FROM USER_ELITE_RANK_ACHIEVEMENT_INFO WHERE UERAI_ID=?";
-    public static final String CHECK_IF_EXIST_USER_ELITE_RANK="SELECT COUNT(1) FROM USER_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
+    public static final String DELETE_USERS_ELITE_RANK_ACHIEVEMENT_INFO ="DELETE * FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE UERAI_ID=?";
+    public static final String CHECK_IF_EXIST_USER_ELITE_RANK="SELECT COUNT(1) FROM USERS_ELITE_RANK_ACHIEVEMENT_INFO WHERE USERS_ID=?";
     public static final String SELECT_DRIVER_INFO_BY_ID="SELECT DRIVERS.DRIVERS_ID, FULLNAME.FIRSTNAME, FULLNAME.SURNAME, CARS.PRODUCER, CARS.BRAND,\n" +
             "CARS.IN_ORDER\n" +
             "FROM DRIVERS\n" +

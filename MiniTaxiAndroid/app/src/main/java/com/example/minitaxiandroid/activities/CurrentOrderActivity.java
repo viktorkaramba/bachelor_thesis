@@ -56,7 +56,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
             completeButton.setOnClickListener(view -> {
                 completeOrder();
             });
-        }, 5000);
+        }, 10000);
 
     }
 
@@ -85,6 +85,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
                 sendUserDateMessage();
                 stompSession.disconnect();
                 Intent intent = new Intent(CurrentOrderActivity.this, DriverMenuActivity.class);
+                intent.putExtra("isOnline", "true");
                 startActivity(intent);
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();

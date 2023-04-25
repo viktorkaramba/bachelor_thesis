@@ -4,12 +4,16 @@ import com.unicyb.minitaxi.database.dao.documents.CarClassDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.CarsDAOImpl;
 import com.unicyb.minitaxi.database.dao.documents.DriverDAOImpl;
 import com.unicyb.minitaxi.database.dao.indicators.DriverCarRecommendationsDAOImpl;
+import com.unicyb.minitaxi.entities.documents.CAR_CLASSES;
 import com.unicyb.minitaxi.entities.documents.Car;
 import com.unicyb.minitaxi.entities.documents.CarClass;
 import com.unicyb.minitaxi.entities.documents.Driver;
 import com.unicyb.minitaxi.entities.indicators.DriverCarRecommendations;
 import com.unicyb.minitaxi.entities.indicators.STATUS;
-import com.unicyb.minitaxi.entities.userinterfaceenteties.*;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.CarRecommendationInfo;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.DriverRecAnswer;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.MyMessage;
+import com.unicyb.minitaxi.entities.userinterfaceenteties.Report;
 import com.unicyb.minitaxi.services.SalaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +76,7 @@ public class DriverCarRecController {
             Car car = carsDAO.getOne(driverCarRecommendations.getCarId());
             CarClass carClass = carClassDAO.getOne(car.getCcID());
             CarRecommendationInfo carRecommendationInfo = new CarRecommendationInfo(driverCarRecommendations.getDcrId(), driverId, car.getCarId(), car.getProducer(),
-                    car.getBrand(), carClass.getPrice(), carClass.getName(), SalaryService.getNewSalary(driver.getSalary()));
+                    car.getBrand(), carClass.getPrice(), CAR_CLASSES.valueOf(carClass.getName()), SalaryService.getNewSalary(driver.getSalary()));
             return ResponseEntity.ok(carRecommendationInfo);
         }
         catch (Exception e){

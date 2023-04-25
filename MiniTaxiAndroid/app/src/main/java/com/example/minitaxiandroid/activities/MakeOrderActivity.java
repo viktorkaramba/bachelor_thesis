@@ -105,13 +105,13 @@ public class MakeOrderActivity extends AppCompatActivity {
         distance = Float.parseFloat(getDate(savedInstanceState, "distance"));
         carClass = CAR_CLASSES.valueOf(getDate(savedInstanceState, "carClass"));
         UserInfoService.init(MakeOrderActivity.this);
-        setCarClass();
         getRanksInfoRequest();
         getUserOrderPriceByClass();
         userId = UserInfoService.getProperty("userId");
         makeOrderButton.setOnClickListener(view -> {
             makeOrder();
         });
+        setCarClass();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
                 "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
         databaseReference = firebaseDatabase.getReference();
@@ -233,7 +233,9 @@ public class MakeOrderActivity extends AppCompatActivity {
             public void onFinish() {
                 noAnswerDrivers.add(driverId);
                 dialog.cancel();
-                new Thread(() -> stompSession.disconnect()).start();
+                if(stompSession!=null && stompSession.isConnected()) {
+                    new Thread(() -> stompSession.disconnect()).start();
+                }
             }
         }.start();
     }
@@ -288,7 +290,6 @@ public class MakeOrderActivity extends AppCompatActivity {
                 standardRadioButton.setChecked(false);
                 saleRadioButton.setSelected(false);
                 saleRadioButton.setChecked(false);
-
             } else {
                 if(saleRadioButton.isSelected()) {
                     currentPrice = (priceStandard - (priceStandard * (userRank.getSaleValue() / 100)));
@@ -381,6 +382,15 @@ public class MakeOrderActivity extends AppCompatActivity {
                 String militaryBonus = "";
                 if(priceByClassResponse.isMilitaryBonus()){
                     militaryBonus = " with military bonus";
+                }
+                if(standardRadioButton.isSelected()){
+                    currentPrice = priceStandard;
+                }
+                if(comfortRadioButton.isSelected()){
+                    currentPrice = priceComfort;
+                }
+                if(eliteRadioButton.isSelected()){
+                    currentPrice = priceElite;
                 }
                 String str1 = "PRICE: " + priceStandard + militaryBonus;
                 String str2 = "PRICE: " + priceComfort + militaryBonus;
@@ -532,7 +542,6 @@ public class MakeOrderActivity extends AppCompatActivity {
             }
         });
     }
-
     public void getRanksInfoRequest(){
         RetrofitService retrofitService = new RetrofitService();
         MiniTaxiApi rankInfoApi = retrofitService.getRetrofit().create(MiniTaxiApi.class);
@@ -560,12 +569,10 @@ public class MakeOrderActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Rank>> call, Throwable t) {
-                MakeOrderActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(MakeOrderActivity.this, "Failed to load ranks info",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                MakeOrderActivity.this.runOnUiThread(() ->
+                        Toast.makeText(MakeOrderActivity.this,
+                                "Failed to load ranks info",
+                        Toast.LENGTH_SHORT).show());
 
             }
         });
@@ -624,13 +631,10 @@ public class MakeOrderActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<UserEliteRankAchievementInfo>> call, Throwable t) {
-                        MakeOrderActivity.this.runOnUiThread(new Runnable() {
-                            public void run() {
+                        MakeOrderActivity.this.runOnUiThread(() ->
                                 Toast.makeText(MakeOrderActivity.this,
-                                        getResources().getString(R.string.error_to_get_base_rank_user_info),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                getResources().getString(R.string.error_to_get_base_rank_user_info),
+                                Toast.LENGTH_SHORT).show());
                     }
                 });
     }
@@ -723,25 +727,8 @@ public class MakeOrderActivity extends AppCompatActivity {
 
     private void setEliteRanksStats(List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList){
         System.out.println(userEliteRankAchievementInfoList);
-        if(userEliteRankAchievementInfoList.size() == 1
-                && userEliteRankAchievementInfoList.get(0).getNumberOfUsesFreeOrder() != 0){
-            freeOrderBonusesTextView.setVisibility(View.VISIBLE);
-            standardBonusesCardView.setVisibility(View.VISIBLE);
-        }
-        else if(userEliteRankAchievementInfoList.size() == 2){
-            for(UserEliteRankAchievementInfo userEliteRankAchievementInfo: userEliteRankAchievementInfoList){
-                checkUserNumberOfOrdersOnNull(userEliteRankAchievementInfo);
-            }
-        }
-        else{
-            for(UserEliteRankAchievementInfo userEliteRankAchievementInfo: userEliteRankAchievementInfoList){
-                checkUserNumberOfOrdersOnNull(userEliteRankAchievementInfo);
-                if(userEliteRankAchievementInfo.getCarClassId() == 3
-                        && userEliteRankAchievementInfo.getNumberOfUsesFreeOrder() != 0){
-                    freeOrderBonusesTextView.setVisibility(View.VISIBLE);
-                    eliteBonusesCardView.setVisibility(View.VISIBLE);
-                }
-            }
+        for(UserEliteRankAchievementInfo userEliteRankAchievementInfo: userEliteRankAchievementInfoList){
+            checkUserNumberOfOrdersOnNull(userEliteRankAchievementInfo);
         }
     }
 
@@ -755,6 +742,11 @@ public class MakeOrderActivity extends AppCompatActivity {
                 && userEliteRankAchievementInfo.getNumberOfUsesFreeOrder() != 0){
             freeOrderBonusesTextView.setVisibility(View.VISIBLE);
             comfortBonusesCardView.setVisibility(View.VISIBLE);
+        }
+        if(userEliteRankAchievementInfo.getCarClassId() == 3
+                && userEliteRankAchievementInfo.getNumberOfUsesFreeOrder() != 0){
+            freeOrderBonusesTextView.setVisibility(View.VISIBLE);
+            eliteBonusesCardView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -846,7 +838,9 @@ public class MakeOrderActivity extends AppCompatActivity {
                         noAnswerDrivers.add(currentDriverId);
                     }
                     isGetAnswer = true;
-                    new Thread(() -> stompSession.disconnect()).start();
+                    if(stompSession!=null && stompSession.isConnected()) {
+                        new Thread(() -> stompSession.disconnect()).start();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -863,12 +857,12 @@ public class MakeOrderActivity extends AppCompatActivity {
                 if(response.isMilitaryBonus()){
                     militaryBonus = " with military bonus";
                 }
-                String str1 = "PRICE: " + response.getPriceByClass().get(0) + militaryBonus;
                 priceStandard = response.getPriceByClass().get(0);
-                String str2 = "PRICE: " + response.getPriceByClass().get(1) + militaryBonus;
+                String str1 = "PRICE: " + priceStandard + militaryBonus;
                 priceComfort = response.getPriceByClass().get(1);
-                String str3 = "PRICE: " + response.getPriceByClass().get(2) + militaryBonus;
+                String str2 = "PRICE: " + priceComfort + militaryBonus;
                 priceElite = response.getPriceByClass().get(2);
+                String str3 = "PRICE: " + priceElite + militaryBonus;
                 priceStandardTextView.setText(str1);
                 priceComfortTextView.setText(str2);
                 priceEliteTextView.setText(str3);
@@ -934,7 +928,7 @@ public class MakeOrderActivity extends AppCompatActivity {
 
     public void goMain(){
         Intent intent = new Intent(this, MainActivity.class);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
@@ -961,7 +955,7 @@ public class MakeOrderActivity extends AppCompatActivity {
                             else {
                                 UserInfoService.addProperty("access_token", registerResponse.getAccessToken());
                                 UserInfoService.addProperty("refresh_token", registerResponse.getRefreshToken());
-                                if(stompSession!=null) {
+                                if(stompSession!=null && stompSession.isConnected()) {
                                     new Thread(() -> stompSession.disconnect()).start();
                                 }
                                 finish();
@@ -981,7 +975,7 @@ public class MakeOrderActivity extends AppCompatActivity {
 
     private void goLogin() {
         Intent intent = new Intent(this, UserLoginActivity.class);
-        if(stompSession!=null) {
+        if(stompSession!=null && stompSession.isConnected()) {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);

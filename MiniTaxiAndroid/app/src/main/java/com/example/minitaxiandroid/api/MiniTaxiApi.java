@@ -146,6 +146,6 @@ public interface MiniTaxiApi {
                                           @Path(value ="userId", encoded = true) Integer userId);
 
     @POST("/api/v1/user-app/orders")
-    Call<String> completeOrder(@Header("Authorization") String header,
-                               @Body SendOrder sendOrder);
+    Call<MyMessage> completeOrder(@Header("Authorization") String header,
+                                  @Body SendOrder sendOrder);
 }

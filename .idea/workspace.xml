@@ -28,175 +28,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="25ae809b-1685-4c20-ab1d-e67d2f95314b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserProfileActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/WelcomeActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/constants/InfoStorageConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/auth/ChangeUserDataRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/auth/LoginResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/auth/RegisterResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/auth/UserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/CAR_CLASSES.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/STATUS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/PriceByClassRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/userinfo/UserProfileInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/services/DriverInfoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/services/UserInfoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/drawable/edit_button.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/drawable/gps_disable_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/drawable/logout_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/drawable/unlike_2_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/font/welcome_fonts.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_user_profile.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_welcome.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/gps_permission_popwindow.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/login_user_or_driver_popwindow.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_change_password.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_change_username.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/mipmap-hdpi/ic_driver_profile_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/mipmap-hdpi/ic_user_profile_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/config/ApplicationConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/config/JwtAuthenticationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/config/SecurityConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/auth/AuthenticationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/auth/DemoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/auth/OneTimePasswordDAOImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/auth/ChangeUserDataRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/auth/LoginResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/auth/OneTimePassword.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/CAR_CLASSES.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/DRIVER_STATUS.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/PriceByClassRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/usersinfo/UserProfileInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/ranksystem/ScheduledRankUpdate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/AuthenticationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/EmailForgotPasswordService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/JwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/LogoutService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/token/Token.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/token/TokenDAOImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/token/TokenType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/minitaxi/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Spring_5_2_3_RELEASE.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Spring_5_2_3_RELEASE__2_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/CurrentOrderActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/CurrentOrderActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverCarRecommendationsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverCarRecommendationsActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverMenuActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverMenuActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverProfileActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverRegistrationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverRegistrationActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/DriverResponseDialog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/FavouriteAddressesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/FavouriteAddressesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/FavouriteDriversActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/FavouriteDriversActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/MakeOrderActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/MakeOrderActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/OrderInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/OrderInfoActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/RanksInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/RanksInfoActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/SetRatingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/SetRatingActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserLoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserLoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserOrderHistoryActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserOrderHistoryActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserRegistryActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/activities/UserRegistryActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/adapter/FavouriteAddressesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/adapter/FavouriteAddressesAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/adapter/FavouriteDriversAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/adapter/FavouriteDriversAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/api/MiniTaxiApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/api/MiniTaxiApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/constants/DistanceConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/constants/DistanceConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/ROLE.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/ROLE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/DriverLocation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/DriverProfileInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/document/DriverProfileInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/login/LoginResponseMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/MyMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/PriceByClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/PriceByClassResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/SendOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/SendOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/userinfo/DriverInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/userinfo/DriverInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/CarRecommendationInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/entities/messages/CarRecommendationInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/CarRecFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/CarRecFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/SearchAddressOnMapFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/SearchAddressOnMapFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/SearchAddressesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/fragments/SearchAddressesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/services/ObjectParserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/services/ObjectParserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/java/com/example/minitaxiandroid/services/UserLoginInfoService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_menu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_driver_profile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_favourite_addresses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_favourite_addresses.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_make_order.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_make_order.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_order_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_order_info.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_set_rating.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_set_rating.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_user_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_user_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_user_registry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/activity_user_registry.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/fragment_search_addresses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/fragment_search_addresses.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/header.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/header.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/popwindow.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/popwindow.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_accept_response.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_accept_response.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_reject_response.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_reject_response.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_wait_response.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/layout/user_wait_response.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/test/java/com/example/minitaxiandroid/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAndroid/app/src/test/java/com/example/minitaxiandroid/ExampleUnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/bonuses/MilitaryBonusesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/bonuses/MilitaryBonusesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/CarClassesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/CarClassesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/CarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/DriverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/DriverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/DriverLocationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/FullNameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/FullNameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/MaintenanceCostsCarsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/MaintenanceCostsCarsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/PricePerKilometersByTariffController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/PricePerKilometersByTariffController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/WSController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/documents/WSController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/AddressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/AddressController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-list/usereliterankachievementinfo-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-list/usereliterankachievementinfo-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-list/usereliterankachievementinfo.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-list/usereliterankachievementinfo.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-module/usereliterankachievementinfo-module.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-module/usereliterankachievementinfo-module.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-module/usereliterankachievementinfo-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/MiniTaxiAngular/src/app/indicators/usereliterankachievementinfo/usereliterankachievementinfo-module/usereliterankachievementinfo-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/DriverCarRecController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/DriverCarRecController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/DriverRatingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/DriverRatingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/FavouriteAddressController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/FavouriteAddressController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/FavouriteDriverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/FavouriteDriverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/IncomeCarsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/IncomeCarsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/NumberOfKilometersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/NumberOfKilometersController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/WorkloadDriversController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/indicators/WorkloadDriversController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/EliteRankController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/EliteRankController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/RankController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/RankController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/UserEliteRankAchievementInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/UserEliteRankAchievementInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/UserRankAchievementInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/ranksystem/UserRankAchievementInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/DriverProfileInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/DriverProfileInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/DriverResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/DriverResumeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/LoginInfoController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/MessageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/OrderInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/OrderInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/controller/userinterface/UserPickCarController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/SQLQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/SQLQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/documents/DriverDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/documents/DriverDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/documents/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/documents/UserDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/indicators/OrderDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/indicators/OrderDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/ranksystem/UserEliteRankAchievementInfoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/ranksystem/UserEliteRankAchievementInfoDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/ranksystem/UserRankAchievementInfoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/ranksystem/UserRankAchievementInfoDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/DriverProfileInfoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/DriverProfileInfoDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/FavouriteAddressDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/FavouriteAddressDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/FavouriteDriverDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/FavouriteDriverDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/OrderInfoDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/OrderInfoDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/database/dao/userinterface/UserPickCarDAOImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/documents/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/indicators/FavouriteDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/indicators/FavouriteDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/indicators/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/indicators/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/DriverProfileInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/DriverProfileInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/LoginInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/auth/UserRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/MyMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/PriceByClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/PriceByClassResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/CarRecommendationInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/CarRecommendationInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/SendOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/SendOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/UserAddressesMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/auth/RegisterResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/userinterfaceenteties/UserPickCar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/entities/usersinfo/DriverSendInfoMessage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/ranksystem/RankSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/ranksystem/RankSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/DriverRecommendationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/DriverRecommendationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/WSService.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/WSService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/minitaxi/src/main/java/com/unicyb/minitaxi/services/OrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,11 +104,11 @@
         <option value="JavaScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="resourceFile" />
         <option value="layoutResourceFile" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -301,29 +153,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/mipmap-hdpi",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "emulator",
-    "spring.configuration.checksum": "8e566c08997c0867f21fddc04b64dd3b",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Acer/IntelliJIDEAProjects/MiniTaxi/MiniTaxiAndroid/app/src/main/res/mipmap-hdpi&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;emulator&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;8e566c08997c0867f21fddc04b64dd3b&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Signing Configs" />
     <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
@@ -373,11 +225,11 @@
       <recent name="com.example.minitaxiandroid.activities" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\order" />
-      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\drawable" />
-      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res" />
-      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\layout" />
-      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAndroid\app\src\main\res\font" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\model" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\militarybonuses" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\tokens" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\userrankachievementinfo" />
+      <recent name="C:\Users\Acer\IntelliJIDEAProjects\MiniTaxi\MiniTaxiAngular\src\app\indicators\usereliterankachievementinfo" />
     </key>
     <key name="android.template.-416258500">
       <recent name="com.example.minitaxiandroid.fragments" />
@@ -403,7 +255,7 @@
       <command value="mvn install" />
     </option>
   </component>
-  <component name="RunManager" selected="Android App.app">
+  <component name="RunManager" selected="npm.ng">
     <configuration name="DriverRegistrationActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
       <module name="MiniTaxiAndroid.app.main" />
       <option name="DEPLOY" value="true" />
@@ -468,41 +320,6 @@
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.SetRatingActivity" />
-      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
-      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="WelcomeActivity" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false" temporary="true">
-      <module name="MiniTaxiAndroid.app.main" />
-      <option name="DEPLOY" value="true" />
-      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
-      <option name="DEPLOY_AS_INSTANT" value="false" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="ALL_USERS" value="false" />
-      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
-      <option name="CLEAR_APP_STORAGE" value="false" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="specific_activity" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="DEBUGGER_TYPE" value="Java" />
-      <Java />
-      <Profilers>
-        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
-        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
-        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="com.example.minitaxiandroid.activities.WelcomeActivity" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
@@ -592,23 +409,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ng" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/MiniTaxiAngular/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="ng" />
+      </scripts>
+      <node-interpreter value="$APPLICATION_CONFIG_DIR$/node/node-v14.15.0-win-x64/node" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Android App.app" />
       <item itemvalue="Android App.SetRatingActivity" />
       <item itemvalue="Android App.DriverRegistrationActivity" />
-      <item itemvalue="Android App.WelcomeActivity" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.ExampleUnitTest.webSocketMessage" />
       <item itemvalue="JavaScript Debug.Angular Application (MiniTaxiAngular)" />
+      <item itemvalue="npm.ng" />
       <item itemvalue="Spring Boot.MinitaxiApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.ng" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Android App.SetRatingActivity" />
         <item itemvalue="Gradle.ExampleUnitTest.webSocketMessage" />
         <item itemvalue="Android App.DriverRegistrationActivity" />
-        <item itemvalue="Android App.WelcomeActivity" />
       </list>
     </recent_temporary>
   </component>
@@ -775,7 +602,8 @@
       <workItem from="1682242995512" duration="35938000" />
       <workItem from="1682317623446" duration="23945000" />
       <workItem from="1682362253940" duration="9812000" />
-      <workItem from="1682404175204" duration="19358000" />
+      <workItem from="1682404175204" duration="23076000" />
+      <workItem from="1682435061968" duration="17080000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1677769841163</created>
@@ -819,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681070502583</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added jwt authentication. Refactor all activities. Full working version.">
+      <created>1682431492072</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1682431492072</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -869,7 +704,8 @@
     <MESSAGE value="Add address search functionality for user interface in MainActivity" />
     <MESSAGE value="Added firebase realtime database for get driver location. Implement marker insertion. Also update MakeOrderActivity and site of administrator" />
     <MESSAGE value="Refactor UI and other small changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor UI and other small changes" />
+    <MESSAGE value="Added jwt authentication. Refactor all activities. Full working version." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added jwt authentication. Refactor all activities. Full working version." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

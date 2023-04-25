@@ -22,5 +22,4 @@ public class SendOrder {
     private Float distance;
     private Float rating;
     private int rankId;
-
 }

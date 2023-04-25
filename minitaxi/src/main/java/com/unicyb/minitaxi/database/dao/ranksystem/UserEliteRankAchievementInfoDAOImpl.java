@@ -16,7 +16,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
     public boolean add(UserEliteRankAchievementInfo userEliteRankAchievementInfo) {
         try {
             Connection connection = DatabaseConnection.initializeDatabase();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_USER_ELITE_RANK_ACHIEVEMENT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_USERS_ELITE_RANK_ACHIEVEMENT_INFO);
             preparedStatement.setTimestamp(1, userEliteRankAchievementInfo.getDateUerai());
             preparedStatement.setInt(2, userEliteRankAchievementInfo.getUsersId());
             preparedStatement.setInt(3, userEliteRankAchievementInfo.getEliteRanksId());
@@ -43,7 +43,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
         List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = new ArrayList<>();
         try {
             Connection connection = DatabaseConnection.initializeDatabase();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 UserEliteRankAchievementInfo userEliteRankAchievementInfo = getUserEliteRankAchievementInfo(resultSet);
@@ -65,7 +65,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
         List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = new ArrayList<>();
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID);
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID);
             statement.setInt(1, userId);
             statement.setInt(2, rankId);
             ResultSet resultSet = statement.executeQuery();
@@ -85,7 +85,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
         List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = new ArrayList<>();
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID);
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID_AND_RANK_ID_AND_DRIVER_ID);
             statement.setInt(1, userId);
             statement.setInt(2, rankId);
             statement.setInt(3, driverId);
@@ -106,7 +106,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
         List<UserEliteRankAchievementInfo> userEliteRankAchievementInfoList = null;
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID);
+            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_USER_ID);
             statement.setInt(1, ID);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -125,7 +125,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
     public boolean update(UserEliteRankAchievementInfo userEliteRankAchievementInfo) {
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO);
+            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USERS_ELITE_RANK_ACHIEVEMENT_INFO);
             preparedStatement.setTimestamp(1, userEliteRankAchievementInfo.getDateUerai());
             preparedStatement.setInt(2, userEliteRankAchievementInfo.getUsersId());
             preparedStatement.setInt(3, userEliteRankAchievementInfo.getEliteRanksId());
@@ -146,7 +146,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
     public boolean updateByDeadline(int numberOfOrders, Timestamp currentDate, Timestamp newFreeOrderDeadLine, int erId) {
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USER_ELITE_RANK_ACHIEVEMENT_INFO_BY_DEADLINE);
+            PreparedStatement preparedStatement = con.prepareStatement(SQLQuery.UPDATE_USERS_ELITE_RANK_ACHIEVEMENT_INFO_BY_DEADLINE);
             preparedStatement.setInt(1, numberOfOrders);
             preparedStatement.setTimestamp(2, newFreeOrderDeadLine);
             preparedStatement.setTimestamp(3,currentDate);
@@ -165,7 +165,7 @@ public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAch
     public boolean delete(int ID) {
         try {
             Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_USER_ELITE_RANK_ACHIEVEMENT_INFO);
+            PreparedStatement statement = con.prepareStatement(SQLQuery.DELETE_USERS_ELITE_RANK_ACHIEVEMENT_INFO);
             statement.setInt(1, ID);
             statement.executeUpdate();
             con.close();

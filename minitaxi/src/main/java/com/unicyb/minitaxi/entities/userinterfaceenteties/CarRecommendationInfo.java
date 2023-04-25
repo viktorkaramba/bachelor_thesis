@@ -1,5 +1,6 @@
 package com.unicyb.minitaxi.entities.userinterfaceenteties;
 
+import com.unicyb.minitaxi.entities.documents.CAR_CLASSES;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,6 @@ public class CarRecommendationInfo {
     private String carProducer;
     private String carBrand;
     private float pricePerKilometer;
-    private String carClass;
+    private CAR_CLASSES carClass;
     private float newSalary;
 }

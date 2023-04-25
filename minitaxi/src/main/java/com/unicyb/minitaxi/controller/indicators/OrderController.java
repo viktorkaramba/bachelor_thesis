@@ -27,7 +27,8 @@ public class OrderController {
     }
 
     @PostMapping("/api/v1/user-app/orders")
-    public ResponseEntity<String> completeOrder(@RequestBody SendOrder sendOrder) {
+    public ResponseEntity completeOrder(@RequestBody SendOrder sendOrder) {
+        System.out.println(sendOrder);
         orderService = new OrderService();
         return orderService.completeOrder(sendOrder);
     }
