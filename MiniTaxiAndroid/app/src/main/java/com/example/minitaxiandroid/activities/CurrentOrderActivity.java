@@ -1,6 +1,9 @@
 package com.example.minitaxiandroid.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,9 +11,15 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import com.example.minitaxiandroid.R;
+import com.example.minitaxiandroid.entities.document.DRIVER_STATUS;
 import com.example.minitaxiandroid.entities.messages.UserSendDate;
+import com.example.minitaxiandroid.services.DriverInfoService;
+import com.example.minitaxiandroid.services.DriverLocationService;
 import com.example.minitaxiandroid.websocket.WebSocketClient;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -27,6 +36,11 @@ public class CurrentOrderActivity extends AppCompatActivity {
     private Button completeButton;
     private UserSendDate userSendDate;
     private StompSession stompSession;
+    private LocationManager locationManager;
+    private DatabaseReference databaseReference;
+    private DriverLocationService driverLocationService;
+    private boolean allow = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +50,21 @@ public class CurrentOrderActivity extends AppCompatActivity {
         deliveryAddress = findViewById(R.id.deliveryAddressOrderInfoText);
         telephoneNumber = findViewById(R.id.telephoneNumberOrderInfoText);
         completeButton = findViewById(R.id.completeOrderButton);
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
+                "https://energy-taxi-default-rtdb.europe-west1.firebasedatabase.app");
+        databaseReference = firebaseDatabase.getReference();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        driverLocationService = new DriverLocationService(Integer.parseInt(DriverInfoService.getProperty("driverId")),
+                DRIVER_STATUS.IN_ORDER, databaseReference);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 15,
+                driverLocationService);
         setInfo(savedInstanceState);
     }
 
@@ -105,4 +134,10 @@ public class CurrentOrderActivity extends AppCompatActivity {
         stompSession.send("/app/order-info-message", stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
     }
 
+    @Override
+    public void onBackPressed() {
+        if(allow) {
+            super.onBackPressed();
+        }
+    }
 }

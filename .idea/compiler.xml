@@ -7,15 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="minitaxi" />
+        <module name="energytaxi" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="minitaxi" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="MiniTaxiBackend" options="-parameters" />
+      <module name="energytaxi" options="-parameters" />
       <module name="minitaxi" options="-parameters" />
     </option>
+  </component>
+  <component name="TypeScriptCompiler">
+    <option name="nodeInterpreterTextField" value="$PROJECT_DIR$/../../../../Tools/nvm/v18.16.0/node" />
   </component>
 </project>

@@ -111,6 +111,18 @@
 				android:text="@string/already_register"
 				android:id="@+id/registerRegisterTextView"
 		/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/submit_resume"
+				android:textColor="@color/light_blue"
+				android:gravity="center"
+				android:layout_margin="10dp"
+				android:textSize="18sp"
+				android:id="@+id/submitResumeTextView"
+				android:background="@color/dark_blue"
+		/>
 	</LinearLayout>
+
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

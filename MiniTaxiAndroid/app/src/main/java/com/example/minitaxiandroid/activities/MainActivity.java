@@ -12,15 +12,18 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -57,6 +60,8 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.*;
 
+import static com.example.minitaxiandroid.constants.DistanceConstants.NETISHYN_BOUNDS;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback {
 
@@ -77,14 +82,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<FavouriteDriverUserInfo> favouriteDriverUserInfoList;
     private DatabaseReference databaseReference;
     private static Map<Marker, DriverInfo> driverMarkerMap;
-
-    public boolean isMapFragment() {
-        return isMapFragment;
-    }
-
-    public void setMapFragment(boolean mapFragment) {
-        isMapFragment = mapFragment;
-    }
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private Button yesGpsPermissionButton, noGpsPermissionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,6 +319,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
+                this, R.raw.map_style_json));
+        mMap.setLatLngBoundsForCameraTarget(NETISHYN_BOUNDS);
+        mMap.setMinZoomPreference(10);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         userLocationService = new UserLocationService();
@@ -349,24 +353,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
         }
         mMap.setOnMyLocationButtonClickListener(() -> {
-            if (mapFragment.getView().isClickable()) {
-                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
-                        userLocationService.getCurrentLocation().longitude);
-                addText(getAddressName(latLng));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                setFragment();
-                if (checkIsFavourite(getAddressName(latLng))) {
-                    setLike();
-                } else {
-                    setLikeVisible();
-                }
+            boolean isEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if(!isEnable){
+                showGPSPDisableDialog();
             }
             else{
-                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
-                        userLocationService.getCurrentLocation().longitude);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                userLocationService.setCurrentLocation(latLng);
-                setAddressUserInSearchForm(getAddressName(latLng));
+                if (mapFragment.getView().isClickable()) {
+                    locationManager.getCurrentLocation(
+                            LocationManager.GPS_PROVIDER,
+                            null,
+                            getMainExecutor(),
+                            location -> {
+                                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
+                                        userLocationService.getCurrentLocation().longitude);
+                                addText(getAddressName(latLng));
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                setFragment();
+                                if (checkIsFavourite(getAddressName(latLng))) {
+                                    setLike();
+                                } else {
+                                    setLikeVisible();
+                                }
+                            });
+
+                }
+                else{
+                    locationManager.getCurrentLocation(
+                            LocationManager.GPS_PROVIDER,
+                            null,
+                            getMainExecutor(),
+                            location -> {
+                                LatLng latLng = new LatLng(userLocationService.getCurrentLocation().latitude,
+                                        userLocationService.getCurrentLocation().longitude);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                userLocationService.setCurrentLocation(latLng);
+                                setAddressUserInSearchForm(getAddressName(latLng));
+                            });
+                }
             }
             return false;
         });
@@ -397,6 +420,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return false;
         });
+    }
+
+    private void showGPSPDisableDialog() {
+        dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.gps_permission_popwindow, null);
+        initializeGPSDisableDialog(contactPopupView);
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
+        dialog.show();
+    }
+
+    private void initializeGPSDisableDialog(View contactPopupView) {
+        yesGpsPermissionButton = contactPopupView.findViewById(R.id.yesGpsPermissionButton);
+        yesGpsPermissionButton.setOnClickListener(view -> turnGPSOn());
+        noGpsPermissionButton = contactPopupView.findViewById(R.id.continueGpsPermissionButton);
+        noGpsPermissionButton.setText(getResources().getString(R.string.no));
+        noGpsPermissionButton.setOnClickListener(view -> {
+            runOnUiThread(() -> dialog.cancel());
+        });
+    }
+
+    private void turnGPSOn(){
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
     }
 
     private boolean checkIsFavourite(String address){
@@ -483,7 +531,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         markerForAddressPick = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
     }
 
     public void addDriverMarker(DriverInfo driverInfo, boolean isFavourite){

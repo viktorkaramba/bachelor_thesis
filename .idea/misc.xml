@@ -54,7 +54,7 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/minitaxi" />
+    <file type="web" url="file://$PROJECT_DIR$/energytaxi" />
     <file type="web" url="file://$PROJECT_DIR$/MiniTaxiAndroid" />
   </component>
   <component name="MavenProjectsManager">

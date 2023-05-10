@@ -22,7 +22,6 @@ import com.example.minitaxiandroid.entities.auth.RegisterResponse;
 import com.example.minitaxiandroid.entities.messages.ResponseMessage;
 import com.example.minitaxiandroid.services.DriverInfoService;
 import com.example.minitaxiandroid.services.UserInfoService;
-import com.google.firebase.database.DatabaseReference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +35,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private String userAccessToken, userRefreshToken, driverAccessToken, driverRefreshToken;
     private boolean isSomethingDisable, isDriver = false;
-    private DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

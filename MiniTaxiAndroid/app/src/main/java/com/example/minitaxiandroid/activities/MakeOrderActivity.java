@@ -69,10 +69,12 @@ public class MakeOrderActivity extends AppCompatActivity {
     private List<Integer> noAnswerDrivers;
     private boolean isGetAnswer = false, isFavouriteDriver = false;
     private CAR_CLASSES carClass = null;
+    private DriverInfo selectedDriver;
     private PriceByClassResponse priceByClassResponse;
     private float distance, priceStandard, priceComfort, priceElite, currentPrice;
     private StompSession stompSession;
     private DatabaseReference databaseReference;
+    private boolean allow = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,13 +149,21 @@ public class MakeOrderActivity extends AppCompatActivity {
 
     public void makeOrder() {
         if(isValidUserInformation()) {
+            allow = true;
             isGetAnswer = false;
             if(favouriteDriverId > 0){
-                isFavouriteDriver = true;
-                currentDriverId = favouriteDriverId;
-                subscribeAndSendDataToDriver(favouriteDriverId);
-                showWaitForDriverResponse();
-                setTimer(favouriteDriverId);
+                if(selectedDriver == null) {
+                    getSelectedDriverFromDataBase(currentDriverId);
+                }
+                else {
+                    if(isNoAnswerDriver(selectedDriver)) {
+                        isFavouriteDriver = true;
+                        currentDriverId = favouriteDriverId;
+                        subscribeAndSendDataToDriver(favouriteDriverId);
+                        showWaitForDriverResponse();
+                        setTimer(favouriteDriverId);
+                    }
+                }
             }
             else {
                 DatabaseReference uidRef = databaseReference.child("drivers-info");
@@ -163,35 +173,41 @@ public class MakeOrderActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         System.out.println(dataSnapshot.exists());
                         if(dataSnapshot.getChildren().iterator().hasNext()){
-                            DataSnapshot firstSnapShot = dataSnapshot.getChildren().iterator().next();
-                            DriverInfo firstDriver = firstSnapShot.getValue(DriverInfo.class);
-                            DriverInfo nearestDriver = null;
-                            double minDistance = GFG.distance(firstDriver.getLatitude(), Double.parseDouble(latitude),
-                                    firstDriver.getLongitude(), Double.parseDouble(longitude));
+                            List<DriverInfo> driverInfos = new ArrayList<>();
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                 DriverInfo driverInfo = ds.getValue(DriverInfo.class);
                                 if(isNoAnswerDriver(driverInfo) && driverInfo.getCarClass().equals(carClass)) {
-                                    System.out.println(driverInfo);
+                                   driverInfos.add(driverInfo);
+                                }
+                            }
+                            if(driverInfos.size() == 0){
+                                Toast.makeText(MakeOrderActivity.this,
+                                        getResources().getString(R.string.no_driver), Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                DriverInfo firstDriver = driverInfos.get(0);
+                                DriverInfo nearestDriver = null;
+                                double minDistance = GFG.distance(firstDriver.getLatitude(), Double.parseDouble(latitude),
+                                        firstDriver.getLongitude(), Double.parseDouble(longitude));
+                                for (DriverInfo driverInfo : driverInfos) {
                                     double currentDistance = GFG.distance(driverInfo.getLatitude(),
                                             Double.parseDouble(latitude), driverInfo.getLongitude(),
                                             Double.parseDouble(longitude));
+                                    System.out.println(minDistance + " " + currentDistance);
                                     if (minDistance >= currentDistance) {
                                         minDistance = currentDistance;
                                         nearestDriver = driverInfo;
                                     }
                                 }
-                            }
-                            System.out.println(nearestDriver);
-                            if(nearestDriver != null) {
-                                isFavouriteDriver = false;
-                                currentDriverId = nearestDriver.getDriverId();
-                                subscribeAndSendDataToDriver(nearestDriver.getDriverId());
-                                showWaitForDriverResponse();
-                                setTimer(nearestDriver.getDriverId());
-                            }
-                            else{
-                                Toast.makeText(MakeOrderActivity.this,
-                                        getResources().getString(R.string.no_driver), Toast.LENGTH_SHORT).show();
+                                System.out.println("nearestDriver: " + nearestDriver);
+                                if(nearestDriver != null) {
+                                    isFavouriteDriver = false;
+                                    currentDriverId = nearestDriver.getDriverId();
+                                    selectedDriver = nearestDriver;
+                                    subscribeAndSendDataToDriver(nearestDriver.getDriverId());
+                                    showWaitForDriverResponse();
+                                    setTimer(nearestDriver.getDriverId());
+                                }
                             }
                         }
                         else {
@@ -214,6 +230,26 @@ public class MakeOrderActivity extends AppCompatActivity {
         }
     }
 
+    private void getSelectedDriverFromDataBase(int id) {
+        databaseReference.child("drivers-info/driver-" + id).get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    }
+                    else {
+                        selectedDriver = task.getResult().getValue(DriverInfo.class);
+                        Log.d("firebase", String.valueOf(selectedDriver));
+                        if(isNoAnswerDriver(selectedDriver)) {
+                            isFavouriteDriver = true;
+                            currentDriverId = favouriteDriverId;
+                            subscribeAndSendDataToDriver(favouriteDriverId);
+                            showWaitForDriverResponse();
+                            setTimer(favouriteDriverId);
+                        }
+                    }
+                });
+    }
+
     private boolean isNoAnswerDriver(DriverInfo driverInfo) {
         for(Integer id: noAnswerDrivers){
             if(id == driverInfo.getDriverId()){
@@ -232,6 +268,7 @@ public class MakeOrderActivity extends AppCompatActivity {
             }
             public void onFinish() {
                 noAnswerDrivers.add(driverId);
+                allow = false;
                 dialog.cancel();
                 if(stompSession!=null && stompSession.isConnected()) {
                     new Thread(() -> stompSession.disconnect()).start();
@@ -811,6 +848,7 @@ public class MakeOrderActivity extends AppCompatActivity {
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
         dialog.show();
     }
@@ -834,6 +872,7 @@ public class MakeOrderActivity extends AppCompatActivity {
                         showAcceptDriverResponse();
                     }
                     else {
+                        allow = false;
                         showRejectDriverResponse();
                         noAnswerDrivers.add(currentDriverId);
                     }
@@ -880,8 +919,12 @@ public class MakeOrderActivity extends AppCompatActivity {
             dialogBuilder.setView(contactPopupView);
             dialog = dialogBuilder.create();
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
             dialog.show();
+            System.out.println(selectedDriver);
+            String fullName = selectedDriver.getDriverFirstName() + " " + selectedDriver.getDriverSurName();
+            String carName = selectedDriver.getCarProducer() + " " + selectedDriver.getCarBrand();
             Intent intent = new Intent(MakeOrderActivity.this, SetRatingActivity.class);
             intent.putExtra("price", String.valueOf(currentPrice));
             intent.putExtra("isUseSale",  String.valueOf(saleRadioButton.isSelected()));
@@ -890,6 +933,8 @@ public class MakeOrderActivity extends AppCompatActivity {
             intent.putExtra("isFavouriteDriver",  String.valueOf(isFavouriteDriver));
             intent.putExtra("rankId",  String.valueOf(userRank.getRankId()));
             intent.putExtra("currentDriverId",  String.valueOf(currentDriverId));
+            intent.putExtra("driverFullName",  fullName);
+            intent.putExtra("driverCar",  carName);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 dialog.dismiss();
                 startActivity(intent);
@@ -905,6 +950,7 @@ public class MakeOrderActivity extends AppCompatActivity {
             dialogBuilder.setView(contactPopupView);
             dialog = dialogBuilder.create();
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
             dialog.show();
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -979,5 +1025,12 @@ public class MakeOrderActivity extends AppCompatActivity {
             new Thread(() -> stompSession.disconnect()).start();
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!allow) {
+            super.onBackPressed();
+        }
     }
 }

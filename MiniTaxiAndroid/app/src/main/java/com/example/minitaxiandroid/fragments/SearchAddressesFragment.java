@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,9 +143,14 @@ public class SearchAddressesFragment extends Fragment {
         orderMainMenuButton.setOnClickListener(view16 -> order());
         if(!Objects.equals(favouriteDriver, "")){
             favouriteDriverTextInputEditText.setText(favouriteDriver);
-            favouriteDriverTextInputEditText.setTextSize(20);
+            ViewGroup.LayoutParams params = favouriteDriverTextInputLayout.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            favouriteDriverTextInputLayout.setLayoutParams(params);
             setTextEditUntouchable(favouriteDriverTextInputLayout);
-            setCustomEndIconForFavouriteDriver(favouriteDriverTextInputLayout, favouriteDriverTextInputEditText);
+            favouriteDriverTextInputLayout.setEndIconVisible(true);
+            favouriteDriverTextInputLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+            favouriteDriverTextInputEditText.setTextSize(20);
+            setCustomEndIconForFavouriteDriver();
         }
         if(!fromAddress.equals("")){
             searchFromTextInputEditText.setText(fromAddress);
@@ -328,10 +334,12 @@ public class SearchAddressesFragment extends Fragment {
         driverId = String.valueOf(driverInfo.getDriverId());
         carClass = driverInfo.getCarClass();
         favouriteDriverTextInputEditText.setText(name);
-        favouriteDriverTextInputLayout.setEndIconVisible(true);
-        favouriteDriverTextInputLayout.setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
+        ViewGroup.LayoutParams params = favouriteDriverTextInputLayout.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        favouriteDriverTextInputLayout.setLayoutParams(params);
         favouriteDriverTextInputEditText.setTextSize(20);
-        setCustomEndIconForFavouriteDriver(favouriteDriverTextInputLayout, favouriteDriverTextInputEditText);
+        setTextEditUntouchable(favouriteDriverTextInputLayout);
+        setCustomEndIconForFavouriteDriver();
     }
 
     public void setAddressUserInSearchForm(String address){
@@ -342,7 +350,6 @@ public class SearchAddressesFragment extends Fragment {
     }
 
     public LatLng getLocationFromAddress(String strAddress) {
-
         Geocoder coder = new Geocoder(this.getContext());
         List<android.location.Address> address;
         LatLng p1 = null;
@@ -374,13 +381,16 @@ public class SearchAddressesFragment extends Fragment {
         textInputLayout.getEditText().clearFocus();
     }
 
-    private void setCustomEndIconForFavouriteDriver(TextInputLayout textInputLayout, TextInputEditText textInputEditText){
-        textInputLayout.setEndIconOnClickListener(view -> {
-            Log.d("TextInputLayoutTo", "TextInputLayoutTo closed");
-            textInputLayout.getEditText().setText(getResources().getString(R.string.pick_favourite_driver_text));
-            textInputLayout.getEditText().clearFocus();
-            textInputLayout.setEndIconVisible(false);
-            textInputEditText.setTextSize(14);
+    private void setCustomEndIconForFavouriteDriver(){
+        favouriteDriverTextInputLayout.setEndIconOnClickListener(view -> {
+            ViewGroup.LayoutParams params = favouriteDriverTextInputLayout.getLayoutParams();
+            params.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
+            favouriteDriverTextInputLayout.setLayoutParams(params);
+             Log.d("TextInputLayoutTo", "TextInputLayoutTo closed");
+            favouriteDriverTextInputLayout.getEditText().setText(getResources().getString(R.string.pick_favourite_driver_text));
+            favouriteDriverTextInputEditText.setTextSize(14);
+            favouriteDriverTextInputLayout.getEditText().clearFocus();
+            favouriteDriverTextInputLayout.setEndIconVisible(false);
             driverId = "0";
             carClass = null;
         });

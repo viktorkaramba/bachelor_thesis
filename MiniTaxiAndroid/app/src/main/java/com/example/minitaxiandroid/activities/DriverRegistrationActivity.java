@@ -102,6 +102,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
             Toast.makeText(DriverRegistrationActivity.this,
                     "Your resume successfully added. Please wait answer",
                     Toast.LENGTH_SHORT).show();
+            goMain();
         }
         else{
             Toast.makeText(DriverRegistrationActivity.this,

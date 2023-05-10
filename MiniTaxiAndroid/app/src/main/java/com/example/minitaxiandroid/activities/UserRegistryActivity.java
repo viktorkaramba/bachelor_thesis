@@ -22,7 +22,7 @@ public class UserRegistryActivity extends AppCompatActivity {
     private EditText userName;
     private EditText password;
     private Button registry;
-    private TextView registerRegisterTextView;
+    private TextView registerRegisterTextView, submitResumeTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +32,8 @@ public class UserRegistryActivity extends AppCompatActivity {
         registry = findViewById(R.id.registryLoginButton);
         registerRegisterTextView = findViewById(R.id.registerRegisterTextView);
         registerRegisterTextView.setOnClickListener(view -> goLogin());
+        submitResumeTextView = findViewById(R.id.submitResumeTextView);
+        submitResumeTextView.setOnClickListener(view -> goDriverResume());
         UserInfoService.init(UserRegistryActivity.this);
         registry.setOnClickListener(view -> registry());
     }
@@ -83,6 +85,11 @@ public class UserRegistryActivity extends AppCompatActivity {
 
     private void goLogin() {
         Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void goDriverResume() {
+        Intent intent = new Intent(this, DriverRegistrationActivity.class);
         startActivity(intent);
     }
 

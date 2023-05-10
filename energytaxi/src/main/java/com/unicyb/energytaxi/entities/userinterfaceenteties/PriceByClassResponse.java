@@ -1,0 +1,16 @@
+package com.unicyb.energytaxi.entities.userinterfaceenteties;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PriceByClassResponse {
+    private List<Float> priceByClass;
+    private boolean isMilitaryBonus = false;
+    private String className;
+}

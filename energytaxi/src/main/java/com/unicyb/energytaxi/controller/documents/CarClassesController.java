@@ -1,0 +1,118 @@
+package com.unicyb.energytaxi.controller.documents;
+
+import com.unicyb.energytaxi.database.dao.bonuses.MilitaryBonusesDAOImpl;
+import com.unicyb.energytaxi.database.dao.documents.CarClassDAOImpl;
+import com.unicyb.energytaxi.database.dao.documents.PricePerKilometersByTariffDAOImpl;
+import com.unicyb.energytaxi.entities.bonuses.MilitaryBonuses;
+import com.unicyb.energytaxi.entities.documents.CAR_CLASSES;
+import com.unicyb.energytaxi.entities.documents.CarClass;
+import com.unicyb.energytaxi.entities.documents.PeriodsOfDay;
+import com.unicyb.energytaxi.entities.documents.PricePerKilometersByTariff;
+import com.unicyb.energytaxi.entities.userinterfaceenteties.PriceByClassRequest;
+import com.unicyb.energytaxi.entities.userinterfaceenteties.PriceByClassResponse;
+import com.unicyb.energytaxi.services.DateService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@CrossOrigin
+public class CarClassesController {
+
+    private CarClassDAOImpl carClassDAO;
+    private MilitaryBonusesDAOImpl militaryBonusesDAO;
+    private PricePerKilometersByTariffDAOImpl pricePerKilometersByTariffDAO;
+
+    @GetMapping("/api/v1/documents/car-classes")
+    public ResponseEntity getCarClasses(){
+        try {
+            carClassDAO = new CarClassDAOImpl();
+            return ResponseEntity.ok(carClassDAO.getAll());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Error to get car classes");
+        }
+    }
+
+    @PostMapping("/api/v1/documents/car-classes")
+    public void save(@RequestBody CarClass carClass){
+        carClassDAO = new CarClassDAOImpl();
+        carClassDAO.add(carClass);
+    }
+
+    @PutMapping("/api/v1/documents/car-classes")
+    public void update(@RequestBody CarClass carClass){
+        System.out.println("carClass: " + carClass);
+        carClassDAO = new CarClassDAOImpl();
+        carClassDAO.update(carClass);
+    }
+
+    @DeleteMapping("/api/v1/documents/car-classes/{id}")
+    public void delete(@PathVariable("id") int id){
+        System.out.println("id: " + id);
+        carClassDAO = new CarClassDAOImpl();
+        carClassDAO.delete(id);
+    }
+
+    @PostMapping("/api/v1/user-app/user-order-price-by-class")
+    public ResponseEntity getUserOrderPriceByClass(@RequestBody PriceByClassRequest priceByClassRequest){
+        System.out.println(priceByClassRequest);
+        try {
+            militaryBonusesDAO = new MilitaryBonusesDAOImpl();
+            pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();
+            MilitaryBonuses militaryBonuses = militaryBonusesDAO.getOneByUserIdWithoutPhoto(priceByClassRequest.getUserId());
+            float militarySale = 0;
+            PriceByClassResponse priceByClassResponse = new PriceByClassResponse();
+            System.out.println(militaryBonuses);
+            if(militaryBonuses != null) {
+                militarySale = militaryBonuses.getSaleValue() / 100;
+                priceByClassResponse.setMilitaryBonus(true);
+            }
+            List<Float> floatList = new ArrayList<>();
+            List<PricePerKilometersByTariff> pricePerKilometersByTariffList = pricePerKilometersByTariffDAO.getAll();
+            PeriodsOfDay period = getPeriod(pricePerKilometersByTariffList);
+            priceByClassResponse.setClassName(CAR_CLASSES.NO.name());
+            for(PricePerKilometersByTariff pricePerKilometersByTariff: pricePerKilometersByTariffList){
+                float price = 0;
+                if(period.equals(PeriodsOfDay.MORNING)){
+                    price = pricePerKilometersByTariff.getMorning() * priceByClassRequest.getDistance();
+                }
+                if(period.equals(PeriodsOfDay.DAY)){
+                    price = pricePerKilometersByTariff.getDay() * priceByClassRequest.getDistance();
+                }
+                if(period.equals(PeriodsOfDay.EVENING)){
+                    price = pricePerKilometersByTariff.getEvening() * priceByClassRequest.getDistance();
+                }
+                if(period.equals(PeriodsOfDay.NIGHT)){
+                    price = pricePerKilometersByTariff.getNight() * priceByClassRequest.getDistance();
+                }
+                float sale = price * militarySale;
+                price = price - sale;
+                floatList.add(price);
+            }
+            priceByClassResponse.setPriceByClass(floatList);
+            System.out.println(priceByClassResponse);
+            return ResponseEntity.ok(priceByClassResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Error to get user order price by class");
+        }
+    }
+
+    private PeriodsOfDay getPeriod(List<PricePerKilometersByTariff> pricePerKilometersByTariffList) {
+        if(DateService.recognize(java.time.LocalTime.now()).equals(PeriodsOfDay.MORNING.name())){
+            return PeriodsOfDay.MORNING;
+        }
+        if(DateService.recognize(java.time.LocalTime.now()).equals(PeriodsOfDay.DAY.name())){
+            return PeriodsOfDay.DAY;
+        }
+        if(DateService.recognize(java.time.LocalTime.now()).equals(PeriodsOfDay.EVENING.name())){
+            return PeriodsOfDay.EVENING;
+        }
+        else {
+            return PeriodsOfDay.NIGHT;
+        }
+    }
+}

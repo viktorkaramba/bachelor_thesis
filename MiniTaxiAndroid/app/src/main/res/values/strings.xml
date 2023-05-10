@@ -185,4 +185,5 @@
 	<string name="driver">Driver</string>
 	<string name="login_as_user_or_driver">Who do you want to log in with?</string>
 	<string name="hide_password">********</string>
+	<string name="submit_resume">Submit resume</string>
 </resources>

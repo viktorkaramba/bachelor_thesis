@@ -3,10 +3,7 @@ package com.example.minitaxiandroid.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RatingBar;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.minitaxiandroid.R;
@@ -46,12 +43,14 @@ public class SetRatingActivity extends AppCompatActivity {
     private LikeButton likeDriverButton;
     private UserSendDate userSendDate;
     private StompSession stompSession;
-    private String userId, price, distance, rankId, driverId;
+    private String userId, price, distance, rankId, driverId, driverFullName, driverCar;
     private EditText userComment;
     private boolean isUseSale;
     private int isSendOrder = 0;
     private CAR_CLASSES carClass;
+    private TextView driverNameSetRatingTextView, driverCarSetRatingTextView;
     private List<FavouriteDriverUserInfo> favouriteDriverUserInfoList;
+    private boolean allow = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +59,8 @@ public class SetRatingActivity extends AppCompatActivity {
         ratingDriverBar = findViewById(R.id.ratingDriverBar);
         likeDriverButton = findViewById(R.id.driverLikeButton);
         userComment = findViewById(R.id.userCommentText);
+        driverNameSetRatingTextView = findViewById(R.id.driverNameSetRatingTextView);
+        driverCarSetRatingTextView = findViewById(R.id.driverCarSetRatingTextView);
         ratingDriverBar.setEnabled(false);
         UserInfoService.init(SetRatingActivity.this);
         likeDriverButton.setOnLikeListener(new OnLikeListener() {
@@ -88,16 +89,22 @@ public class SetRatingActivity extends AppCompatActivity {
             driverId = getDate(savedInstanceState, "currentDriverId");
             getFavouritesDrivers();
         }
+        userId = UserInfoService.getProperty("userId");
+        price = getDate(savedInstanceState, "price");
+        distance = getDate(savedInstanceState, "distance");
+        isUseSale = Boolean.parseBoolean(getDate(savedInstanceState, "isUseSale"));
+        carClass = CAR_CLASSES.valueOf(getDate(savedInstanceState, "carClass"));
+        rankId = getDate(savedInstanceState, "rankId");
+        driverFullName = getDate(savedInstanceState, "driverFullName");
+        driverCar = getDate(savedInstanceState, "driverCar");
+        String name = "Driver: " + driverFullName;
+        String car = "Car: " + driverCar;
+        driverNameSetRatingTextView.setText(name);
+        driverCarSetRatingTextView.setText(car);
         new Thread(() -> {
-            WebSocketClient userClient = new WebSocketClient();
-            ListenableFuture<StompSession> f = userClient.connect();
-            userId = UserInfoService.getProperty("userId");
-            price = getDate(savedInstanceState, "price");
-            distance = getDate(savedInstanceState, "distance");
-            isUseSale = Boolean.parseBoolean(getDate(savedInstanceState, "isUseSale"));
-            carClass = CAR_CLASSES.valueOf(getDate(savedInstanceState, "carClass"));
-            rankId = getDate(savedInstanceState, "rankId");
             try {
+                WebSocketClient userClient = new WebSocketClient();
+                ListenableFuture<StompSession> f = userClient.connect();
                 stompSession = f.get();
                 subscribe(Integer.parseInt(userId));
             } catch (ExecutionException | InterruptedException e) {
@@ -350,5 +357,12 @@ public class SetRatingActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show());
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(allow) {
+            super.onBackPressed();
+        }
     }
 }

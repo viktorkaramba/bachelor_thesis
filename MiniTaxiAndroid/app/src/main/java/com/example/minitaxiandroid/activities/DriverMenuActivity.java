@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +70,7 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
     private LocationManager locationManager;
     private DatabaseReference databaseReference;
     private DriverLocationService driverLocationService;
+    private boolean isAnswer = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,7 +200,6 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
                                 throw new RuntimeException(e);
                             }
                         }
-
                     }
 
                     @Override
@@ -239,7 +240,13 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
                 Log.d("Driver Menu(driver-message) Received ", new String((byte[]) o));
                 try {
                     userSendDate = parseUserSendDateFromString( new String((byte[]) o));
+                    isAnswer = false;
                     showOrderInfo(userSendDate);
+                    new Thread(() -> {
+                        if(stompSession!=null && stompSession.isConnected()) {
+                            new Thread(() -> stompSession.disconnect()).start();
+                        }
+                    }).start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -269,8 +276,10 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
             dialogBuilder.setView(contactPopupView);
             dialog = dialogBuilder.create();
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.card_view_border_reverse, getTheme()));
             dialog.show();
+            setTimer();
         });
     }
     public void initialize(View contactPopupView){
@@ -283,25 +292,62 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
         accept.setOnClickListener(view -> accept());
         cancel.setOnClickListener(view -> cancel());
     }
-    public void accept(){
-        new Thread(() -> {
-            ResponseMessage responseMessage = new ResponseMessage(String.valueOf(userSendDate.getUserId()), "Yes");
-            sendDriverAcceptMessage(responseMessage);
-            if(stompSession!=null && stompSession.isConnected()) {
-                new Thread(() -> stompSession.disconnect()).start();
+    private void setTimer(){
+        new CountDownTimer(25000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                if(isAnswer){
+                    this.cancel();
+                }
             }
-        }).start();
+            public void onFinish() {
+                dialog.cancel();
+                connect();
+            }
+        }.start();
+    }
+    public void accept(){
+        isAnswer = true;
+        acceptAnswerConnect();
         runOnUiThread(() -> {
             dialog.cancel();
         });
         setDriverStatus(DRIVER_STATUS.IN_ORDER);
         goCurrentOrderInfo();
     }
-    public void cancel(){
+
+    private void acceptAnswerConnect() {
+        Log.d("Driver Menu", "Run");
         new Thread(() -> {
-            ResponseMessage responseMessage = new ResponseMessage(String.valueOf(userSendDate.getUserId()), "No");
-            sendDriverAcceptMessage(responseMessage);
+            try {
+                WebSocketClient driverClient = new WebSocketClient();
+                ListenableFuture<StompSession> f = driverClient.connect();
+                stompSession = f.get();
+                subscribeDriver();
+                ResponseMessage responseMessage = new ResponseMessage(String.valueOf(userSendDate.getUserId()), "Yes");
+                sendDriverAcceptMessage(responseMessage);
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }).start();
+    }
+
+    public void rejectAnswerConnect(){
+        Log.d("Driver Menu", "Run");
+        new Thread(() -> {
+            try {
+                WebSocketClient driverClient = new WebSocketClient();
+                ListenableFuture<StompSession> f = driverClient.connect();
+                stompSession = f.get();
+                subscribeDriver();
+                ResponseMessage responseMessage = new ResponseMessage(String.valueOf(userSendDate.getUserId()), "No");
+                sendDriverAcceptMessage(responseMessage);
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+    public void cancel(){
+        rejectAnswerConnect();
         runOnUiThread(() -> {
             dialog.cancel();
         });
@@ -312,6 +358,9 @@ public class DriverMenuActivity extends AppCompatActivity implements SelectListe
                 .append("{ \"userId\" : \"").append(responseMessage.getUserId()).append("\",")
                 .append("\"content\" : \"").append(responseMessage.getContent()).append("\" }");
         stompSession.send("/app/driver-accept-order-message", stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
+        if(stompSession!=null && stompSession.isConnected()) {
+            new Thread(() -> stompSession.disconnect()).start();
+        }
     }
     private void goCurrentOrderInfo() {
         Intent intent = new Intent(this, CurrentOrderActivity.class);

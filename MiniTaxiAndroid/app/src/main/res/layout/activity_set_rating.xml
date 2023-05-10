@@ -26,6 +26,46 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
          <TextView
+                 android:id="@+id/orderInfoSetRatingTextView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/order_info"
+                 android:textColor="@color/light_blue"
+                 android:textSize="28sp"
+                 android:gravity="center"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_alignParentTop="true"
+                 android:layout_marginTop="10dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+                 android:layout_marginBottom="10dp"/>
+         <TextView
+                 android:id="@+id/driverNameSetRatingTextView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textColor="@color/light_blue"
+                 android:textSize="24sp"
+                 android:gravity="center"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentEnd="true"
+               android:layout_below="@+id/orderInfoSetRatingTextView"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+                 android:layout_marginBottom="10dp"/>
+         <TextView
+                 android:id="@+id/driverCarSetRatingTextView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textColor="@color/light_blue"
+                 android:textSize="24sp"
+                 android:gravity="center"
+                 android:layout_alignParentStart="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_below="@+id/driverNameSetRatingTextView"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginStart="10dp"
+                 android:layout_marginEnd="10dp"
+                 android:layout_marginBottom="10dp"/>
+         <TextView
                  android:id="@+id/rateDriver"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
@@ -35,8 +75,9 @@
                  android:gravity="center"
                  android:layout_alignParentStart="true"
                  android:layout_alignParentEnd="true"
-                 android:layout_alignParentTop="true"
-                 android:layout_margin="10dp"/>
+                 android:layout_below="@+id/driverCarSetRatingTextView"
+                 android:layout_marginTop="10dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+                 android:layout_marginBottom="10dp"/>
          <RatingBar
                  android:id="@+id/ratingDriverBar"
                  android:layout_width="wrap_content"
