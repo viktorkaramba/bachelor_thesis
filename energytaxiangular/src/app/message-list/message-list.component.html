@@ -1,0 +1,115 @@
+<div class="card m-4" style="background: #4db8ff; border: #4db8ff" *ngFor="let bonus of _militaryBonuses">
+  <div class="messageResume">
+    <div  style="flex-grow: 1;">
+      <p style="font-size: 20px">Military Bonus</p>
+      <p>User with ID {{ bonus.userId }}</p>
+    </div>
+    <div style="flex-grow: 1;">
+      <p style="font-size: 20px; text-align: end"> {{ bonus.date | date: 'dd/MM/yy  HH:mm:ss' }}</p>
+      <button class="btn btn-primary float-right" (click)="toggleBonus(bonus)">Open</button>
+    </div>
+  </div>
+  <div *ngIf="isBonusOpen(bonus)" class=" message">
+    <div class="flex-container">
+      <div style="flex-grow: 1">
+
+      </div>
+      <div class="alert-info message-info"  style="border: solid #4db8ff 2px; border-radius: 10px; flex-grow: 1; padding: 5px">
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">Date: {{ bonus.date | date: 'dd/MM/yy  HH:mm:ss' }}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">User ID: {{bonus.userId}}</p>
+        </div>
+        <div class="p-2 m-1 message-photo">
+          <p style="margin: 10px; color: #2e2eb8">Document:</p>
+          <div style="text-align: center">
+            <img
+              src="{{getPhoto(bonus.userId)}}"
+              width="400"
+              height="400"
+              style="margin-left: 10px; margin-bottom: 10px; margin-right: 10px;"
+            >
+          </div>
+        </div>
+        <div class=flex-container>
+          <button type="submit" class="btn btn-primary m-3" (click)="setBonusAnswer(bonus,'COMPLETE')">Submit</button>
+          <button type="submit" class="btn btn-primary m-3" (click)="setBonusAnswer(bonus,'REJECT')">Reject</button>
+        </div>
+      </div>
+      <div style="flex-grow: 1">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card m-4" style="background: #4db8ff; border: #4db8ff" *ngFor="let resume of _driversResume">
+  <div class="messageResume">
+    <div  style="flex-grow: 1;">
+      <p style="font-size: 20px">Driver resume</p>
+      <p>Resume with driver ID {{ resume.driverId }}</p>
+    </div>
+    <div style="flex-grow: 1;">
+      <p style="font-size: 20px; text-align: end">{{ resume.date | date: 'dd/MM/yy  HH:mm:ss' }}</p>
+      <button class="btn btn-primary float-right" (click)="toggleResume(resume)">Open</button>
+    </div>
+  </div>
+  <div *ngIf="isResumeOpen(resume)" class=" message">
+    <div class="flex-container">
+      <div style="flex-grow: 1">
+
+      </div>
+      <div class="alert-info message-info"  style="border: solid #4db8ff 2px; border-radius: 10px; flex-grow: 1; padding: 5px">
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">Date: {{ resume.date | date: 'dd/MM/yy  HH:mm:ss' }}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">Driver ID: {{resume.driverId}}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">FullName ID: {{resume.fullNameId}}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">Telephone number: {{resume.telephoneNumber}}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <p style="margin: 10px">Experience: {{resume.experience}}</p>
+        </div>
+        <div class="p-2 m-1 message-item">
+          <form #carForm="ngForm">
+            <div class="form-group">
+              <div class="p-2 m-1 message-item">
+                <p style="margin: 10px">Recommended Сar ID: {{getCarID(resume.driverId)}}</p>
+              </div>
+              <label for="carId">Car ID</label>
+              <input type="number" [(ngModel)]="resume.carId"
+                     class="form-control"
+                     id="carId"
+                     name="carId"
+                     placeholder="Enter new car id"
+                     required #carId="ngModel">
+            </div>
+            <div class="form-group">
+              <div class="p-2 m-1 message-item">
+                <p style="margin: 10px">Recommended Salary: {{getSalary(resume.driverId)}}</p>
+              </div>
+              <label for="salary">Salary</label>
+              <input type="number" [(ngModel)]="resume.salary"
+                     class="form-control"
+                     id="salary"
+                     name="salary"
+                     placeholder="Enter salary"
+                     required #salary="ngModel">
+            </div>
+          </form>
+        </div>
+        <div class=flex-container>
+          <button type="submit" id="driverResumeComplete" class="btn btn-primary m-3" (click)="setResumeAnswer(resume,'COMPLETE', getCarID(resume.driverId))">Submit</button>
+          <button type="submit" id="driverResumeReject" class="btn btn-primary m-3" (click)="setResumeAnswer(resume,'REJECT', getCarID(resume.driverId))">Reject</button>
+        </div>
+      </div>
+      <div style="flex-grow: 1">
+      </div>
+    </div>
+  </div>
+</div>

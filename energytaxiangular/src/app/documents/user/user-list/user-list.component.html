@@ -1,0 +1,117 @@
+<div class="card my-5">
+  <div class="card-body">
+    <h3>Super Admins</h3>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Rank ID</th>
+        <th *ngIf="role==='SUPER_ADMIN'" scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of superAdmins; let i = index" >
+        <td >{{ user.userId }}</td>
+        <td *ngIf="!isEdit[i]">{{ user.username }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="userName" [(ngModel)]="user.username"></td>
+        <td *ngIf="!isEdit[i]">{{ user.role }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.role"></td>
+        <td *ngIf="!isEdit[i]">{{ user.rankId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="rankId" [(ngModel)]="user.rankId"></td>
+        <td *ngIf="role==='SUPER_ADMIN'" style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(user, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <h3>Admins</h3>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Rank ID</th>
+        <th *ngIf="role==='SUPER_ADMIN'" scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of admins; let i = index">
+        <td>{{ user.userId }}</td>
+        <td *ngIf="!isEdit[i]">{{ user.username }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="userName" [(ngModel)]="user.username"></td>
+        <td *ngIf="!isEdit[i]">{{ user.role }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.role"></td>
+        <td *ngIf="!isEdit[i]">{{ user.rankId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="role" [(ngModel)]="user.rankId"></td>
+        <td *ngIf="role==='SUPER_ADMIN'" style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(user, i)" alt="">
+          <img *ngIf="!isEdit[i]" src="resources/img/delete.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="delete(user.userId)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+       </tr>
+      </tbody>
+    </table>
+    <h3>Users</h3>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Rank ID</th>
+        <th *ngIf="role==='SUPER_ADMIN'" scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users; let i = index">
+        <td>{{ user.userId }}</td>
+        <td *ngIf="!isEdit[i]">{{ user.username }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="userName" [(ngModel)]="user.username"></td>
+        <td *ngIf="!isEdit[i]">{{ user.role }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.role"></td>
+        <td *ngIf="!isEdit[i]">{{ user.rankId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="role" [(ngModel)]="user.rankId"></td>
+        <td *ngIf="role==='SUPER_ADMIN'" style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(user, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <h3>Drivers</h3>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Role</th>
+        <th scope="col">Rank ID</th>
+        <th scope="col" *ngIf="role==='SUPER_ADMIN'"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of drivers; let i = index">
+        <td>{{ user.userId }}</td>
+        <td *ngIf="!isEdit[i]">{{ user.username }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.username"></td>
+        <td *ngIf="!isEdit[i]">{{ user.role }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.role"></td>
+        <td *ngIf="!isEdit[i]">{{ user.rankId }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="role" [(ngModel)]="user.rankId"></td>
+        <td *ngIf="role==='SUPER_ADMIN'" style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(user, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

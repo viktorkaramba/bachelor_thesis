@@ -1,0 +1,48 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #eliteRankForm="ngForm">
+      <div class="form-group">
+        <label for="rankId">Rank ID</label>
+        <input type="number" [(ngModel)]="eliteRank.rankId"
+               class="form-control"
+               id="rankId"
+               name="rankId"
+               placeholder="Enter rank id"
+               required #rankId="ngModel">
+      </div>
+      <div [hidden]="!rankId.pristine" class="alert alert-danger">Rank id is required</div>
+      <div class="form-group">
+        <label for="ccId">Car Class ID</label>
+        <input type="number" [(ngModel)]="eliteRank.ccId"
+               class="form-control"
+               id="ccId"
+               name="ccId"
+               placeholder="Enter Car Class Id"
+               required #ccId="ngModel">
+      </div>
+      <div [hidden]="!ccId.pristine" class="alert alert-danger">Car class id is required</div>
+      <div class="form-group">
+        <label for="period">Period</label>
+        <input type="number" [(ngModel)]="eliteRank.period"
+               class="form-control"
+               id="period"
+               name="period"
+               placeholder="Enter period"
+               required #period="ngModel">
+        <div [hidden]="!period.pristine" class="alert alert-danger">Period is required</div>
+      </div>
+      <div class="form-group">
+        <label for="freeOrders">Free Orders</label>
+        <input type="number" [(ngModel)]="eliteRank.freeOrders"
+               class="form-control"
+               id="freeOrders"
+               name="freeOrders"
+               placeholder="Enter free orders"
+               required #freeOrders="ngModel">
+        <div [hidden]="!freeOrders.pristine" class="alert alert-danger">Free orders is required</div>
+      </div>
+      <button type="submit" [disabled]="!eliteRankForm.form.valid" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

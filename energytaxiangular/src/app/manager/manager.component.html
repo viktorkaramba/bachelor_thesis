@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg " style="border-radius: 0px; background-color:  #2e2eb8; margin: 0">
+  <a class="navbar-brand" href="#" style="color: #4db8ff; font-family: 'Mochiy Pop One', sans-serif">{{title}}</a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto"  style="background-color: #2e2eb8">
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color: #4db8ff" id="dropdownDocumentsButton" role="button" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Documents
+          </a>
+          <div class="dropdown-menu" style="background-color: #2e2eb8" aria-labelledby="dropdownDocumentsButton">
+            <a class="dropdown-item" routerLink="/manager/car" >Cars</a>
+            <a class="dropdown-item" routerLink="/manager/car-class">Car Classes</a>
+            <a class="dropdown-item" routerLink="/manager/driver">Drivers</a>
+            <a class="dropdown-item" routerLink="/manager/fullname">Fullnames</a>
+            <a class="dropdown-item" routerLink="/manager/maintenance-costs-car">Maintenance Costs Cars</a>
+            <a class="dropdown-item" routerLink="/manager/price-per-kilometer-by-tariff">Price Per Kilometers By Tariff</a>
+            <a class="dropdown-item" routerLink="/manager/user">Users</a>
+            <a class="dropdown-item" routerLink="/manager/rank">Ranks</a>
+            <a class="dropdown-item" routerLink="/manager/elite-rank">Elite Ranks</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color: #4db8ff" href="#" id="dropdownIndicatorsButton" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Indicators
+          </a>
+          <div class="dropdown-menu" style="background-color: #2e2eb8" aria-labelledby="dropdownIndicatorsButton">
+            <a class="dropdown-item" routerLink="/manager/order">Orders</a>
+            <a class="dropdown-item" routerLink="/manager/address">Addresses</a>
+            <a class="dropdown-item" routerLink="/manager/driver-car-recommendation">Drive Car Recommendations</a>
+            <a class="dropdown-item" routerLink="/manager/driver-rating">Driver Ratings</a>
+            <a class="dropdown-item" routerLink="/manager/income-car">Income Cars</a>
+            <a class="dropdown-item" routerLink="/manager/number-of-kilometer">Number Of Kilometers</a>
+            <a class="dropdown-item" routerLink="/manager/work-load-driver">Workload Drivers</a>
+            <a class="dropdown-item" routerLink="/manager/favourite-address">Favourite Addresses</a>
+            <a class="dropdown-item" routerLink="/manager/favourite-driver">Favourite Drivers</a>
+            <a class="dropdown-item" routerLink="/manager/user-rank-achievement-info">Users Rank Achievement Info</a>
+            <a class="dropdown-item" routerLink="/manager/user-elite-rank-achievement-info">Users Elite Rank Achievement Info</a>
+            <a class="dropdown-item" routerLink="/manager/military-bonus">Military Bonuses</a>
+          </div>
+      </li>
+      <li class="nav-item" style="align-self: center; margin-left: 5px">
+        <a routerLink="/manager/message">
+          <i class="bi bi-bell-fill my-bell"></i>
+          <span class="notification-count" style="color: #4db8ff" [ngClass]="{'active': notificationCount > 0}">
+          {{ notificationCount }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div style="display: flex; direction: rtl">
+    <button class="rounded-circle btn" routerLink="/manager/logout" >
+      <img src="resources/img/logout.ico" width="25px" height="25px" alt="Logout" aria-valuetext="Logout">
+    </button>
+  </div>
+</nav>
+<router-outlet></router-outlet>
+<div *ngIf="showContent" style="display: flex;  justify-content: center; background-color: #4db8ff; margin: 0; padding: 20px" >
+  <div class="card full" #map>
+  </div>
+</div>

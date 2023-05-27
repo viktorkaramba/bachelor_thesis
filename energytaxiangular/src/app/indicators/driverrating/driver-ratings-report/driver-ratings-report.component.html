@@ -1,0 +1,69 @@
+<router-outlet></router-outlet>
+<div class="container">
+  <div class="card-body">
+    <form (ngSubmit)="getReport()" #reportForm="ngForm">
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" [(ngModel)]="report.startDate"
+               class="form-control"
+               id="startDate"
+               name="startDate"
+               placeholder="Enter start date"
+               required #startDate="ngModel">
+      </div>
+      <div [hidden]="!startDate.pristine" class="alert alert-danger">Start date is required</div>
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" [(ngModel)]="report.endDate"
+               class="form-control"
+               id="endDate"
+               name="endDate"
+               placeholder="Enter end date"
+               required #endDate="ngModel">
+      </div>
+      <div [hidden]="!endDate.pristine" class="alert alert-danger">End date is required</div>
+      <button type="submit" [disabled]="!reportForm.form.valid"
+              class="btn btn-primary">Get Report</button>
+    </form>
+  </div>
+</div>
+<div class="card" *ngIf="isShow">
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Totally average rating</th>
+      <th scope="col">Driver with max rating</th>
+      <th scope="col">Driver with min rating</th>
+      <th scope="col">Driver with max average rating</th>
+      <th scope="col">Driver with min average rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{getAverageRating()}}</td>
+      <td>{{getMax()[1]}} with value {{getMax()[0]}}</td>
+      <td>{{getMin()[1]}} with value {{getMin()[0]}}</td>
+      <td>{{getMaxByDriver()[1]}} with value {{getMaxByDriver()[0]}}</td>
+      <td>{{getMinByDriver()[1]}} with value {{getMinByDriver()[0]}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" sortable="date">Date</th>
+      <th scope="col" sortable="driverId">Driver ID</th>
+      <th scope="col" sortable="rating">Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let driverRating of driverRatings">
+      <td>{{ driverRating.driversRatingsId }}</td>
+      <td>{{driverRating.date | date:'dd/MM/yy  HH:mm:ss'}}</td>
+      <td>{{driverRating.driverId}}</td>
+      <td>{{driverRating.rating}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

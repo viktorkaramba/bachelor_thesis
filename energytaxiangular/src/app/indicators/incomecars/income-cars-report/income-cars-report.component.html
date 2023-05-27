@@ -1,0 +1,85 @@
+<router-outlet></router-outlet>
+<div class="container">
+  <div class="card-body">
+    <form (ngSubmit)="getReport()" #reportForm="ngForm">
+      <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" [(ngModel)]="report.startDate"
+               class="form-control"
+               id="startDate"
+               name="startDate"
+               placeholder="Enter start date"
+               required #startDate="ngModel">
+      </div>
+      <div [hidden]="!startDate.pristine" class="alert alert-danger">Start date is required</div>
+      <div class="form-group">
+        <label for="endDate">End Date</label>
+        <input type="date" [(ngModel)]="report.endDate"
+               class="form-control"
+               id="endDate"
+               name="endDate"
+               placeholder="Enter end date"
+               required #endDate="ngModel">
+      </div>
+      <div [hidden]="!endDate.pristine" class="alert alert-danger">End date is required</div>
+      <button type="submit" [disabled]="!reportForm.form.valid"
+              class="btn btn-primary">Get Report</button>
+    </form>
+  </div>
+</div>
+<div class="card" *ngIf="isShow">
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Totally income</th>
+      <th scope="col">Totally expenses</th>
+      <th scope="col">Totally profit</th>
+      <th scope="col">Average income</th>
+      <th scope="col">Average expenses</th>
+      <th scope="col">Average profit</th>
+      <th scope="col">Max profit car</th>
+      <th scope="col">Min profit car</th>
+      <th scope="col">Max income car</th>
+      <th scope="col">Min income car</th>
+      <th scope="col">Max expenses car</th>
+      <th scope="col">Min expenses car</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{getTotallyInfo()[0]}}</td>
+      <td>{{getTotallyInfo()[1]}}</td>
+      <td>{{getTotallyInfo()[2]}}</td>
+      <td>{{getTotallyInfo()[3]}}</td>
+      <td>{{getTotallyInfo()[4]}}</td>
+      <td>{{getTotallyInfo()[5]}}</td>
+      <td>{{getMaxProfitByCar()[1]}} with value {{getMaxProfitByCar()[0]}}</td>
+      <td>{{getMinProfitByCar()[1]}} with value {{getMinProfitByCar()[0]}}</td>
+      <td>{{getMaxIncomeByCar()[1]}} with value {{getMaxIncomeByCar()[0]}}</td>
+      <td>{{getMinIncomeByCar()[1]}} with value {{getMinIncomeByCar()[0]}}</td>
+      <td>{{getMaxExpenseByCar()[1]}} with value {{getMaxExpenseByCar()[0]}}</td>
+      <td>{{getMinExpensesByCar()[1]}} with value {{getMinExpensesByCar()[0]}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" sortable="date">Date</th>
+      <th scope="col" sortable="carId" >Car ID</th>
+      <th scope="col" sortable="expenses" >Expenses</th>
+      <th scope="col" sortable="income">Income</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let incomeCar of incomeCars">
+      <td>{{ incomeCar.icId }}</td>
+      <td>{{incomeCar.date | date:'dd/MM/yy  HH:mm:ss'}}</td>
+      <td>{{incomeCar.carId}}</td>
+      <td>{{incomeCar.expenses}}</td>
+      <td>{{incomeCar.income}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

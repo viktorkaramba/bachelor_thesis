@@ -1,0 +1,39 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #maintenanceCostsCarsForm="ngForm">
+      <div class="form-group">
+        <label for="carId">Car Id</label>
+        <input type="number" [(ngModel)]="maintenanceCostsCars.carId"
+               class="form-control"
+               id="carId"
+               name="carId"
+               placeholder="Enter car id"
+               required #carId="ngModel">
+        <div [hidden]="!carId.pristine" class="alert alert-danger">Сar id is required</div>
+      </div>
+      <div class="form-group">
+        <label for="type">Type Of Maintenance</label>
+        <input type="text" [(ngModel)]="maintenanceCostsCars.type"
+               class="form-control"
+               id="type"
+               name="type"
+               placeholder="Enter type of maintenance"
+               required #type="ngModel">
+      </div>
+      <div [hidden]="!type.pristine" class="alert alert-danger">Type is required</div>
+      <div class="form-group">
+        <label for="costs">Costs</label>
+        <input type="text" [(ngModel)]="maintenanceCostsCars.costs"
+               class="form-control"
+               id="costs"
+               name="costs"
+               placeholder="Enter car brand"
+               required #costs="ngModel">
+      </div>
+      <div [hidden]="!costs.pristine" class="alert alert-danger">Costs is required</div>
+      <button type="submit" [disabled]="!maintenanceCostsCarsForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>

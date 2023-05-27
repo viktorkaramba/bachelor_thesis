@@ -1,0 +1,42 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Min Orders</th>
+        <th scope="col">Min Comments</th>
+        <th scope="col">Sale Period</th>
+        <th scope="col">Sale Value</th>
+        <th scope="col">In Elite</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rank of ranks; let i = index" >
+        <td >{{ rank.rankId }}</td>
+        <td *ngIf="!isEdit[i]">{{ rank.name }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="name" [(ngModel)]="rank.name"></td>
+        <td *ngIf="!isEdit[i]">{{ rank.minOrders }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="minOrders" [(ngModel)]="rank.minOrders"></td>
+        <td *ngIf="!isEdit[i]">{{ rank.minComments }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="minComments" [(ngModel)]="rank.minComments"></td>
+        <td *ngIf="!isEdit[i]">{{ rank.salePeriod }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="salePeriod" [(ngModel)]="rank.salePeriod"></td>
+        <td *ngIf="!isEdit[i]">{{ rank.saleValue}}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="saleValue" [(ngModel)]="rank.saleValue"></td>
+        <td *ngIf="!isEdit[i]">{{ rank.isElite }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="isElite" [(ngModel)]="rank.isElite"></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(rank, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <router-outlet></router-outlet>
+  </div>
+</div>

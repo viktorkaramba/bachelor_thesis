@@ -1,0 +1,37 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Min Experience</th>
+        <th scope="col">Min Kilometers</th>
+        <th scope="col">Min Rating</th>
+        <th scope="col">Price</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let carClass of carClasses; let i = index">
+        <td>{{ carClass.ccId }}</td>
+        <td *ngIf="!isEdit[i]">{{ carClass.name }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="name" [(ngModel)]="carClass.name"></td>
+        <td *ngIf="!isEdit[i]">{{ carClass.minExperience }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="minExperience" [(ngModel)]="carClass.minExperience"></td>
+        <td *ngIf="!isEdit[i]">{{ carClass.minNumberOfKilometers }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="minNumberOfKilometers" [(ngModel)]="carClass.minNumberOfKilometers"></td>
+        <td *ngIf="!isEdit[i]">{{ carClass.minRating }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="minRating" [(ngModel)]="carClass.minRating"></td>
+        <td *ngIf="!isEdit[i]">{{ carClass.price }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="price" [(ngModel)]="carClass.price"></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(carClass, i)">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

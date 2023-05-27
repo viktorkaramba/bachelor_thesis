@@ -1,0 +1,45 @@
+<router-outlet></router-outlet>
+<form (ngSubmit)="onSubmit()" #carForm="ngForm">
+  <div class="form-group">
+    <label for="producer">Producer Name</label>
+    <input type="text" [(ngModel)]="car.producer"
+           class="form-control"
+           id="producer"
+           name="producer"
+           placeholder="Enter car producer"
+           required #producer="ngModel">
+  </div>
+  <div [hidden]="!producer.pristine" class="alert alert-danger">Producer is required</div>
+  <div class="form-group">
+    <label for="brand">Brand Name</label>
+    <input type="text" [(ngModel)]="car.brand"
+           class="form-control"
+           id="brand"
+           name="brand"
+           placeholder="Enter car brand"
+           required #brand="ngModel">
+  </div>
+  <div [hidden]="!brand.pristine" class="alert alert-danger">Brand is required</div>
+  <div class="form-group">
+    <label for="number_of_seats">Number Of Seats</label>
+    <input type="number" [(ngModel)]="car.numberOfSeats"
+           class="form-control"
+           id="number_of_seats"
+           name="number_of_seats"
+           placeholder="Enter number of seats"
+           required #number_of_seats="ngModel">
+    <div [hidden]="!number_of_seats.pristine" class="alert alert-danger">Number of seats is required</div>
+  </div>
+  <div class="form-group">
+    <label for="cc_id">Car Class Id</label>
+    <input type="number" [(ngModel)]="car.ccID"
+           class="form-control"
+           id="cc_id"
+           name="cc_id"
+           placeholder="Enter car class id"
+           required #cc_id="ngModel">
+    <div [hidden]="!cc_id.pristine" class="alert alert-danger">Car class id is required</div>
+  </div>
+  <button [disabled]="!carForm.form.valid"
+          class="btn btn-primary">Submit</button>
+</form>

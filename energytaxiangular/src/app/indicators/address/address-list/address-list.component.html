@@ -1,0 +1,67 @@
+<div class="card my-5">
+  <div class="card-body">
+    <div class="mb-3 row">
+
+    </div>
+    <div class="mb-3 row">
+
+    </div>
+    <table id="addressesTable" class="table table-striped table-bordered table-sm">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+        <div class="col-auto" style="padding: 0">
+            <input
+              id="table-name-search"
+              type="text"
+              class="form-control"
+              name="searchTermName"
+              placeholder="Name search"
+              [(ngModel)]="service.searchTermName"
+            />
+          </div>
+        <th scope="col">
+         <div class="col-auto" style="padding: 0">
+            <input
+              id="table-number-search"
+              type="text"
+              class="form-control"
+              name="searchTermNumber"
+              placeholder="Number search"
+              [(ngModel)]="service.searchTermNumber"
+            />
+          </div>
+      </tr>
+      </thead>
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+        <th scope="col" sortable="numberOfTimes" (sort)="onSort($event)">Number Of Times</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let address of addresses$ | async">
+        <td>{{ address.addressId }}</td>
+        <td>	<ngb-highlight [result]="address.name" [term]="service.searchTermName"></ngb-highlight></td>
+        <td>	<ngb-highlight [result]="address.numberOfTimes | number" [term]="service.searchTermNumber"></ngb-highlight></td>
+      </tr>
+      </tbody>
+    </table>
+    <span class="col col-form-label" *ngIf="service.loading$ | async">Loading...</span>
+    <div class="d-flex justify-content-between" >
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+      </ngb-pagination>
+      <div class="d-flex">
+        <select class="form-select" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

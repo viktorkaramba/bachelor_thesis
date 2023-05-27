@@ -1,0 +1,42 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" [(ngModel)]="user.username"
+               class="form-control"
+               id="username"
+               name="username"
+               placeholder="Enter username"
+               required #username="ngModel">
+      </div>
+      <div [hidden]="!username.pristine" class="alert alert-danger">Username is required</div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" [(ngModel)]="user.password"
+               class="form-control"
+               id="password"
+               name="password"
+               placeholder="Enter user password"
+               required #password="ngModel">
+      </div>
+      <div [hidden]="!password.pristine" class="alert alert-danger">Password is required</div>
+      <div class="form-group">
+        <label for="user_role">Role</label>
+        <input list="roles"
+               class="form-control"
+               id="user_role"
+               name="user_role"
+               required #user_role="ngModel"
+               [(ngModel)]="user.role">
+        <datalist id="roles">
+          <option *ngFor="let role of roles" [value]="role">
+        </datalist>
+        <div [hidden]="!user_role.pristine" class="alert alert-danger">Role is required</div>
+      </div>
+      <button type="submit" [disabled]="!userForm.form.valid"
+              class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Producer</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Number of seats</th>
+        <th scope="col">Car Class Id</th>
+        <th scope="col">In use</th>
+        <th scope="col">In order</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let car of cars; let i = index" >
+        <td >{{ car.carId }}</td>
+        <td>{{ car.date | date:'dd/MM/yy  HH:mm:ss'}}</td>
+        <td *ngIf="!isEdit[i]">{{ car.producer }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="producer" [(ngModel)]="car.producer"></td>
+        <td *ngIf="!isEdit[i]">{{ car.brand }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="brand" [(ngModel)]="car.brand"></td>
+        <td *ngIf="!isEdit[i]">{{ car.numberOfSeats }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="numberOfSeats" [(ngModel)]="car.numberOfSeats"></td>
+        <td *ngIf="!isEdit[i]">{{ car.ccID }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="ccID" [(ngModel)]="car.ccID"></td>
+        <td *ngIf="!isEdit[i]">{{ car.inUse }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="inUse" [(ngModel)]="car.inUse"></td>
+        <td *ngIf="!isEdit[i]">{{ car.inOrder }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="inOrder" [(ngModel)]="car.inOrder"></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(car, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <router-outlet></router-outlet>
+  </div>
+</div>

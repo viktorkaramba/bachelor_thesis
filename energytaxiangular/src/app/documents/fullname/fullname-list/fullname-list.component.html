@@ -1,0 +1,31 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Firstname</th>
+        <th scope="col">Surname</th>
+        <th scope="col">Patronymic</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let fullname of fullNames; let i = index">
+        <td>{{ fullname.fullNameId }}</td>
+        <td *ngIf="!isEdit[i]">{{ fullname.firstName }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="firstName" [(ngModel)]="fullname.firstName"></td>
+        <td *ngIf="!isEdit[i]">{{ fullname.surName }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="surName" [(ngModel)]="fullname.surName"></td>
+        <td *ngIf="!isEdit[i]">{{ fullname.patronymic }}</td>
+        <td *ngIf="isEdit[i]"><input type="text" class="form-control" name="patronymic" [(ngModel)]="fullname.patronymic"></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(fullname, i)" alt="">
+         <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

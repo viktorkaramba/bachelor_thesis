@@ -1,0 +1,37 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col" >#</th>
+        <th scope="col" sortable="carId" >Car ID</th>
+        <th scope="col" sortable="morning" >Morning</th>
+        <th scope="col" sortable="day" >Day</th>
+        <th scope="col" sortable="evening" >Evening</th>
+        <th scope="col" sortable="night" >Night</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ppkbt of pricePerKilometerByTariffs; let i = index">
+        <td>{{ ppkbt.ppkbtId }}</td>
+        <td *ngIf="!isEdit[i]">{{ ppkbt.carId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="carId" [(ngModel)]=" ppkbt.carId"></td>
+        <td *ngIf="!isEdit[i]">{{ ppkbt.morning }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="morning" [(ngModel)]=" ppkbt.morning "></td>
+        <td *ngIf="!isEdit[i]">{{ ppkbt.day }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="day" [(ngModel)]=" ppkbt.day "></td>
+        <td *ngIf="!isEdit[i]">{{ ppkbt.evening }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="evening" [(ngModel)]=" ppkbt.evening "></td>
+        <td *ngIf="!isEdit[i]">{{ ppkbt.night }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="night" [(ngModel)]=" ppkbt.night "></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(ppkbt, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="card my-5">
+  <div class="card-body">
+    <div class="mb-3 row">
+
+    </div>
+    <div class="mb-3 row">
+
+    </div>
+    <table id="userRankTable" class="table table-striped table-bordered table-sm">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <div class="col-auto" style="padding: 0">
+            <input
+              id="table-dateUri-search"
+              type="text"
+              class="form-control"
+              name="searchTermDateUri"
+              placeholder="Date search"
+              [(ngModel)]="service.searchTermDateUri"
+            />
+          </div>
+        </th>
+        <th scope="col">
+          <div class="col-auto" style="padding: 0">
+            <input
+              id="table-userId-search"
+              type="text"
+              class="form-control"
+              name="searchTermUserId"
+              placeholder="User Id search"
+              [(ngModel)]="service.searchTermUserId"
+            />
+          </div>
+        </th>
+        <th scope="col">
+          <div class="col-auto" style="padding: 0">
+            <input
+              id="table-rankId-search"
+              type="text"
+              class="form-control"
+              name="searchTermRankId"
+              placeholder="Rank Id search"
+              [(ngModel)]="service.searchTermRankId"
+            />
+          </div>
+        </th>
+        <th scope="col">
+          <div class="col-auto" style="padding: 0">
+            <input
+              id="table-number-of-sale-search"
+              type="text"
+              class="form-control"
+              name="searchTermNumberOfUsesSale"
+              placeholder="Number Of Uses Sale search"
+              [(ngModel)]="service.searchTermNumberOfUsesSale"
+            />
+          </div>
+        </th>
+        <th scope="col">
+          <div class="col-auto" style="padding: 0">
+            <input
+              id="table-date-deadline-search"
+              type="text"
+              class="form-control"
+              name="searchTermDateDeadline"
+              placeholder="Date Deadline search"
+              [(ngModel)]="service.searchTermDateDeadline"
+            />
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" sortable="dateUri" (sort)="onSort($event)">Date</th>
+        <th scope="col" sortable="userId" (sort)="onSort($event)">User Id</th>
+        <th scope="col" sortable="rankId" (sort)="onSort($event)">Rank Id</th>
+        <th scope="col" sortable="numberOfUsesSale" (sort)="onSort($event)">Number Of Uses Sale</th>
+        <th scope="col" sortable="dateDeadline" (sort)="onSort($event)">Date Deadline</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let userRankAchievementInfo of userRank$ | async">
+        <td>{{ userRankAchievementInfo.uriId }}</td>
+        <td><ngb-highlight [result]="userRankAchievementInfo.dateUri | date:'dd/MM/yy  HH:mm:ss'" [term]="service.searchTermDateUri"></ngb-highlight></td>
+        <td><ngb-highlight [result]="userRankAchievementInfo.usersId | number" [term]="service.searchTermUserId"></ngb-highlight></td>
+        <td><ngb-highlight [result]="userRankAchievementInfo.ranksId | number" [term]="service.searchTermRankId"></ngb-highlight></td>
+        <td><ngb-highlight [result]="userRankAchievementInfo.numberOfUsesSale | number" [term]="service.searchTermNumberOfUsesSale"></ngb-highlight></td>
+        <td><ngb-highlight [result]="userRankAchievementInfo.deadlineDateSale | date:'dd/MM/yy  HH:mm:ss'" [term]="service.searchTermDateDeadline"></ngb-highlight></td>
+      </tr>
+      </tbody>
+    </table>
+    <span class="col col-form-label" *ngIf="service.loading$ | async">Loading...</span>
+    <div class="d-flex justify-content-between" >
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+      </ngb-pagination>
+      <div class="d-flex">
+        <select class="form-select" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

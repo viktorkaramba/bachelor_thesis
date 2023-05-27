@@ -1,0 +1,76 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+            <th scope="col">
+             <div class="col-auto" style="padding: 0">
+                <input
+                  id="table-date-search"
+                  type="text"
+                  class="form-control"
+                  name="searchTermDate"
+                  placeholder="Date search"
+                  [(ngModel)]="service.searchTermDate"
+                />
+              </div>
+          <th scope="col">
+             <div class="col-auto" style="padding: 0">
+                <input
+                  id="table-driver-id-search"
+                  type="text"
+                  class="form-control"
+                  name="searchTermDriverId"
+                  placeholder="Driver Id search"
+                  [(ngModel)]="service.searchTermDriverId"
+                />
+              </div>
+            </th>
+          <th scope="col">
+           <div class="col-auto" style="padding: 0">
+              <input
+                id="table-rating-search"
+                type="text"
+                class="form-control"
+                name="searchTermRating"
+                placeholder="Rating search"
+                [(ngModel)]="service.searchTermRating"
+              />
+            </div>
+        </th>
+          </tr>
+      </thead>
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" sortable="date" (sort)="onSort($event)">Date</th>
+        <th scope="col" sortable="driverId" (sort)="onSort($event)">Driver ID</th>
+        <th scope="col" sortable="rating" (sort)="onSort($event)">Rating</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let driverRating of driverRating$ | async">
+        <td>{{ driverRating.driversRatingsId }}</td>
+        <td><ngb-highlight [result]="driverRating.date | date:'dd/MM/yy  HH:mm:ss'" [term]="service.searchTermDate"></ngb-highlight></td>
+        <td><ngb-highlight [result]="driverRating.driverId | number" [term]="service.searchTermDriverId"></ngb-highlight></td>
+        <td><ngb-highlight [result]="driverRating.rating | number" [term]="service.searchTermRating"></ngb-highlight></td>
+      </tr>
+      </tbody>
+    </table>
+    <span class="col col-form-label" *ngIf="service.loading$ | async">Loading...</span>
+    <div class="d-flex justify-content-between">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+      </ngb-pagination>
+      <div class="d-flex">
+        <select class="form-select" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+          <option [ngValue]="8">8 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

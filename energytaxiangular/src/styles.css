@@ -1,0 +1,115 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Rubik:wght@800&display=swap');
+
+th[sortable] {
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+th[sortable].desc:before, th[sortable].asc:before {
+  content: '';
+  display: block;
+  background: url('resources/img/sort_arrow.png');
+  background-size: 20px;
+  width: 20px;
+  height: 20px;
+  float: right;
+  /*margin-left: -25px;*/
+}
+
+th[sortable].desc:before {
+  transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+}
+ngbd-table-filtering span.ngb-highlight {
+  background-color: #4db8ff;
+}
+
+ngbd-table-complete span.ngb-highlight {
+  background-color: #4db8ff;
+}
+
+ngb-pagination a {
+  color: #2e2eb8 !important;
+}
+
+ngb-pagination .page-item.active .page-link {
+  border-color: #2e2eb8;
+  background-color: #4db8ff;
+}
+
+.card{
+  border-radius: 15px;
+  border: solid #2e2eb8 5px;
+  margin: 5px;
+}
+ul{
+  background-color: #4db8ff;
+  padding: 0;
+}
+
+form{
+  background-color: #4db8ff;
+  border: solid #2e2eb8 5px;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px;
+  color: #2e2eb8;
+}
+
+.fa {
+  font-size: 24px;
+  color: #333;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.my-bell{
+  color: #4db8ff;
+}
+
+.my-bell:hover {
+  color: aliceblue;
+}
+a.dropdown-item{
+  background-color: #2e2eb8;
+  color: #4db8ff;
+}
+
+body{
+  background-color: #4db8ff;
+  font-family: 'Rubik', sans-serif;;
+}
+
+.message{
+  background-color: #2e2eb8;
+  color: #4db8ff;
+  border: solid #4db8ff 5px;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.messageResume{
+  background-color: #2e2eb8;
+  color: #4db8ff;
+  border: solid #4db8ff 5px;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.btn-primary{
+  color: #4db8ff;
+  background-color: #2e2eb8;
+}
+
+.btn-primary:hover {
+  color: #2e2eb8;
+  background-color: dodgerblue;
+}
+

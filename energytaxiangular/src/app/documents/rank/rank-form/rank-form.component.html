@@ -1,0 +1,68 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #rankForm="ngForm">
+      <div class="form-group">
+        <label for="name">Rank Name</label>
+        <input type="text" [(ngModel)]="rank.name"
+               class="form-control"
+               id="name"
+               name="name"
+               placeholder="Enter rank name"
+               required #name="ngModel">
+      </div>
+      <div [hidden]="!name.pristine" class="alert alert-danger">Name is required</div>
+      <div class="form-group">
+        <label for="minOrders">Min Orders</label>
+        <input type="number" [(ngModel)]="rank.minOrders"
+               class="form-control"
+               id="minOrders"
+               name="minOrders"
+               placeholder="Enter Min Orders"
+               required #minOrders="ngModel">
+      </div>
+      <div [hidden]="!minOrders.pristine" class="alert alert-danger">Min orders is required</div>
+      <div class="form-group">
+        <label for="minComments">Min Comments</label>
+        <input type="number" [(ngModel)]="rank.minComments"
+               class="form-control"
+               id="minComments"
+               name="minComments"
+               placeholder="Enter min comments"
+               required #minComments="ngModel">
+        <div [hidden]="!minComments.pristine" class="alert alert-danger">Min comments is required</div>
+      </div>
+      <div class="form-group">
+        <label for="salePeriod">Sale Period</label>
+        <input type="number" [(ngModel)]="rank.salePeriod"
+               class="form-control"
+               id="salePeriod"
+               name="salePeriod"
+               placeholder="Enter sale period"
+               required #salePeriod="ngModel">
+        <div [hidden]="!salePeriod.pristine" class="alert alert-danger">Sale period is required</div>
+      </div>
+      <div class="form-group">
+        <label for="saleValue">Sale Value</label>
+        <input type="number" [(ngModel)]="rank.saleValue"
+               class="form-control"
+               id="saleValue"
+               name="saleValue"
+               placeholder="Enter sale value"
+               required #saleValue="ngModel">
+        <div [hidden]="!saleValue.pristine" class="alert alert-danger">Sale value is required</div>
+      </div>
+      <div class="form-group">
+        <label for="isElite">Is Elite</label>
+        <input type="number" [(ngModel)]="rank.isElite"
+               class="form-control"
+               id="isElite"
+               name="isElite"
+               placeholder="Enter is elite"
+               required #isElite="ngModel">
+        <div [hidden]="!isElite.pristine" class="alert alert-danger">Is elite is required</div>
+      </div>
+      <button type="submit" [disabled]="!rankForm.form.valid" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

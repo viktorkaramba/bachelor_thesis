@@ -1,0 +1,55 @@
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  margin: 10px;
+
+}
+
+.message-info{
+  display: flex;
+  flex-direction: column;
+}
+
+.message-item{
+  flex-grow: 1;
+  border: solid #4db8ff 2px;
+  border-radius: 10px;
+  color: #2e2eb8;
+}
+
+.message-photo{
+  flex-grow: 5;
+  border: solid #4db8ff 2px;
+  border-radius: 10px
+}
+
+.btn-primary{
+  color: #2e2eb8;
+  background-color: #4db8ff;
+}
+
+.btn-primary:hover {
+  color: #2e2eb8;
+  background-color: dodgerblue;
+}
+
+#driverResumeComplete.btn-primary{
+  color: #4db8ff;
+  background-color: #2e2eb8;
+}
+
+#driverResumeComplete.btn-primary:hover {
+  color: #2e2eb8;
+  background-color: dodgerblue;
+}
+
+#driverResumeReject.btn-primary{
+  color: #4db8ff;
+  background-color: #2e2eb8;
+}
+
+#driverResumeReject.btn-primary:hover {
+  color: #2e2eb8;
+  background-color: dodgerblue;
+}

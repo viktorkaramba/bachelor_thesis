@@ -1,0 +1,37 @@
+<router-outlet></router-outlet>
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Rank ID</th>
+        <th scope="col">Car Class ID</th>
+        <th scope="col">Period</th>
+        <th scope="col">Free Orders</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let eliteRank of eliteRanks; let i = index" >
+        <td >{{ eliteRank.erId }}</td>
+        <td *ngIf="!isEdit[i]">{{ eliteRank.rankId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="rankId" [(ngModel)]="eliteRank.rankId"></td>
+        <td *ngIf="!isEdit[i]">{{ eliteRank.ccId }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="ccId" [(ngModel)]="eliteRank.ccId"></td>
+        <td *ngIf="!isEdit[i]">{{ eliteRank.period }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="period" [(ngModel)]="eliteRank.period"></td>
+        <td *ngIf="!isEdit[i]">{{ eliteRank.freeOrders }}</td>
+        <td *ngIf="isEdit[i]"><input type="number" class="form-control" name="freeOrders" [(ngModel)]="eliteRank.freeOrders"></td>
+        <td style="text-align: center">
+          <img *ngIf="!isEdit[i]" src="resources/img/edit.svg" (click)="setIsEdit(true, i)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/accept.svg" style="width: 20px; height: 20px;" (click)="update(eliteRank, i)" alt="">
+          <img *ngIf="!isEdit[i]" src="resources/img/delete.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="delete(eliteRank.erId)" alt="">
+          <img *ngIf="isEdit[i]" src="resources/img/stop.svg" style="width: 20px; height: 20px; margin-left: 10px" (click)="setIsEdit(false, i)" alt="">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<ul class="text-center list-inline m-3">
+  <li class="list-inline-item">
+    <button routerLink="users" class="btn btn-primary" >List Users</button>
+  </li>
+  <li *ngIf="role==='SUPER_ADMIN'" class="list-inline-item">
+    <button routerLink="add-user" class="btn btn-primary">Add User</button>
+  </li>
+</ul>
+<router-outlet></router-outlet>
