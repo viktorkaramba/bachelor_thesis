@@ -1,20 +1,22 @@
 package com.unicyb.energytaxi.controller.indicators;
 
-import com.unicyb.energytaxi.database.dao.indicators.DriverRatingDAOImpl;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.Report;
+import com.unicyb.energytaxi.services.indicators.DriverRatingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 public class DriverRatingController {
-    private DriverRatingDAOImpl driverRatingDAO;
+
+    @Autowired
+    private DriverRatingService driverRatingService;
 
     @GetMapping("/api/v1/indicators/drivers-ratings")
     public ResponseEntity getDriversRatings(){
         try {
-            driverRatingDAO = new DriverRatingDAOImpl();
-            return ResponseEntity.ok(driverRatingDAO.getAll());
+            return ResponseEntity.ok(driverRatingService.getAll());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get drivers ratings");
@@ -23,10 +25,8 @@ public class DriverRatingController {
 
     @PostMapping("/api/v1/indicators/drivers-ratings-report")
     public ResponseEntity getReportDriversRatings(@RequestBody Report report){
-        System.out.println(report);
         try {
-            driverRatingDAO = new DriverRatingDAOImpl();
-            return ResponseEntity.ok(driverRatingDAO.getReport(report));
+            return ResponseEntity.ok(driverRatingService.getReport(report));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get report drivers ratings");
@@ -36,8 +36,7 @@ public class DriverRatingController {
     @PostMapping("/api/v1/indicators/drivers-ratings-report-by-id")
     public ResponseEntity getReportDriversRatingsById(@RequestBody Report report){
         try {
-            driverRatingDAO = new DriverRatingDAOImpl();
-            return ResponseEntity.ok(driverRatingDAO.getReportById(report));
+            return ResponseEntity.ok(driverRatingService.getReportById(report));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get report by id drivers ratings");

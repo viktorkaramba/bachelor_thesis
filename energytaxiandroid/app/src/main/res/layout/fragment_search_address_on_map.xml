@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:map="http://schemas.android.com/apk/res-auto"
+
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:id="@+id/fragmentSearchOnMap"
+             tools:context=".fragments.SearchAddressOnMapFragment">
+
+
+	<androidx.cardview.widget.CardView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:cardCornerRadius="20dp"
+			android:layout_margin="10dp">
+		<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+			<TextView
+					android:text="@string/click_tos_select_address_map"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="24sp"
+					android:gravity="center"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentStart="true"
+					android:layout_alignParentEnd="true"
+					android:id="@+id/selectedAddressOnMapText"
+					android:layout_marginTop="10dp" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+					android:layout_marginBottom="10dp"/>
+			<Button
+					android:text="@string/Back"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/backAddressOnMapButton"
+					android:layout_alignParentStart="true"
+					android:layout_below="@+id/selectedAddressOnMapText"
+					android:background="@drawable/roundcorner"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:layout_marginStart="10dp"
+			/>
+			<Button
+					android:text="@string/apply_address_button_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/applyAddressOnMapButton"
+					android:layout_toEndOf="@+id/backAddressOnMapButton"
+					android:layout_toStartOf="@+id/addressMapLikeButton"
+					android:layout_below="@+id/selectedAddressOnMapText"
+					android:background="@drawable/roundcorner"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:layout_marginStart="10dp"/>
+			<com.like.LikeButton
+					android:id="@+id/addressMapLikeButton"
+					app:icon_type="heart"
+					app:is_enabled="true"
+					app:icon_size="20dp"
+					app:anim_scale_factor="4.5"
+					app:like_drawable="@drawable/like_icon"
+					app:unlike_drawable="@drawable/unlike_icon"
+					app:circle_start_color="@color/dark_blue"
+					app:circle_end_color="@color/light_blue"
+					app:dots_primary_color="@color/dark_blue"
+					app:dots_secondary_color="@color/light_blue"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignBottom="@+id/applyAddressOnMapButton"
+					android:layout_below="@+id/selectedAddressOnMapText"
+			/>
+		</RelativeLayout>
+
+	</androidx.cardview.widget.CardView>
+
+</FrameLayout>

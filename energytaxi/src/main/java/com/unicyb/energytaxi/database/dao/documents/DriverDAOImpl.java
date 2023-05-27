@@ -8,6 +8,7 @@ import com.unicyb.energytaxi.entities.documents.DRIVER_STATUS;
 import com.unicyb.energytaxi.entities.documents.Driver;
 import com.unicyb.energytaxi.entities.indicators.STATUS;
 import com.unicyb.energytaxi.entities.usersinfo.DriverInfo;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DriverDAOImpl implements DAO<Driver> {
 
     @Override

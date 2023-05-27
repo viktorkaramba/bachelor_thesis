@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MiniTaxiAngular/MiniTaxiAngular.iml" filepath="$PROJECT_DIR$/MiniTaxiAngular/MiniTaxiAngular.iml" />
+      <module fileurl="file://$PROJECT_DIR$/energytaxiangular/energytaxiangular.iml" filepath="$PROJECT_DIR$/energytaxiangular/energytaxiangular.iml" />
     </modules>
   </component>
 </project>

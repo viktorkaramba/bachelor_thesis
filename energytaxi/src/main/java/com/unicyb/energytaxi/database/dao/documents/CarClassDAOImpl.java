@@ -4,6 +4,7 @@ import com.unicyb.energytaxi.database.DatabaseConnection;
 import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.documents.CarClass;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class CarClassDAOImpl implements DAO<CarClass> {
     @Override
     public boolean add(CarClass carClass) {

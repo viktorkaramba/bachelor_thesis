@@ -55,13 +55,14 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/energytaxi" />
-    <file type="web" url="file://$PROJECT_DIR$/MiniTaxiAndroid" />
+    <file type="web" url="file://$PROJECT_DIR$/energytaxiandroid" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/MiniTaxiBackend/pom.xml" />
         <option value="$PROJECT_DIR$/minitaxi/pom.xml" />
+        <option value="$PROJECT_DIR$/energytaxi/pom.xml" />
       </list>
     </option>
   </component>
@@ -73,7 +74,7 @@
     <resource url="http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" location="$PROJECT_DIR$" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="temurin-17" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/../MiniTaxiAndroid/build/classes" />
+    <output url="file://$PROJECT_DIR$/../EnergyTaxiAndroid/build/classes" />
   </component>
   <component name="ProjectType">
     <option name="id" value="jpab" />

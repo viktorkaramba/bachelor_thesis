@@ -8,10 +8,11 @@ import com.unicyb.energytaxi.entities.documents.ROLE;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.DriverResume;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.MyMessage;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.ResponseMessage;
-import com.unicyb.energytaxi.services.AuthenticationService;
+import com.unicyb.energytaxi.services.other.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
     @PostMapping("/user-register")
     public ResponseEntity<RegisterResponse> register(@RequestBody UserRequest request){
         return ResponseEntity.ok(authenticationService.registerUser(request));
@@ -36,7 +38,6 @@ public class AuthenticationController {
 
     @PostMapping("/admin-authenticate")
     public ResponseEntity<LoginResponse> authenticateAdmin(@RequestBody UserRequest request){
-        System.out.println(request);
         return ResponseEntity.ok(authenticationService.authenticateAdmin(request));
     }
 

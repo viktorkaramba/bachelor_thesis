@@ -1,7 +1,8 @@
 package com.unicyb.energytaxi.controller.ranksystem;
 
-import com.unicyb.energytaxi.database.dao.ranksystem.EliteRankDAOImpl;
 import com.unicyb.energytaxi.entities.ranksystem.EliteRank;
+import com.unicyb.energytaxi.services.ranksystem.EliteRankService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class EliteRankController {
 
-    private EliteRankDAOImpl eliteRankDAO;
+    @Autowired
+    private EliteRankService eliteRankService;
 
     @GetMapping("/api/v1/bonuses/elite-ranks")
     public ResponseEntity getEliteRanks(){
         try {
-            eliteRankDAO = new EliteRankDAOImpl();
-            return ResponseEntity.ok(eliteRankDAO.getAll());
+            return ResponseEntity.ok(eliteRankService.getAll());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get elite ranks");
@@ -25,8 +26,7 @@ public class EliteRankController {
     @GetMapping("/api/v1/bonuses/elite-ranks-user-info")
     public ResponseEntity getEliteRanksUserInfo(){
         try {
-            eliteRankDAO = new EliteRankDAOImpl();
-            return ResponseEntity.ok(eliteRankDAO.getAllUserInfo());
+            return ResponseEntity.ok(eliteRankService.getAllUserInfo());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get elite ranks");
@@ -35,19 +35,16 @@ public class EliteRankController {
 
     @PostMapping("/api/v1/bonuses/elite-ranks")
     public void save(@RequestBody EliteRank eliteRank){
-        eliteRankDAO = new EliteRankDAOImpl();
-        eliteRankDAO.add(eliteRank);
+        eliteRankService.add(eliteRank);
     }
 
     @PutMapping("/api/v1/bonuses/elite-ranks")
     public void update(@RequestBody EliteRank eliteRank){
-        eliteRankDAO = new EliteRankDAOImpl();
-        eliteRankDAO.update(eliteRank);
+        eliteRankService.update(eliteRank);
     }
 
     @DeleteMapping("/api/v1/bonuses/elite-ranks/{id}")
     public void delete(@PathVariable("id") int id){
-        eliteRankDAO = new EliteRankDAOImpl();
-        eliteRankDAO.delete(id);
+        eliteRankService.delete(id);
     }
 }

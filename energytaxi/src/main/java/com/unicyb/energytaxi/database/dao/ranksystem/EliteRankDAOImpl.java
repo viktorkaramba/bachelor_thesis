@@ -5,6 +5,7 @@ import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.ranksystem.EliteRank;
 import com.unicyb.energytaxi.entities.ranksystem.EliteRankUserInfo;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class EliteRankDAOImpl implements DAO<EliteRank> {
 
     @Override

@@ -3,6 +3,7 @@ package com.unicyb.energytaxi.token;
 import com.unicyb.energytaxi.database.DatabaseConnection;
 import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class TokenDAOImpl implements DAO<Token> {
 
     @Override

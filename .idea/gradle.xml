@@ -4,15 +4,11 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/MiniTaxiAndroid" />
-        <option name="gradleJvm" value="temurin-11" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/energytaxiandroid" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/MiniTaxiAndroid" />
-            <option value="$PROJECT_DIR$/MiniTaxiAndroid/app" />
+            <option value="$PROJECT_DIR$/energytaxiandroid" />
+            <option value="$PROJECT_DIR$/energytaxiandroid/app" />
           </set>
         </option>
       </GradleProjectSettings>

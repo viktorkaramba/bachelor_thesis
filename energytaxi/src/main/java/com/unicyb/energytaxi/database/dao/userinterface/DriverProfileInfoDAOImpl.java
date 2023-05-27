@@ -4,6 +4,7 @@ import com.unicyb.energytaxi.database.DatabaseConnection;
 import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.DriverProfileInfo;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public class DriverProfileInfoDAOImpl implements DAO<DriverProfileInfo> {
     @Override
     public boolean add(DriverProfileInfo driverProfileInfo) {

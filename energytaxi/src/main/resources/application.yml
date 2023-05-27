@@ -1,11 +1,11 @@
 application:
   security:
     jwt:
-      secret-key: 452948404D635166546A576E5A7234753778217A25432A462D4A614E64526755
-      expiration:  86400000 # 1 day
+      secret-key: 2B4B6250655368566D5971337336763979244226452948404D635166546A576E
+      expiration: 86400000 # 1 day
       refresh-token:
         expiration: 2678400000 # 31 days
     opt:
-      expiration:  300000
+      expiration: 300000
   cron:
-    expression: 0 1 0 * * ? # every day at 00:01
+    expression: 0 1 0 * * ? # every day at 00:01m

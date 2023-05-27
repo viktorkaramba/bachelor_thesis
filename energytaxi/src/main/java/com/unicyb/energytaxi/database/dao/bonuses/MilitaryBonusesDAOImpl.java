@@ -7,6 +7,7 @@ import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.bonuses.MILITARY_BONUS_STATUS;
 import com.unicyb.energytaxi.entities.bonuses.MilitaryBonuses;
 import com.unicyb.energytaxi.entities.indicators.STATUS;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class MilitaryBonusesDAOImpl  implements DAO<MilitaryBonuses> {
 
     @Override

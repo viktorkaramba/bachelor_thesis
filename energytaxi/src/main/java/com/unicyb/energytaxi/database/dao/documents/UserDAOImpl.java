@@ -7,6 +7,7 @@ import com.unicyb.energytaxi.entities.documents.ROLE;
 import com.unicyb.energytaxi.entities.documents.User;
 import com.unicyb.energytaxi.entities.usersinfo.UserProfileInfo;
 import com.unicyb.energytaxi.entities.usersinfo.UserStats;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Component
 public class UserDAOImpl implements DAO<User> {
     @Override
     public boolean add(User user) {

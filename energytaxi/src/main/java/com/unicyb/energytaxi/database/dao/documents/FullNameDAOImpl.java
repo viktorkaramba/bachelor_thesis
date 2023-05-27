@@ -4,6 +4,7 @@ import com.unicyb.energytaxi.database.DatabaseConnection;
 import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.documents.FullName;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class FullNameDAOImpl implements DAO<FullName> {
 
     @Override
@@ -108,25 +110,5 @@ public class FullNameDAOImpl implements DAO<FullName> {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public int getIdByFullName(FullName fullName){
-        int result = 0;
-        try {
-            Connection con = DatabaseConnection.initializeDatabase();
-            PreparedStatement statement = con.prepareStatement(SQLQuery.SELECT_ID_BY_FULLNAME);
-            statement.setString(1, fullName.getFirstName());
-            statement.setString(2, fullName.getSurName());
-            statement.setString(3, fullName.getPatronymic());
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                result = resultSet.getInt(1);
-            }
-            con.close();
-        }
-        catch (SQLException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
-        return result;
     }
 }

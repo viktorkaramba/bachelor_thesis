@@ -7,6 +7,7 @@ import com.unicyb.energytaxi.entities.documents.CAR_CLASSES;
 import com.unicyb.energytaxi.entities.indicators.Order;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.Report;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.UserOrderInfo;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class OrderDAOImpl implements DAO<Order> {
     @Override
     public boolean add(Order order) {

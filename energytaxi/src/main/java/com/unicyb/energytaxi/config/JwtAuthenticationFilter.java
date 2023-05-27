@@ -1,9 +1,9 @@
 package com.unicyb.energytaxi.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unicyb.energytaxi.services.JwtService;
+import com.unicyb.energytaxi.services.other.JwtService;
+import com.unicyb.energytaxi.services.other.TokenService;
 import com.unicyb.energytaxi.token.Token;
-import com.unicyb.energytaxi.token.TokenDAOImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final TokenDAOImpl tokenDAO = new TokenDAOImpl();
+    private final TokenService tokenService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userName = jwtService.extractUsername(jwt);
             if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
-                Token token = tokenDAO.getByToken(jwt);
+                Token token = tokenService.getByToken(jwt);
                 boolean isValidToken = false;
                 if(!token.isExpired() && !token.isRevoked()){
                     isValidToken = true;
@@ -92,7 +92,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Map<String, String> error = new HashMap<>();
             error.put("error_message",  "Token expired");
             response.setContentType(APPLICATION_JSON_VALUE);
-            tokenDAO.deleteByToken(jwt);
+            tokenService.deleteByToken(jwt);
             new ObjectMapper().writeValue(response.getOutputStream(), error);
         }
     }

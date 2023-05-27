@@ -4,12 +4,13 @@ import com.unicyb.energytaxi.database.DatabaseConnection;
 import com.unicyb.energytaxi.database.SQLQuery;
 import com.unicyb.energytaxi.database.dao.DAO;
 import com.unicyb.energytaxi.entities.ranksystem.UserEliteRankAchievementInfo;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class UserEliteRankAchievementInfoDAOImpl implements DAO<UserEliteRankAchievementInfo> {
 
     @Override

@@ -1,8 +1,5 @@
 package com.unicyb.energytaxi.controller.documents;
 
-import com.unicyb.energytaxi.database.dao.bonuses.MilitaryBonusesDAOImpl;
-import com.unicyb.energytaxi.database.dao.documents.CarClassDAOImpl;
-import com.unicyb.energytaxi.database.dao.documents.PricePerKilometersByTariffDAOImpl;
 import com.unicyb.energytaxi.entities.bonuses.MilitaryBonuses;
 import com.unicyb.energytaxi.entities.documents.CAR_CLASSES;
 import com.unicyb.energytaxi.entities.documents.CarClass;
@@ -10,7 +7,11 @@ import com.unicyb.energytaxi.entities.documents.PeriodsOfDay;
 import com.unicyb.energytaxi.entities.documents.PricePerKilometersByTariff;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.PriceByClassRequest;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.PriceByClassResponse;
-import com.unicyb.energytaxi.services.DateService;
+import com.unicyb.energytaxi.services.other.DateService;
+import com.unicyb.energytaxi.services.bonuses.MilitaryBonusesService;
+import com.unicyb.energytaxi.services.documents.CarClassService;
+import com.unicyb.energytaxi.services.documents.PricePerKilometersByTariffService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +22,19 @@ import java.util.List;
 @CrossOrigin
 public class CarClassesController {
 
-    private CarClassDAOImpl carClassDAO;
-    private MilitaryBonusesDAOImpl militaryBonusesDAO;
-    private PricePerKilometersByTariffDAOImpl pricePerKilometersByTariffDAO;
+    @Autowired
+    private CarClassService carClassService;
+
+    @Autowired
+    private MilitaryBonusesService militaryBonusesService;
+
+    @Autowired
+    private PricePerKilometersByTariffService pricePerKilometersByTariffService;
 
     @GetMapping("/api/v1/documents/car-classes")
     public ResponseEntity getCarClasses(){
         try {
-            carClassDAO = new CarClassDAOImpl();
-            return ResponseEntity.ok(carClassDAO.getAll());
+            return ResponseEntity.ok(carClassService.getAll());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get car classes");
@@ -38,31 +43,26 @@ public class CarClassesController {
 
     @PostMapping("/api/v1/documents/car-classes")
     public void save(@RequestBody CarClass carClass){
-        carClassDAO = new CarClassDAOImpl();
-        carClassDAO.add(carClass);
+        carClassService.add(carClass);
     }
 
     @PutMapping("/api/v1/documents/car-classes")
     public void update(@RequestBody CarClass carClass){
         System.out.println("carClass: " + carClass);
-        carClassDAO = new CarClassDAOImpl();
-        carClassDAO.update(carClass);
+        carClassService.update(carClass);
     }
 
     @DeleteMapping("/api/v1/documents/car-classes/{id}")
     public void delete(@PathVariable("id") int id){
         System.out.println("id: " + id);
-        carClassDAO = new CarClassDAOImpl();
-        carClassDAO.delete(id);
+        carClassService.delete(id);
     }
 
     @PostMapping("/api/v1/user-app/user-order-price-by-class")
     public ResponseEntity getUserOrderPriceByClass(@RequestBody PriceByClassRequest priceByClassRequest){
         System.out.println(priceByClassRequest);
         try {
-            militaryBonusesDAO = new MilitaryBonusesDAOImpl();
-            pricePerKilometersByTariffDAO = new PricePerKilometersByTariffDAOImpl();
-            MilitaryBonuses militaryBonuses = militaryBonusesDAO.getOneByUserIdWithoutPhoto(priceByClassRequest.getUserId());
+            MilitaryBonuses militaryBonuses = militaryBonusesService.getOneByUserIdWithoutPhoto(priceByClassRequest.getUserId());
             float militarySale = 0;
             PriceByClassResponse priceByClassResponse = new PriceByClassResponse();
             System.out.println(militaryBonuses);
@@ -71,7 +71,7 @@ public class CarClassesController {
                 priceByClassResponse.setMilitaryBonus(true);
             }
             List<Float> floatList = new ArrayList<>();
-            List<PricePerKilometersByTariff> pricePerKilometersByTariffList = pricePerKilometersByTariffDAO.getAll();
+            List<PricePerKilometersByTariff> pricePerKilometersByTariffList = pricePerKilometersByTariffService.getAll();
             PeriodsOfDay period = getPeriod(pricePerKilometersByTariffList);
             priceByClassResponse.setClassName(CAR_CLASSES.NO.name());
             for(PricePerKilometersByTariff pricePerKilometersByTariff: pricePerKilometersByTariffList){

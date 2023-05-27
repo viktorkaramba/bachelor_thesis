@@ -1,7 +1,7 @@
 package com.unicyb.energytaxi.config;
 
 import com.unicyb.energytaxi.entities.documents.ROLE;
-import com.unicyb.energytaxi.services.LogoutService;
+import com.unicyb.energytaxi.services.other.LogoutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

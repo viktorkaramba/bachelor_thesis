@@ -3,7 +3,7 @@ package com.unicyb.energytaxi.controller.userinterface;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.MyMessage;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.ResponseMessage;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.UserSendDate;
-import com.unicyb.energytaxi.services.WSService;
+import com.unicyb.energytaxi.services.other.WSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;

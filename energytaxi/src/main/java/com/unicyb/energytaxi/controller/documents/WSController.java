@@ -2,7 +2,7 @@ package com.unicyb.energytaxi.controller.documents;
 
 import com.unicyb.energytaxi.entities.userinterfaceenteties.MyMessage;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.UserSendDate;
-import com.unicyb.energytaxi.services.WSService;
+import com.unicyb.energytaxi.services.other.WSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

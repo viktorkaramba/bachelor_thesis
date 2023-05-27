@@ -1,9 +1,10 @@
 package com.unicyb.energytaxi.controller.documents;
 
-import com.unicyb.energytaxi.database.dao.documents.CarsDAOImpl;
 import com.unicyb.energytaxi.entities.auth.CarUpdateRequest;
 import com.unicyb.energytaxi.entities.documents.Car;
 import com.unicyb.energytaxi.entities.userinterfaceenteties.ResponseMessage;
+import com.unicyb.energytaxi.services.documents.CarService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,12 @@ import java.util.Date;
 @CrossOrigin
 public class CarController {
 
-    private CarsDAOImpl carsDAO;
+    @Autowired
+    private CarService carService;
     @GetMapping("/api/v1/documents/cars")
     public ResponseEntity getCars(){
         try {
-            carsDAO = new CarsDAOImpl();
-            System.out.println(carsDAO.getAll());
-            return ResponseEntity.ok(carsDAO.getAll());
+            return ResponseEntity.ok(carService.getAll());
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error to get cars");
@@ -30,38 +30,30 @@ public class CarController {
 
     @PostMapping("/api/v1/documents/cars")
     public void save(@RequestBody Car car){
-        carsDAO = new CarsDAOImpl();
         car.setDate(new Timestamp(new Date().getTime()));
-        System.out.println(car);
-        carsDAO.add(car);
+        carService.add(car);
     }
 
     @PostMapping("/api/v1/documents/car-status")
     public void updateCarStatus(@RequestBody ResponseMessage status){
-        carsDAO = new CarsDAOImpl();
-        carsDAO.updateCarUse(Integer.parseInt(status.getUserId()), status.getContent());
+        carService.updateCarUse(Integer.parseInt(status.getUserId()), status.getContent());
     }
 
 
     @PutMapping("/api/v1/documents/cars")
     public void update(@RequestBody Car car){
-        System.out.println("car: " + car);
-        carsDAO = new CarsDAOImpl();
-        carsDAO.update(car);
+        carService.update(car);
     }
 
 
     @PutMapping("/api/v1/documents/cars-resume-answer")
     public void updateResumeAnswer(@RequestBody CarUpdateRequest carUpdateRequest){
-        carsDAO = new CarsDAOImpl();
-        carsDAO.updateCarUse(carUpdateRequest.getNewCarId(), "YES");
-        carsDAO.updateCarUse(carUpdateRequest.getOldCarId(), "NO");
+        carService.updateCarUse(carUpdateRequest.getNewCarId(), "YES");
+        carService.updateCarUse(carUpdateRequest.getOldCarId(), "NO");
     }
 
     @DeleteMapping("/api/v1/documents/cars/{id}")
     public void delete(@PathVariable("id") int id){
-        System.out.println("id: " + id);
-        carsDAO = new CarsDAOImpl();
-        carsDAO.delete(id);
+        carService.delete(id);
     }
 }

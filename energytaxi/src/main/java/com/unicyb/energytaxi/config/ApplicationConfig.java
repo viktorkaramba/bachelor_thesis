@@ -1,6 +1,6 @@
 package com.unicyb.energytaxi.config;
 
-import com.unicyb.energytaxi.database.dao.documents.UserDAOImpl;
+import com.unicyb.energytaxi.services.documents.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserDAOImpl userDAO = new UserDAOImpl();
+    private final UserService userService;
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> {
-            UserDetails userDetails = userDAO.getOneByUserName(username);
+            UserDetails userDetails = userService.getOneByUserName(username);
             if(userDetails == null){
                 throw new UsernameNotFoundException("User not found");
             }
